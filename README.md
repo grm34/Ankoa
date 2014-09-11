@@ -17,7 +17,7 @@ FFMPEG Command Line Easy Encoding Tools
 
 ## How to install AnkoA ?
 
-Take a tour on the [wiki](https://github.com/grm34/AnkoA/wiki) !
+Take a tour on the [wiki](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki) !
 
 Chan IRC : irc.bakaserv.net 6667 #AnkoA
 
