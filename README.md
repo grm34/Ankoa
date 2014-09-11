@@ -6,7 +6,7 @@ FFMPEG Command Line Easy Encoding Tools
 ![AnkoA](http://i.imgur.com/BlG3BNs.png)
 
 
-## Tools description :
+## Description :
 
 * FFMPEG easy encoding
 * Thumbnails Generator
