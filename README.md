@@ -3,7 +3,7 @@ AnkoA
 
 FFMPEG Command Line Easy Encoding Tools
 
-![AnkoA](http://i.imgur.com/BlG3BNs.png "AnkoA")
+![AnkoA](http://i.imgur.com/BlG3BNs.png)
 
 
 ## Tools description :
@@ -32,3 +32,9 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 * c0da
 * Hydrog3n
 * Speedy76
+
+***
+
+#### Preview (older version) :
+
+![Preview](http://i.imgur.com/kGjj63X.png)
