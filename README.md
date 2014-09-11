@@ -5,6 +5,7 @@ FFMPEG Command Line Easy Encoding Tools
 
 ![AnkoA](http://i.imgur.com/BlG3BNs.png "AnkoA")
 
+
 ## Tools description :
 
 * FFMPEG easy encoding
@@ -13,19 +14,18 @@ FFMPEG Command Line Easy Encoding Tools
 * Genprez Upload
 * Auto make .torrent
 
+
 ## How to install AnkoA ?
 
 Take a tour on the [wiki](https://github.com/grm34/AnkoA/wiki) !
 
-### Version :
+
+## Version :
 
 Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 
-### Author
 
-* [@grm34](https://github.com/grm34)
-
-### Thanks for assistance and contributions:
+## Thanks for assistance and contributions:
 
 * thibs
 * Rockweb
