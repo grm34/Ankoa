@@ -20,6 +20,36 @@ FFMPEG Command Line Easy Encoding Tools
 Take a tour on the [wiki](https://github.com/grm34/AnkoA/wiki) !
 
 
+## Usage :
+
+* Easy encoding tool :
+`./ankoa.py`
+
+* Thumbnails generator :
+`./thumbnails source.video 5 2`
+
+* Genprez upload :
+`./genprez.py LANGUAGE QUALITY CODECS SUBS SIZE ID_IMDB`
+
+* Nfo generator :
+`./nfogen.sh source.video SOURCE SUBS SUBFORCED URL_IMDB`
+ 
+* Make all :
+`./make.py source.video SOURCE SUBS SUBFORCED URL_IMDB`
+
+### Values :
+
+    SOURCE..............: release source     →  1080p.THENiGHTMAREiNHD
+    SUBS................: subtitles source   →  FULL.FRENCH.Z1
+    SUBFORCED...........: forced subtitles   →  FRENCH.FORCED
+    LANGUAGE............: release language   →  ENGLiSH
+    FORMAT..............: release format     →  720p.BluRay
+    CODECS..............: release codecs     →  AC3.x264
+    SiZE................: release size       →  1.37Go
+    iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')
+    URL_iMDB............: release iMDB url   →  http://www.imdb.com/title/tt0315733  
+
+
 ## Version :
 
 Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
