@@ -19,7 +19,7 @@ Take a tour on the [wiki](https://github.com/grm34/AnkoA/wiki) !
 
 ### Version :
 
-Take a tour on the [changelog](https://github.com/grm34/AnkoA/changelog) !
+Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 
 ### Author
 
