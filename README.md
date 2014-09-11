@@ -55,7 +55,7 @@ Take a tour on the [wiki](https://github.com/grm34/AnkoA/wiki) !
 Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 
 
-## Thanks for assistance and contributions:
+## Thanks for assistance and contributions :
 
 * thibs
 * Rockweb
