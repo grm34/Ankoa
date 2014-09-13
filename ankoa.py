@@ -54,7 +54,7 @@ def ffmpeg():
         )
 
 def data():                     #--> Tools
-    if (len(nfoimdb) == 7):
+    if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
         prezz = "&& ./genprez.py "+audiolang+" "+prezquality+" "+titlesub+\
                 " "+prezsize+" "+nfoimdb+" && mv "+thumb+name+\
                 "*.txt "+thumb+title+"."+year+stag+mark+".txt "
@@ -1286,9 +1286,7 @@ def main():
     nfoimdb = raw_input(GREEN+"RELEASE IMDB ID "+YELLOW+\
                         "(ex: 6686697)"+GREEN+" : "+END)
 
-    if (nfoimdb == ""):
-        name = ""
-    else:
+    if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
         searchIMDB = "http://deanclatworthy.com/imdb/?id=tt"+nfoimdb
         try:
             data1 = loads(urlopen(searchIMDB).read())
@@ -1346,6 +1344,8 @@ def main():
                 else:
                     name = ""
                     nfoimdb = ""
+    else:
+        name = ""
 
     tsize = raw_input(GREEN+"RELEASE SIZE > \n"+YELLOW+\
                       "SD - 350 - 550 - 700 - 1.37 - 2.05 - 2.74 - 4.37 "\
