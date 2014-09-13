@@ -903,7 +903,7 @@ def main():
     ask_screen = raw_input(GREEN+"SCREENSHOT VERIFICATION "+YELLOW+\
                            "(y/n)"+GREEN+" : "+END)
     if (ask_screen == "y"):
-        os.system("./xthumb.py "+source+" 5 2")
+        os.system("./thumbnails.py "+source+" 5 2")
 
     man_crop = raw_input(GREEN+"MANUAL SOURCE CROP "+YELLOW+\
                          "(y/n)"+GREEN+" : "+END)
