@@ -75,3 +75,13 @@ Don't be afraid, as you can see on the preview, x264 Expert Mode is on...
 When you select off, x264 params will be controlled by the preset & tune.
 In this case, all expert questions will be skipped !
 This option is only for advanced encoders...
+
+***
+#### Links :
+
+* [AnkoA wiki](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki)
+* [AnkoA changelog](https://github.com/grm34/AnkoA/wiki/Changelog)
+* [Compile Multimedia Environment](https://github.com/grm34/AnkoA/wiki/Compile-Multimedia-Environment)
+* [Video demonstration](https://www.youtube.com/watch?v=RvEIvgnXdBg&feature=youtu.be)
+
+***
