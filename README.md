@@ -19,7 +19,7 @@ FFMPEG Command Line Easy Encoding Tools ... [Video Demo](https://www.youtube.com
 
 Take a tour on the [wiki](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki) !
 
-Chan IRC : irc.bakaserv.net 6667 #AnkoA
+Chan IRC : **irc.bakaserv.net 6667 #AnkoA**
 
 
 ## Usage :
