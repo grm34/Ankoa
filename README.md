@@ -60,10 +60,10 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 ## Thanks for assistance and contributions :
 
 * thibs
-* Rockweb
-* c0da
-* Hydrog3n
-* Speedy76
+* [Rockweb](https://github.com/Rockweb)
+* [c0ding](https://github.com/c0ding)
+* [Hydrog3n](https://github.com/Hydrog3n)
+* [speedy76](https://github.com/speedy76)
 
 ***
 
