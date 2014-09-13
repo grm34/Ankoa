@@ -54,12 +54,7 @@ def ffmpeg():
         )
 
 def data():                     #--> Tools
-    if (nfoimdb == ""):
-        prezz = ""
-        zipp = "cd "+thumb+" && zip -r "+title+".zip -m "+title+\
-               "."+year+stag+"*.torrent "+title+"."+year+stag+"*.nfo "+\
-               title+"*.log "+title+"."+year+stag+"*.png"
-    else:
+    if (len(nfoimdb) == 7):
         prezz = "&& ./genprez.py "+audiolang+" "+prezquality+" "+titlesub+\
                 " "+prezsize+" "+nfoimdb+" && mv "+thumb+name+\
                 "*.txt "+thumb+title+"."+year+stag+mark+".txt "
@@ -67,6 +62,12 @@ def data():                     #--> Tools
                "."+year+stag+"*.torrent "+title+"."+year+stag+\
                "*.nfo "+title+"."+year+stag+"*.txt "+title+\
                "*.log "+title+"."+year+stag+"*.png"
+    else:
+        prezz = ""
+        zipp = "cd "+thumb+" && zip -r "+title+".zip -m "+title+\
+               "."+year+stag+"*.torrent "+title+"."+year+stag+"*.nfo "+\
+               title+"*.log "+title+"."+year+stag+"*.png"
+
     return (
         "./thumbnails.py "+thumb+title+"."+year+stag+mark+" 5 2 "+prezz+\
         "&& ./nfogen.sh "+thumb+title+"."+year+stag+mark+" "+nfosource+\
