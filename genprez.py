@@ -44,7 +44,7 @@ def main():
     searchIMDB = "http://deanclatworthy.com/imdb/?id=tt%s" % imdb
     try:
         data_IMDB = loads(urlopen(searchIMDB).read())
-    except(HTTPError,ValueError):
+    except(HTTPError, ValueError):
         data_IMDB = ""
         pass
 
@@ -55,7 +55,7 @@ def main():
                                headers={"Accept": "application/json"})
     try:
         data_TMDB = loads(urllib2.urlopen(dataTMDB).read())
-    except(HTTPError,ValueError):
+    except(HTTPError, ValueError):
         data_TMDB = ""
         pass
 
@@ -63,7 +63,7 @@ def main():
     searchOMDB = "http://www.omdbapi.com/?i=tt%s" % imdb
     try:
         data_OMDB = loads(urlopen(searchOMDB).read())
-    except(HTTPError,ValueError):
+    except(HTTPError, ValueError):
         data_OMDB = ""
         pass
 
