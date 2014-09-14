@@ -187,11 +187,11 @@ def img_infos(infos, duree, path):
 
     image.save(os.path.expanduser(thumb)+'index.png', "PNG")
     shutil.move(os.path.expanduser(thumb)+'index.png',
-                os.path.expanduser(thumb)+title[:-4]+'.png')
+                os.path.expanduser(thumb)+title[:-3]+'png')
 
     if (width > 800):
         resize = ("convert -quality 0 -resize 3470000@ "+thumb+\
-                  title[:-4]+".png "+thumb+title[:-4]+".png")
+                  title[:-3]+"png "+thumb+title[:-3]+"png")
         os.system(resize)
 
 def main(argv):
@@ -199,9 +199,9 @@ def main(argv):
 
     parser = optparse.OptionParser(usage = usage)
     (options, args) = parser.parse_args()
-    if (len(args) != 3 or args[0] == "" ):
+    if (len(args) != 3):
         parser.print_help()
-        parser.exit( 1 )
+        parser.exit(1)
 
     if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
         shutil.rmtree(os.path.expanduser(thumb)+'rtemp')

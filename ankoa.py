@@ -57,13 +57,14 @@ def data():                     #--> Tools
     if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
         prezz = "&& ./genprez.py "+audiolang+" "+prezquality+" "+titlesub+\
                 " "+prezsize+" "+nfoimdb+" && mv "+thumb+name+\
-                "*.txt "+thumb+title+"."+year+stag+mark+".txt "
+                "*.txt "+thumb+title+"."+year+stag+mark[:-3]+"txt "\
+                "&& ./imgur.py "+thumb+title+"."+year+"*.png add "
         zipp = "cd "+thumb+" && zip -r "+title+".zip -m "+title+\
                "."+year+stag+"*.torrent "+title+"."+year+stag+\
                "*.nfo "+title+"."+year+stag+"*.txt "+title+\
                "*.log "+title+"."+year+stag+"*.png"
     else:
-        prezz = ""
+        prezz = "&& ./imgur.py "+thumb+title+"."+year+"*.png "
         zipp = "cd "+thumb+" && zip -r "+title+".zip -m "+title+\
                "."+year+stag+"*.torrent "+title+"."+year+stag+"*.nfo "+\
                title+"*.log "+title+"."+year+stag+"*.png"

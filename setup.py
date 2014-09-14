@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
 #------------------  AnKoA  -----------------------#
@@ -20,7 +20,7 @@ def main():
 
     parser = optparse.OptionParser(usage = usage)
     (options, args) = parser.parse_args()
-    if (len(args) != 5 or args[0] == "" ):
+    if (len(args) != 5):
         parser.print_help()
         parser.exit( 1 )
 
@@ -36,22 +36,22 @@ def main():
     os.system(chmod)
 
     #---> WRITE settings <---#
-    f = file('app/settings.py','r')
+    f = file('app/settings.py', 'r')
     chaine = f.read()
     f.close()
     data = chaine.replace("XXX001", source).replace("XXX002", result)\
                  .replace("XXX003", team).replace("XXX004", tk)\
                  .replace("XXX005", api)
-    f = file('app/settings.py','w')
+    f = file('app/settings.py', 'w')
     f.write(data)
     f.close
 
     #---> WRITE nfogen <---#
-    ff = file('nfogen.sh','r')
+    ff = file('nfogen.sh', 'r')
     chaine = ff.read()
     ff.close()
     data = chaine.replace("XXX002", result)
-    ff = file('nfogen.sh','w')
+    ff = file('nfogen.sh', 'w')
     ff.write(data)
     ff.close
 

@@ -7,8 +7,8 @@
 # Greetz: thibs, Rockweb, c0da, Hydrog3n, Speedy76 #
 #--------------------------------------------------#
 
-import json
 import sys
+import json
 import optparse
 import urllib2
 from json import loads
@@ -28,7 +28,7 @@ def main():
     usage = "./genprez.py LANGUAGE QUALITY CODECS SUBS SIZE ID_IMDB"
     parser = optparse.OptionParser(usage = usage)
     (options, args) = parser.parse_args()
-    if (len(args) != 6 or args[0] == ""):
+    if (len(args) != 6):
         parser.print_help()
         parser.exit(1)
 
@@ -261,7 +261,7 @@ def main():
             % (title, year, country, genres, directors, runtime,
                actors, rating, imdbLink)
     prez += "[img]http://fripouillejack.free.fr/thumbs.png[/img]\n\n"
-    prez += "[spoil=Click Here][img][/img][/spoil]\n\n"
+    prez += "[spoil=Click Here][img]thumbnails_link[/img][/spoil]\n\n"
     prez += "[img]http://fripouillejack.free.fr/upload.png[/img]"\
             "\n\n%s\n\n%s\n\n%s\n\n%s\n\n%s[/center]"\
             % (prezQualite, prezFormat, prezLang, prezSub, prezSize)

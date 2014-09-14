@@ -25,9 +25,9 @@ def main():
 
     parser = optparse.OptionParser(usage = usage)
     (options, args) = parser.parse_args()
-    if(len(args) != 5 or args[ 0 ] == "" ):
+    if(len(args) != 5):
         parser.print_help()
-        parser.exit( 1 )
+        parser.exit(1)
 
     source = sys.argv[1]
     rls_source = sys.argv[2]
