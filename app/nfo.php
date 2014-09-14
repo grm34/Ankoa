@@ -30,7 +30,7 @@ function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ 
     $ACODEC['A_DTS'] = 'DTS'; $ACODEC['DTS'] = 'DTS';                                                       #-->  DTS
     $ACODEC['A_FLAC'] = 'FLAC'; $ACODEC['FLAC'] = 'FLAC';                                                   #-->  FLAC
     $ACODEC['A_TRUEHD'] = 'TrueHD'; $ACODEC['TRUEHD'] = 'TrueHD';                                           #-->  TrueHD
-    $ACODEC[''] = '';
+    $ACODEC['N/A'] = 'N/A'; $ACODEC[''] = '';
 
     #---> VIDEO INFOS <---#
     if(isset( $media['Video'] )){ $tags['V_R'] = preg_replace('`([^0-9])`i', '', $media['Video']['width'] ) . " x " . preg_replace('`([^0-9])`i', '', $media['Video']['height'] );}
@@ -44,10 +44,10 @@ function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ 
 
     #---> AUDIO 1 INFOS <---#
     $tags['A_L'] = isset( $media['Audio']['title'] ) ? $media['Audio']['title'] : ( isset( $media['Audio #1']['title'] ) ? $media['Audio #1']['title'] : 'ENGLiSH' );
-    $A_C = isset( $media['Audio']['codec_id'] ) ? $media['Audio']['codec_id'] : $media['Audio #1']['codec_id']; $tags['A_C'] = $ACODEC[$A_C];
+    $A_C = isset( $media['Audio']['codec_id'] ) ? $media['Audio']['codec_id'] : ( isset( $media['Audio #1']['codec_id'] ) ? $media['Audio #1']['codec_id'] : 'N/A' ); $tags['A_C'] = $ACODEC[$A_C];
     $tags['A_B'] = isset( $media['Audio']['bit_rate'] ) ? $media['Audio']['bit_rate'] : ( isset( $media['Audio #1']['bit_rate'] ) ? $media['Audio #1']['bit_rate'] : '128Kbps' );
-    $tags['A_SR'] = isset( $media['Audio']['sampling_rate'] ) ? $media['Audio']['sampling_rate'] : $media['Audio #1']['sampling_rate'];
-    $tags['A_CH'] = isset( $media['Audio']['channel(s)'] ) ? $media['Audio']['channel(s)'] : $media['Audio #1']['channel(s)'];
+    $tags['A_SR'] = isset( $media['Audio']['sampling_rate'] ) ? $media['Audio']['sampling_rate'] : ( isset( $media['Audio #1']['sampling_rate'] ) ? $media['Audio #1']['sampling_rate'] : 'N/A' );
+    $tags['A_CH'] = isset( $media['Audio']['channel(s)'] ) ? $media['Audio']['channel(s)'] : ( isset( $media['Audio #1']['channel(s)'] ) ? $media['Audio #1']['channel(s)'] : 'N/A' );
     $tags['A_MOD'] = isset( $media['Audio']['compression_mode'] ) ? $media['Audio']['compression_mode'] : ( isset( $media['Audio #1']['compression_mode'] ) ? $media['Audio #1']['compression_mode'] : 'Lossy' );
 
     #---> AUDIO 2 INFOS <---#
