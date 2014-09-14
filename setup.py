@@ -57,7 +57,7 @@ def main():
 
     os.system(rm)
 
-    print (BLUE+"AnkoA "+RED+"=> "+GREEN+"Installation successful !"+END)
+    print (BLUE+"\nAnkoA "+RED+"=> "+GREEN+"Installation successful !\n"+END)
 
 if (__name__ == "__main__"):
     main()
