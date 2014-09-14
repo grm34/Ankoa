@@ -37,10 +37,10 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 `./genprez.py LANGUAGE QUALITY CODECS SUBS SIZE ID_IMDB`
 
 * NFO generator :
-`./nfogen.sh source.video SOURCE SUBS SUBFORCED URL_IMDB`
+`./nfogen.sh source.video SOURCE SUBS SUBFORCED URL`
  
 * Thumbnails + nfo  + torrent :
-`./make.py source.video SOURCE SUBS SUBFORCED URL_IMDB`
+`./make.py source.video SOURCE SUBS SUBFORCED URL`
 
 ### Values :
 
@@ -52,7 +52,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
     CODECS..............: release codecs     →  AC3.x264
     SiZE................: release size       →  1.37Go
     iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')
-    URL_iMDB............: release iMDB url   →  http://www.imdb.com/title/tt0315733  
+    URL.................: release infos url  →  http://www.imdb.com/title/tt0315733  
 
 
 ## Version :
