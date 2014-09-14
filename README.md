@@ -33,13 +33,13 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 * Upload thumbnails on imgur :
 `./imgur.py thumbnails.png`
 
-* Genprez for upload :
+* Genprez :
 `./genprez.py LANGUAGE QUALITY CODECS SUBS SIZE ID_IMDB`
 
 * NFO generator :
 `./nfogen.sh source.video SOURCE SUBS SUBFORCED URL`
  
-* Thumbnails + nfo  + torrent :
+* Thumbs+nfo+torrent :
 `./make.py source.video SOURCE SUBS SUBFORCED URL`
 
 ### Values :
