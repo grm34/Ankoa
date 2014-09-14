@@ -36,10 +36,10 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 * Genprez for upload :
 `./genprez.py LANGUAGE QUALITY CODECS SUBS SIZE ID_IMDB`
 
-* Nfo generator :
+* NFO generator :
 `./nfogen.sh source.video SOURCE SUBS SUBFORCED URL_IMDB`
  
-* Thumbnails + nfo  +torrent :
+* Thumbnails + nfo  + torrent :
 `./make.py source.video SOURCE SUBS SUBFORCED URL_IMDB`
 
 ### Values :
