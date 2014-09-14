@@ -30,7 +30,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 * Thumbnails generator :
 `./thumbnails source.video 5 2`
 
-* Thumbnails upload :
+* Upload thumbnails on imgur :
 `./imgur.py thumbnails.png`
 
 * Genprez for upload :
@@ -39,7 +39,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 * Nfo generator :
 `./nfogen.sh source.video SOURCE SUBS SUBFORCED URL_IMDB`
  
-* Thumbnails+nfo+torrent :
+* Thumbnails + nfo  +torrent :
 `./make.py source.video SOURCE SUBS SUBFORCED URL_IMDB`
 
 ### Values :
