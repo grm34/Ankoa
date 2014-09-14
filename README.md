@@ -1,7 +1,7 @@
 AnkoA v3.2.0
 =====
 
-FFMPEG Command Line Easy Encoding Tools ... [Video Demo](https://www.youtube.com/watch?v=RvEIvgnXdBg&feature=youtu.be)
+**FFMPEG Command Line Easy Encoding Tools ...** [Video Demo](https://www.youtube.com/watch?v=RvEIvgnXdBg&feature=youtu.be)
 
 ![AnkoA](http://i.imgur.com/BlG3BNs.png)
 
