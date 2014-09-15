@@ -10,7 +10,7 @@
     folder........: source path (ex: /home/toto/torrents/)
     thumb.........: result path (ex: /home/toto/encodes/)
     tag...........: your team name (ex: KULTURA)
-    team..........: MEDIAINFO Tag (ex: TEAM KULTURA)
+    team..........: MEDIAINFO 'Proudly Present' Tag (ex: TEAM KULTURA)
     announce......: your favorite tracker url announce
     tmdb_api_key..: API Key from https://www.themoviedb.org/documentation/api
     tag_thumb.....: Thumbnails tag (ex: <KULTURA PROUDLY PRESENT>)
