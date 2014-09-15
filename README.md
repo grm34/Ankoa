@@ -74,10 +74,10 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 
 ![Preview](http://i.imgur.com/kGjj63X.png)
 
-Don't be afraid, as you can see on the preview, x264 Expert Mode is on...
-When you select off, x264 params will be controlled by the preset & tune.
-In this case, all expert questions will be skipped !
-This option is only for advanced encoders...
+    Don't be afraid, as you can see on the preview, x264 Expert Mode is on...
+    When you select off, x264 params will be controlled by the preset & tune.
+    In this case, all expert questions will be skipped !
+    This option is only for advanced encoders...
 
 ***
 #### Links :
