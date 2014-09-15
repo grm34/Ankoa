@@ -46,7 +46,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 
     SOURCE..............: release source     →  1080p.THENiGHTMAREiNHD
     SUBS................: subtitles source   →  FULL.FRENCH.Z1
-    SUBFORCED...........: forced subtitles   →  FRENCH.FORCED
+    SUBFORCED...........: forced subtitles   →  FRENCH.FORCED or N/A
     LANGUAGE............: release language   →  ENGLiSH
     FORMAT..............: release format     →  720p.BluRay
     CODECS..............: release codecs     →  AC3.x264
