@@ -41,7 +41,7 @@ def main():
     imdb = sys.argv[6]
 
     #___ CONNECT IMDB ___#
-    searchIMDB = "http://Adeanclatworthy.com/imdb/?id=tt%s" % imdb
+    searchIMDB = "http://deanclatworthy.com/imdb/?id=tt%s" % imdb
     try:
         data_IMDB = loads(urlopen(searchIMDB).read())
     except(HTTPError, ValueError, URLError):
@@ -49,7 +49,7 @@ def main():
         pass
 
     #___ CONNECT TMDB ___#
-    searchTMDB = "http://Aapi.themoviedb.org/3/movie/tt%s?api_"\
+    searchTMDB = "http://api.themoviedb.org/3/movie/tt%s?api_"\
                  "key=%s&language=fr" % (imdb, tmdb_api_key)
     dataTMDB = urllib2.Request(searchTMDB,
                                headers={"Accept": "application/json"})
@@ -60,7 +60,7 @@ def main():
         pass
 
     #___ CONNECT OMDB ___#
-    searchOMDB = "http://www.Aomdbapi.com/?i=tt%s" % imdb
+    searchOMDB = "http://www.omdbapi.com/?i=tt%s" % imdb
     try:
         data_OMDB = loads(urlopen(searchOMDB).read())
     except(HTTPError, ValueError, URLError):
