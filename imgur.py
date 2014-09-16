@@ -47,5 +47,5 @@ try:
     else:
         print (GREEN+"\nThumbnails url > "+BLUE+thumb_link+"\n"+END)
 
-except (HTTPError, ValueError, IOError, TypeError) as e:
+except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
     print (RED+"\nThumbnails Upload Error > "+BLUE+str(e)+"\n"+END)
