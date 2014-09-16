@@ -1288,6 +1288,8 @@ def main():
                         "(ex: 6686697)"+GREEN+" : "+END)
 
     if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
+        # Search Release Title (IMDB-OMDB-TMDB-MyAPIFilms)
+        
         searchIMDB = "http://deanclatworthy.com/imdb/?id=tt"+nfoimdb
         try:
             data1 = loads(urlopen(searchIMDB).read())
