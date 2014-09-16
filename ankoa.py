@@ -1291,7 +1291,7 @@ def main():
         searchIMDB = "http://deanclatworthy.com/imdb/?id=tt"+nfoimdb
         try:
             data1 = loads(urlopen(searchIMDB).read())
-        except (HTTPError, ValueError):
+        except (HTTPError, ValueError, URLError):
             data1 = ""
             pass
 
@@ -1301,23 +1301,45 @@ def main():
                    searchTMDB, headers={"Accept" : "application/json"})
         try:
             data2 = loads(urllib2.urlopen(dataTMDB).read())
-        except (HTTPError, ValueError):
+        except (HTTPError, ValueError, URLError):
             data2 = ""
             pass
 
         searchOMDB = "http://www.omdbapi.com/?i=tt%s"+nfoimdb
         try:
             data3 = loads(urlopen(searchOMDB).read())
-        except (HTTPError, ValueError):
+        except (HTTPError, ValueError, URLError):
             data3 = ""
+            pass
+
+        searchAPI = "http://www.myapifilms.com/imdb?idIMDB=tt%s&format="\
+                    "JSON&aka=0&business=0&seasons=0&seasonYear=0&techn"\
+                    "ical=0&lang=en-us&actors=N&biography=0&trailer=0&u"\
+                    "niqueName=0&filmography=0&bornDied=0&starSign=0&ac"\
+                    "torActress=0&actorTrivia=0&movieTrivia=0" % imdb
+        try:
+            data4 = loads(urlopen(searchAPI).read())
+        except(HTTPError, ValueError, URLError):
+            data4 = ""
             pass
 
         tit1 = "title"
         tit2 = "original_title"
         tit3 = "Title"
+        tit4 = "title"
 
         if (tit1 in data1):
             dir = "%s" % data1['title']
+        elif (tit2 in data2):
+            dir = "%s" % data2['original_title']
+        elif (tit3 in data3):
+            dir = "%s" % data3['Title']
+        elif (tit4 in data4):
+            dir = "%s" % data4['title']
+        else:
+            nfoimdb = ""
+
+        if (tit1 in data1 or tit2 in data2 or tit3 in data3 or tit4 in data4):
             name = dir.replace(' ', '.').replace('/', '')\
                       .replace('(', '').replace(')', '')\
                       .replace('"', '').replace(':', '')\
@@ -1325,26 +1347,7 @@ def main():
                       .replace("]", "").replace(";", "")\
                       .replace(",", "")
         else:
-            if (tit2 in data2):
-                dir = "%s" % data2['original_title']
-                name = dir.replace(' ', '.').replace('/', '')\
-                          .replace('(', '').replace(')', '')\
-                          .replace('"', '').replace(':', '')\
-                          .replace("'", "").replace("[", "")\
-                          .replace("]", "").replace(";", "")\
-                          .replace(",", "")
-            else:
-                if (tit3 in data3):
-                    dir = "%s" % data3['Title']
-                    name = dir.replace(' ', '.').replace('/', '')\
-                              .replace('(', '').replace(')', '')\
-                              .replace('"', '').replace(':', '')\
-                              .replace("'", "").replace("[", "")\
-                              .replace("]", "").replace(";", "")\
-                              .replace(",", "")
-                else:
-                    name = ""
-                    nfoimdb = ""
+            name = ""
     else:
         name = ""
 
