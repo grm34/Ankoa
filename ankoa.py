@@ -682,24 +682,16 @@ def main():
                             " - SRT "+GREEN+"[4] : "+END)
             ext2 = ""
 
-        if (ext == "1"):
-            ext = ".pgs"
-        elif (ext == "2"):
-            ext = ".vobsub"
-        elif (ext == "3"):
-            ext = ".ass"
+        ext_values = ['', '.pgs', '.vobsub', '.ass', '.srt']
+        ext_resp = [1, 2, 3, 4]
+        if (ext in ext_resp):
+            ext = ext_values[ext]
         else:
-            ext = ".srt"
-        if (ext2 == "1"):
-            ext2 = ".pgs"
-        elif (ext2 == "2"):
-            ext2 = ".vobsub"
-        elif (ext2 == "3"):
-            ext2 = ".ass"
-        elif (ext2 == "4"):
-            ext2 = ".srt"
+            ext = ext_values[4]
+        if (ext2 in ext_resp):
+            ext2 = ext_values[ext2]
         else:
-            ext2 == ""
+            ext2 = ""
 
         subext = (ext, ext2)
         return (subext)
