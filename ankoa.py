@@ -8,8 +8,14 @@
 Copyright PARDO Jérémy (Sept 2014)
 Contact: jerem.pardo@gmail.com
 
-This software is a computer program whose purpose is to [describe
-functionalities and technical features of your software].
+This software is a computer program whose purpose is to help command
+line encoders. Intuitive command line interface with many tools:  
+
+* FFMPEG easy encoding
+* Thumbnails Generator
+* NFO Generator
+* Genprez Upload
+* Auto make .torrent
 
 This software is governed by the CeCILL-C license under French law and
 abiding by the rules of distribution of free software.  You can  use, 
