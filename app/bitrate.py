@@ -83,5 +83,6 @@ def calcul():
 
 def calc(HH, MM, SS, audiobit, rls_size, calsize):
     return (
-        "wcalc [{{0}-[{{1}/8}/1024*[{{2}*3600}+{{3}*60}+{4}]]}/[{{2}*3600}+{"
-        "{3}*60}+{4}]]*8*1024".format(calsize, audiobit, HH, MM, SS))
+        "wcalc [{" + calsize + "-[{" + audiobit + "/8}/1024*[{" + HH +
+        "*3600}+{" + MM + "*60}+" + SS + "]]}/[{" + HH + "*3600}+{" +
+        MM + "*60}+" + SS + "]]*8*1024")
