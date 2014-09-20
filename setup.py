@@ -1,10 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#
-#-------------------- [ AnKoA ] -------------------#
-#     Made with love by grm34 (FRIPOUILLEJACK)     #
-#--------------------------------------------------#
+
 """
+    [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
+
     Copyright PARDO Jérémy (Sept 2014)
     Contact: jerem.pardo@gmail.com
 
@@ -52,14 +51,15 @@ from style import color
 
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
+
 def main():
     usage = "./setup.py SOURCE_PATH RESULT_PATH TEAM TK_ANNOUNCE TMDB_API_KEY"
 
-    parser = optparse.OptionParser(usage = usage)
+    parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 5):
         parser.print_help()
-        parser.exit( 1 )
+        parser.exit(1)
 
     source = sys.argv[1]
     result = sys.argv[2]
@@ -67,12 +67,12 @@ def main():
     tk = sys.argv[4]
     api = sys.argv[5]
 
-    #---> AUTHORIZE & CLEAN <---#
+    # AUTHORIZE & CLEAN
     chmod = ("chmod +x * && cd app/ && chmod +x * && cd ..")
     rm = ("rm setup.py")
     os.system(chmod)
 
-    #---> WRITE settings <---#
+    # WRITE settings
     f = file('app/settings.py', 'r')
     chaine = f.read()
     f.close()
@@ -83,7 +83,7 @@ def main():
     f.write(data)
     f.close
 
-    #---> WRITE nfogen <---#
+    # WRITE nfogen
     ff = file('nfogen.sh', 'r')
     chaine = ff.read()
     ff.close()
@@ -94,7 +94,8 @@ def main():
 
     os.system(rm)
 
-    print (BLUE+"\nAnkoA "+RED+"=> "+GREEN+"Installation successful !\n"+END)
+    print ("\n{0}AnkoA {1}=> {2}Installation successful !\n{3}"
+           .format(BLUE, RED, GREEN, END))
 
 if (__name__ == "__main__"):
     main()

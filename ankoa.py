@@ -1,10 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#
-#-------------------- [ AnKoA ] -------------------#
-#     Made with love by grm34 (FRIPOUILLEJACK)     #
-#--------------------------------------------------#
+
 """
+    [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
+
     Copyright PARDO Jérémy (Sept 2014)
     Contact: jerem.pardo@gmail.com
 
@@ -61,101 +60,100 @@ from bitrate import (calcul, calc)
 from settings import option
 
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
-
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
-#___ Run ___#
+
 def ffmpeg():
-    if (encode_type == "2"):    #-->  CRF
+    if (encode_type == "2"):    # CRF
         return (
-            "cd "+thumb+" && ffmpeg -i "+source+" -metadata title='"+\
-            title+"."+year+"' -metadata proudly.presented.by='"+team+\
-            "' -map 0:"+idvideo+interlace+fps+" -metadata:s:v:0 title= "\
-            "-metadata:s:v:0 language= -f "+string+reso+" -c:v:0 "+codec+\
-            " -crf "+crf+" -level "+level+param+audio_config+sub_config+\
-            " -passlogfile "+title+".log "+title+"."+year+stag+mark+sub_remux
-        )
+            "cd {0} && ffmpeg -i {1} -metadata title='{2}.{3}' -metadata prou"
+            "dly.presented.by='{4}' -map 0:{5}{6}{7} -metadata:s:v:0 title= -"
+            "metadata:s:v:0 language= -f {8}{9} -c:v:0 {10} -crf {11} -level "
+            "{12}{13}{14}{15} -passlogfile {2}.log {2}.{3}{16}{17}{18}"
+            .format(thumb, source, title, year, team, idvideo, interlace, fps,
+                    string, reso, codec, crf, level, param, audio_config,
+                    sub_config, stag, mark, sub_remux))
 
-    else:                       #-->  2PASS
+    else:                       # 2PASS
         return (
-            "cd "+thumb+" && ffmpeg -i "+source+" -pass 1 -map 0:"+\
-            idvideo+interlace2+fps+" -f "+string+reso+" -c:v:0 "+\
-            codec+" -b:v:0 "+bit+"k -level "+level+pass1+" -an -sn "\
-            "-passlogfile "+title+".log "+title+"."+year+stag+mark+\
-            " && ffmpeg -y -i "+source+" -pass 2 -metadata title='"+title+\
-            "."+year+"' -metadata proudly.presented.by='"+team+"' -map 0:"+\
-            idvideo+interlace+fps+" -metadata:s:v:0 title= -metadata:s:v:0 "\
-            "language= -f "+string+reso+" -c:v:0 "+codec+" -b:v:0 "+bit+"k "\
-            "-level "+level+param+audio_config+sub_config+" -passlogfile "+\
-            title+".log "+title+"."+year+stag+mark+sub_remux
-        )
+            "cd {0} && ffmpeg -i {1} -pass 1 -map 0:{2}{3}{4} -f {5}{6} -c:v:"
+            "0 {7} -b:v:0 {8}k -level {9}{10} -an -sn -passlogfile {11}.log "
+            "{11}.{12}{13}{14} && ffmpeg -y -i {1} -pass 2 -metadata title='"
+            "{11}.{12}' -metadata proudly.presented.by='{15}' -map 0:{2}{16}"
+            "{4} -metadata:s:v:0 title= -metadata:s:v:0 language= -f {5}{6}"
+            " -c:v:0 {7} -b:v:0 {8}k -level {9}{17}{18}{19} -passlogfile "
+            "{11}.log {11}.{12}{13}{14}{20}"
+            .format(thumb, source, idvideo, interlace2, fps, string, reso,
+                    codec, bit, level, pass1, title, year, stag, mark, team,
+                    interlace, param, audio_config, sub_config, sub_remux))
 
-def data():                     #--> Tools
+
+def data():
     if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
-        prezz = "&& ./genprez.py "+audiolang+" "+prezquality+" "+titlesub+\
-                " "+prezsize+" "+nfoimdb+" && mv "+thumb+name+\
-                "*.txt "+thumb+title+"."+year+stag+mark[:-3]+"txt "\
-                "&& ./imgur.py "+thumb+title+"."+year+"*.png add "
-        zipp = "cd "+thumb+" && zip -r "+title+".zip -m "+title+\
-               "."+year+stag+"*.torrent "+title+"."+year+stag+\
-               "*.nfo "+title+"."+year+stag+"*.txt "+title+\
-               "*.log "+title+"."+year+stag+"*.png"
+        prezz = "&& ./genprez.py {0} {1} {2} {3} {4} && mv {5}{6}*.txt {5}"\
+                "{7}.{8}{9}{10}txt && ./imgur.py {5}{7}.{8}*.png add "\
+                .format(audiolang, prezquality, titlesub, prezsize, nfoimdb,
+                        thumb, name, title, year, stag, mark[:3])
+
+        zipp = "cd {0} && zip -r {1}.zip -m {1}.{2}{3}*.torrent {1}.{2}{3}"\
+               "*.nfo {1}.{2}{3}*.txt {1}*.log {1}.{2}{3}*.png"\
+               .format(thumb, title, year, stag)
+
     else:
-        prezz = "&& ./imgur.py "+thumb+title+"."+year+"*.png "
-        zipp = "cd "+thumb+" && zip -r "+title+".zip -m "+title+\
-               "."+year+stag+"*.torrent "+title+"."+year+stag+"*.nfo "+\
-               title+"*.log "+title+"."+year+stag+"*.png"
+        prezz = "&& ./imgur.py {0}{1}.{2}*.png ".format(thumb, title, year)
+
+        zipp = "cd {0} && zip -r {1}.zip -m {1}.{2}{3}*.torrent {1}.{2}{3}*."\
+               "nfo {1}*.log {1}.{2}{3}*.png".format(thumb, title, year, stag)
 
     return (
-        "./thumbnails.py "+thumb+title+"."+year+stag+mark+" 5 2 "+prezz+\
-        "&& ./nfogen.sh "+thumb+title+"."+year+stag+mark+" "+nfosource+\
-        " "+titlesub+" "+subforced+" http://www.imdb.com/title/tt"+nfoimdb+\
-        " && rm -f "+thumb+title+"*.mbtree && cd "+thumb+" && mktorrent -a "+\
-        announce+" -p -t 8 -l "+pieces+" "+title+"."+year+stag+mark+" "+zipp
-    )
+        "./thumbnails.py {0}{1}.{2}{3}{4} 5 2 {5}&& ./nfogen.sh {0}{1}.{2}{3}"
+        "{4} {6} {7} {8} http://www.imdb.com/title/tt{9} && rm -f {0}{1}*.mbt"
+        "ree && cd {0} && mktorrent -a {10} -p -t 8 -l {11} {1}.{2}{3}{4} "
+        "{12}".format(thumb, title, year, stag, mark, prezz, nfosource,
+                      titlesub, subforced, nfoimdb, announce, pieces, zipp))
+
 
 def main():
 
-    #___ Auto completion ___#
-    def completer(text,state):
+    # Auto complete
+    def completer(text, state):
         return (
             [entry for entry in os.listdir(
-                folder+os.path.dirname(readline.get_line_buffer()))
-                if entry.startswith(text)][state]
-        )
+                folder + os.path.dirname(
+                    readline.get_line_buffer())
+                ) if entry.startswith(text)][state])
 
-    #___ Source Infos ___#
+    # Source Infos
     readline.parse_and_bind("tab: complete")
     readline.set_completer(completer)
-    prefix = raw_input(GREEN+"RELEASE SOURCE > \n"+END)
+    prefix = raw_input("{0}RELEASE SOURCE > \n{1}".format(GREEN, END))
     readline.parse_and_bind("tab: ")
-    source = folder+prefix
-    title = raw_input(GREEN+"RELEASE TITLE "+YELLOW+\
-                      "(ex: Hudson.Hawk)"+GREEN+" : "+END)
-    year = raw_input(GREEN+"RELEASE PRODUCTION YEAR : "+END)
-    special = raw_input(GREEN+"SPECIAL TAG "+YELLOW+\
-                        "(ex: EXTENDED.CUT)"+GREEN+" : "+END)
+    source = "{0}{1}".format(folder, prefix)
+    title = raw_input("{0}RELEASE TITLE {1}(ex: Hudson.Hawk){0} : {2}"
+                      .format(GREEN, YELLOW, END))
+    year = raw_input("{0}RELEASE PRODUCTION YEAR : {1}".format(GREEN, END))
+    special = raw_input("{0}SPECIAL TAG {1}(ex: EXTENDED.CUT){0} : {2}"
+                        .format(GREEN, YELLOW, END))
+
     scan = [
-        "HandBrakeCLI -t 0 --scan -i "+source,\
-        "mediainfo -f --Inform='General;%Duration/String3%' "+source,\
-        "mediainfo -f --Inform='General;%FileSize/String4%' "+source,\
-        "mediainfo -f --Inform='Video;%BitRate/String%' "+source,\
-        "mediainfo -f --Inform='Video;%FrameRate/String%' "+source,\
-        "mediainfo -f --Inform='Video;%Width/String%' "+source,\
-        "mediainfo -f --Inform='Video;%Height/String%' "+source,\
-        "mediainfo -f --Inform='Video;%DisplayAspectRatio/"\
-            "String%' "+source,\
-        "mediainfo -f --Inform='Audio;%CodecID% - ' "+source,\
-        "mediainfo -f --Inform='Audio;%Language/String% - ' "+source,\
-        "mediainfo -f --Inform='Audio;%BitRate/String% - ' "+source,\
-        "mediainfo -f --Inform='Audio;%SamplingRate/String% - ' "+source,\
-        "mediainfo -f --Inform='Audio;%Channel(s)/String% - ' "+source,\
-        "mediainfo -f --Inform='Text;%CodecID% - ' "+source,\
-        "mediainfo -f --Inform='Text;%Language/String% - ' "+source
-    ]
-    type = raw_input(GREEN+"SCAN INFOS SOURCE > \n"+YELLOW+\
-                     "HANDBRAKE "+GREEN+"[1]"+YELLOW+" - MEDIAINFO "+GREEN+\
-                     "[2] : "+END)
+        "HandBrakeCLI -t 0 --scan -i " + source,
+        "mediainfo -f --Inform='General;%Duration/String3%' " + source,
+        "mediainfo -f --Inform='General;%FileSize/String4%' " + source,
+        "mediainfo -f --Inform='Video;%BitRate/String%' " + source,
+        "mediainfo -f --Inform='Video;%FrameRate/String%' " + source,
+        "mediainfo -f --Inform='Video;%Width/String%' " + source,
+        "mediainfo -f --Inform='Video;%Height/String%' " + source,
+        "mediainfo -f --Inform='Video;%DisplayAspectRatio/String%' " + source,
+        "mediainfo -f --Inform='Audio;%CodecID% - ' " + source,
+        "mediainfo -f --Inform='Audio;%Language/String% - ' " + source,
+        "mediainfo -f --Inform='Audio;%BitRate/String% - ' " + source,
+        "mediainfo -f --Inform='Audio;%SamplingRate/String% - ' " + source,
+        "mediainfo -f --Inform='Audio;%Channel(s)/String% - ' " + source,
+        "mediainfo -f --Inform='Text;%CodecID% - ' " + source,
+        "mediainfo -f --Inform='Text;%Language/String% - ' " + source]
+
+    type = raw_input("{0}SCAN INFOS SOURCE > \n{1}HANDBRAKE {0}[1]{1} - MEDIA"
+                     "INFO {0}[2] : {2}".format(GREEN, YELLOW, END))
     try:
         if (type == "1"):
             subprocess.check_output(scan[0], shell=True)
@@ -164,79 +162,77 @@ def main():
             for x in range(1, 15):
                 os.system(scan[x])
                 x = x + 1
-    except (OSError, CalledProcessError):
-        print (GREEN+"\n -> "+BLUE+"ERROR : "+RED+"Bad source selection"\
-               ", please try again !\n"+END)
+
+    except (OSError, CalledProcessError) as e:
+        print ("{0}\n -> {1}ERROR : {2}Bad source selection, please try"
+               " again !\n{3}".format(GREEN, BLUE, RED, END))
         sys.exit()
 
-    #___ Video Params ___#
-    codec_type = raw_input(GREEN+"VIDEO CODEC > \n"+YELLOW+"x264 "+GREEN+\
-                           "[1]"+YELLOW+" - x265 "+GREEN+"[2] : "+END)
+    # Video Params
+    codec_type = raw_input("{0}VIDEO CODEC > \n{1}x264 {0}[1]{1} - x265 {0}"
+                           "[2] : {2}".format(GREEN, YELLOW, END))
     if (codec_type == "2"):
         codec = "libx265"
     else:
         codec = "libx264"
 
-    encode_type = raw_input(GREEN+"ENCODING MODE > \n"+YELLOW+\
-                            "DUALPASS "+GREEN+"[1]"+YELLOW+\
-                            " - CRF "+GREEN+"[2] : "+END)
+    encode_type = raw_input("{0}ENCODING MODE > \n{1}DUALPASS {0}[1]{1} - CRF"
+                            " {0}[2] : {2}".format(GREEN, YELLOW, END))
     if (encode_type == "2"):
         bit = ""
-        crf = raw_input(GREEN+"CRF LEVEL "+YELLOW+"(ex: 19)"+GREEN+" : "+END)
+        crf = raw_input("{0}CRF LEVEL {1}(ex: 19){0} : {2}"
+                        .format(GREEN, YELLOW, END))
     else:
         crf = ""
-        calculator = raw_input(GREEN+"BITRATE CALCULATOR "+YELLOW+\
-                               "(y/n)"+GREEN+" : "+END)
+        calculator = raw_input("{0}BITRATE CALCULATOR {1}(y/n){0} : {2}"
+                               .format(GREEN, YELLOW, END))
         if (calculator == "y"):
             next = "y"
             while (next != "n"):
                 HH, MM, SS, audiobit, rls_size, calsize = calcul()
                 run_calc = calc(HH, MM, SS, audiobit, rls_size, calsize)
                 os.system(run_calc)
-                next = raw_input(GREEN+"TRY AGAIN "+YELLOW+\
-                                 "(y/n)"+GREEN+" : "+END)
-            bit = raw_input(GREEN+"VIDEO BITRATE Kbps : "+END)
+                next = raw_input("{0}TRY AGAIN {1}(y/n){0} : {2}"
+                                 .format(GREEN, YELLOW, END))
+            bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
         else:
-            bit = raw_input(GREEN+"VIDEO BITRATE Kbps : "+END)
+            bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
 
-    format = raw_input(GREEN+"RELEASE FORMAT > \n"+YELLOW+"HDTV "+GREEN+\
-                       "[1]"+YELLOW+" - PDTV "+GREEN+"[2]"+YELLOW+\
-                       " - BDRip "+GREEN+"[3]\n"+YELLOW+"DVDRip "+GREEN+\
-                       "[4]"+YELLOW+" - BRRip "+GREEN+"[5]"+YELLOW+\
-                       " - 720p "+GREEN+"[6] : "+END)
+    format = raw_input("{0}RELEASE FORMAT > \n{1}HDTV {0}[1]{1} - PDTV {0}[2]"
+                       "{1} - BDRip {0}[3]\n{1}DVDRip {0}[4]{1} - BRRip {0}[5"
+                       "]{1} - 720p {0}[6] : {2}".format(GREEN, YELLOW, END))
     if (format == "2"):
-        hr = raw_input(GREEN+"PDTV HIGH RESOLUTION "+YELLOW+\
-                       "(y/n)"+GREEN+" : "+END)
+        hr = raw_input("{0}PDTV HIGH RESOLUTION {1}(y/n){0} : {2}"
+                       .format(GREEN, YELLOW, END))
         if (hr == "y"):
-            format = "0"+format
+            format = "7"
 
-    rlstype = raw_input(GREEN+"RELEASE CONTAINER > \n"+YELLOW+\
-                        "MPEG4 "+GREEN+"[1]"+YELLOW+" - MATROSKA "+GREEN+\
-                        "[2] : "+END)
+    rlstype = raw_input("{0}RELEASE CONTAINER > \n{1}MPEG4 {0}[1]{1} - "
+                        "MATROSKA {0}[2] : {2}".format(GREEN, YELLOW, END))
     if (rlstype == "1"):
         string = "mp4"
     else:
         string = "matroska"
 
-    scan2 = raw_input(GREEN+"FFMPEG SCAN TRACKS "+YELLOW+\
-                      "(y/n)"+GREEN+" : "+END)
-    ffmpeg = "ffmpeg -i "+source
+    scan2 = raw_input("{0}FFMPEG SCAN TRACKS {1}(y/n){0} : {2}"
+                      .format(GREEN, YELLOW, END))
+    ffmpeg = "ffmpeg -i {0}".format(source)
     if (scan2 == "y"):
         os.system(ffmpeg)
 
-    idvideo = raw_input(GREEN+"VIDEO TRACK FFMPEG ID "+YELLOW+\
-                        "(ex: 0)"+GREEN+" : "+END)
-    modif_fps = raw_input(GREEN+"CHANGE VIDEO FRAMERATE "+YELLOW+\
-                          "(y/n)"+GREEN+" : "+END)
+    idvideo = raw_input("{0}VIDEO TRACK FFMPEG ID {1}(ex: 0){0} : {2}"
+                        .format(GREEN, YELLOW, END))
+    modif_fps = raw_input("{0}CHANGE VIDEO FRAMERATE {1}(y/n){0} : {2}"
+                          .format(GREEN, YELLOW, END))
     if (modif_fps == "y"):
-        set_fps = raw_input(GREEN+"VIDEO FRAMERATE "+YELLOW+\
-                            "(ex: 23.98)"+GREEN+" : "+END)
-        fps = "-r "+set_fps+" "
+        set_fps = raw_input("{0}VIDEO FRAMERATE {1}(ex: 23.98){0} : {2}"
+                            .format(GREEN, YELLOW, END))
+        fps = " -r {0}".format(set_fps)
     else:
         fps = ""
 
-    deinterlace = raw_input(GREEN+"DEINTERLACE VIDEO "+YELLOW+\
-                            "(y/n)"+GREEN+" : "+END)
+    deinterlace = raw_input("{0}DEINTERLACE VIDEO {1}(y/n){0} : {2}"
+                            .format(GREEN, YELLOW, END))
     if (deinterlace == "y"):
         interlace = " -filter:v yadif=deint=0 "
         if (encode_type == "2"):
@@ -247,101 +243,99 @@ def main():
         interlace = ""
         interlace2 = ""
 
-    #___ Audio Infos ___#
-    audiotype = raw_input(GREEN+"RELEASE AUDIO TYPE > \n"+YELLOW+\
-                          "FRENCH "+GREEN+"[1]"+YELLOW+" - ENGLiSH "+GREEN+\
-                          "[2]\n"+YELLOW+"OTHER "+GREEN+"[3]"+YELLOW+" - "\
-                          "MULTi "+GREEN+"[4]"+YELLOW+" - NONE "+GREEN+\
-                          "[5] : "+END)
+    # Audio Infos
+    audiotype = raw_input("{0}RELEASE AUDIO TYPE > \n{1}FRENCH {0}[1]{1} - EN"
+                          "GLiSH {0}[2]\n{1}OTHER {0}[3]{1} - MULTi {0}[4]"
+                          "{1} - NONE {0}[5] : {2}"
+                          .format(GREEN, YELLOW, END))
+
     if (audiotype == "1" or audiotype == "2" or audiotype == "3"):
-        audionum = raw_input(GREEN+"AUDIO TRACK FFMPEG ID "+YELLOW+\
-                             "(ex: 1)"+GREEN+" : "+END)
+        audionum = raw_input("{0}AUDIO TRACK FFMPEG ID {1}(ex: 1){0} : {2}"
+                             .format(GREEN, YELLOW, END))
         if (audiotype == "3"):
-            audiolang = raw_input(GREEN+"AUDIO TRACK TITLE "+YELLOW+\
-                                  "(ex: Espagnol)"+GREEN+" : "+END)
-        audiocodec = raw_input(GREEN+"AUDIO TRACK CODEC > \n"+YELLOW+\
-                               "MP3 "+GREEN+"[1]"+YELLOW+" - AC3 "+GREEN+\
-                               "[2]"+YELLOW+" - DTS/COPY "+GREEN+"[3] : "+END)
+            audiolang = raw_input("{0}AUDIO TRACK TITLE {1}(ex: Espagnol){0} "
+                                  ": {2}".format(GREEN, YELLOW, END))
+        audiocodec = raw_input("{0}AUDIO TRACK CODEC > \n{1}MP3 {0}[1]{1} - A"
+                               "C3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
+                               .format(GREEN, YELLOW, END))
         if (audiocodec == "2"):
-            abitrate = raw_input(GREEN+"AUDIO TRACK BITRATE Kbps "+YELLOW+\
-                                 "(ex: 448)"+GREEN+" : "+END)
-            surround = raw_input(GREEN+"AUDIO TRACK CHANNELS "+YELLOW+\
-                                 "(ex: 2)"+GREEN+" : "+END)
+            abitrate = raw_input("{0}AUDIO TRACK BITRATE Kbps {1}(ex: 448){0}"
+                                 " : {2}".format(GREEN, YELLOW, END))
+            surround = raw_input("{0}AUDIO TRACK CHANNELS {1}(ex: 2){0} : {2}"
+                                 .format(GREEN, YELLOW, END))
     elif (audiotype == "4"):
-        audionum = raw_input(GREEN+"AUDIO TRACK 01 FFMPEG ID "+YELLOW+\
-                             "(ex: 1)"+GREEN+" : "+END)
-        audiolang = raw_input(GREEN+"AUDIO TRACK 01 TITLE "+YELLOW+\
-                              "(ex: English)"+GREEN+" : "+END)
-        audiocodec = raw_input(GREEN+"AUDIO TRACK 01 CODEC > \n"+YELLOW+\
-                               "MP3 "+GREEN+"[1]"+YELLOW+" - AC3 "+GREEN+\
-                               "[2]"+YELLOW+" - DTS/COPY "+GREEN+"[3] : "+END)
+        audionum = raw_input("{0}AUDIO TRACK 01 FFMPEG ID {1}(ex: 1){0} :"
+                             " {2}".format(GREEN, YELLOW, END))
+        audiolang = raw_input("{0}AUDIO TRACK 01 TITLE {1}(ex: English){0} :"
+                              " {2}".format(GREEN, YELLOW, END))
+        audiocodec = raw_input("{0}AUDIO TRACK 01 CODEC > \n{1}MP3 {0}[1]{1}"
+                               " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
+                               .format(GREEN, YELLOW, END))
         if (audiocodec == "2"):
-            abitrate = raw_input(GREEN+"AUDIO TRACK 01 BITRATE Kbps "+YELLOW+\
-                                 "(ex: 448)"+GREEN+" : "+END)
-            surround = raw_input(GREEN+"AUDIO TRACK 01 CHANNELS "+YELLOW+\
-                                 "(ex: 2)"+GREEN+" : "+END)
-        audionum2 = raw_input(GREEN+"AUDIO TRACK 02 FFMPEG ID "+YELLOW+\
-                              "(ex: 0)"+GREEN+" : "+END)
-        audiolang2 = raw_input(GREEN+"AUDIO TRACK 02 TITLE "+YELLOW+\
-                               "(ex: English)"+GREEN+" : "+END)
-        audiocodec2 = raw_input(GREEN+"AUDIO TRACK 02 CODEC > \n"+YELLOW+\
-                                "MP3 "+GREEN+"[1]"+YELLOW+" - AC3 "+GREEN+\
-                                "[2]"+YELLOW+" - DTS/COPY "+GREEN+\
-                                "[3] : "+END)
+            abitrate = raw_input("{0}AUDIO TRACK 01 BITRATE Kbps {1}(ex: 448)"
+                                 "{0} : {2}".format(GREEN, YELLOW, END))
+            surround = raw_input("{0}AUDIO TRACK 01 CHANNELS {1}(ex: 2){0} :"
+                                 " {2}".format(GREEN, YELLOW, END))
+        audionum2 = raw_input("{0}AUDIO TRACK 02 FFMPEG ID {1}(ex: 0){0} :"
+                              " {2}".format(GREEN, YELLOW, END))
+        audiolang2 = raw_input("{0}AUDIO TRACK 02 TITLE {1}(ex: English){0} :"
+                               " {2}".format(GREEN, YELLOW, END))
+        audiocodec2 = raw_input("{0}AUDIO TRACK 02 CODEC > \n{1}MP3 {0}[1]{1}"
+                                " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
+                                .format(GREEN, YELLOW, END))
+
         if (audiocodec2 == "2"):
-            abitrate2 = raw_input(GREEN+"AUDIO TRACK 02 BITRATE "\
-                                  "Kbps "+YELLOW+"(ex: 448)"+GREEN+" : "+END)
-            surround2 = raw_input(GREEN+"AUDIO TRACK 02 CHANNELS"\
-                                  " "+YELLOW+"(ex: 2)"+GREEN+" : "+END)
+            abitrate2 = raw_input("{0}AUDIO TRACK 02 BITRATE Kbps {1}(ex: 448"
+                                  "){0} : {2}".format(GREEN, YELLOW, END))
+            surround2 = raw_input("{0}AUDIO TRACK 02 CHANNELS {1}(ex: 2){0} :"
+                                  " {2}".format(GREEN, YELLOW, END))
     else:
         audiocodec = ""
     if (audiotype == "1" or audiotype == "2"
             or audiotype == "3" or audiotype == "4"):
-        audiox_ = raw_input(GREEN+"CHANGE SAMPLING RATE "+YELLOW+\
-                            "(y/n)"+GREEN+" : "+END)
+        audiox_ = raw_input("{0}CHANGE SAMPLING RATE {1}(y/n){0} : {2}"
+                            .format(GREEN, YELLOW, END))
         if (audiox_ == "y"):
             if (audiotype == "4"):
-                ar1_ = raw_input(GREEN+"AUDIO TRACK 01 SAMPLING "\
-                                 "RATE "+YELLOW+"(ex: 48)"+GREEN+" : "+END)
-                if not (ar1_):
-                    ar1 = " -ar:a:0 48k"
+                ar1 = raw_input("{0}AUDIO TRACK 01 SAMPLING RATE {1}(ex: 48)"
+                                "{0} : {2}".format(GREEN, YELLOW, END))
+                if not (ar1):
+                    audiox = " -ar:a:0 48k"
                 else:
-                    ar1 = " -ar:a:0 "+ar1_+"k"
-                ar2 = raw_input(GREEN+"AUDIO TRACK 02 SAMPLING RATE "+YELLOW+\
-                                "(ex: 48)"+GREEN+" : "+END)
-                if not (ar2_):
-                    ar2 = " -ar:a:1 48k"
+                    audiox = " -ar:a:0 {0}k".format(ar1)
+                ar2 = raw_input("{0}AUDIO TRACK 02 SAMPLING RATE {1}(ex: 48)"
+                                "{0} : {2}".format(GREEN, YELLOW, END))
+                if not (ar2):
+                    audiox2 = " -ar:a:1 48k"
                 else:
-                    ar2 = " -ar:a:1 "+ar2_+"k"
-                audiox = ar1
-                audiox2 = ar2
+                    audiox2 = " -ar:a:1 {0}k".format(ar2)
             else:
-                ar_ = raw_input(GREEN+"AUDIO TRACK 01 SAMPLING RATE "+YELLOW+\
-                                "(ex: 48)"+GREEN+" : "+END)
-                if not (ar_):
-                    ar = " -ar:a:0 48k"
+                ar = raw_input("{0}AUDIO TRACK SAMPLING RATE {1}(ex: 48){0} :"
+                               " {2}".format(GREEN, YELLOW, END))
+                if not (ar):
+                    audiox = " -ar:a:0 48k"
                 else:
-                    ar = " -ar:a:0 "+ar_+"k"
-                audiox = ar
-                audiox2 = ""
+                    audiox = " -ar:a:0 {0}k".format(ar)
+                    audiox2 = ""
         else:
             audiox = " -ar:a:0 48k"
             audiox2 = " -ar:a:1 48k"
 
-    #___ Audio Params ___#
+    # Audio Params
     if (audiocodec == "1"):
-        config = "-c:a:0 mp3 -b:a:0 128k -ac:a:0 2"+audiox
+        config = "-c:a:0 mp3 -b:a:0 128k -ac:a:0 2 {0}".format(audiox)
     elif (audiocodec == "2"):
-        config = "-c:a:0 ac3 -b:a:0 "+abitrate+"k -ac:a:0 "+surround+audiox
+        config = "-c:a:0 ac3 -b:a:0 {0}k -ac:a:0 {1}{2}"\
+                 .format(abitrate, surround, audiox)
     else:
         config = "-c:a:0 copy"
 
     if (audiotype == "4"):
         if (audiocodec2 == "1"):
-            config2 = "-c:a:1 mp3 -b:a:1 128k -ac:a:1 2"+audiox2
+            config2 = "-c:a:1 mp3 -b:a:1 128k -ac:a:1 2 {0}".format(audiox2)
         elif (audiocodec2 == "2"):
-            config2 = "-c:a:1 ac3 -b:a:1 "+abitrate2+\
-                      "k -ac:a:1 "+surround2+audiox2
+            config2 = "-c:a:1 ac3 -b:a:1 {0}k -ac:a:1 {1}{2}"\
+                      .format(abitrate2, surround2, audiox2)
         else:
             config2 = "-c:a:1 copy"
 
@@ -360,38 +354,31 @@ def main():
         audiolang = "NOAUDIO"
 
     if (audiotype == "4"):
-        audio_config = " -map 0:"+audionum+" -metadata:s:a:0 title='"+\
-                       audiolang+"' -metadata:s:a:0 language= "+config+\
-                       " -map 0:"+audionum2+" -metadata:s:a:1 title='"+\
-                       audiolang2+"' -metadata:s:a:1 language= "+config2
+        audio_config = " -map 0:{0} -metadata:s:a:0 title='{1}' -metadata:s:"\
+                       "a:0 language= {2} -map 0:{3} -metadata:s:a:1 title='"\
+                       "{4}' -metadata:s:a:1 language= {5}"\
+                       .format(audionum, audiolang, config,
+                               audionum2, audiolang2, config2)
 
     elif (audiotype == "1" or audiotype == "2" or audiotype == "3"):
-        audio_config = " -map 0:"+audionum+" -metadata:s:a:0 title='"+\
-                       audiolang+"' -metadata:s:a:0 language= "+config
+        audio_config = " -map 0:{0} -metadata:s:a:0 title='{1}' -metadata:s:"\
+                       "a:0 language= {2}".format(audionum, audiolang, config)
     else:
         audio_config = ""
 
-    #___ Release Tag ___#
+    # Release Tag
     if (special == ""):
         stag = ""
     else:
-        stag = "."+special
+        stag = ".{0}".format(special)
 
-    if (format == "1"):
-        form = "HDTV"
-    elif (format == "2"):
-        form = "PDTV"
-    elif (format == "02"):
-        form = "HR.PDTV"
-    elif (format == "3"):
-        form = "BDRip"
-    elif (format == "4"):
-        form = "DVDRip"
-    elif (format == "6"):
-        form = "720p.BluRay"
+    form_resp = [1, 2, 3, 4, 5, 6, 7]
+    form_values = ["", "HDTV", "PDTV", "BDRip", "DVDRip",
+                   "BRRip", "720p.BluRay", "HR.PDTV"]
+    if (format in form_resp):
+        form = form_values[format]
     else:
-        form = "BRRip"
-
+        form = form_values[5]
     if (rlstype == "1"):
         extend = ".mp4"
     else:
@@ -402,144 +389,132 @@ def main():
         x = "x264"
 
     if (audiocodec == "1"):
-        mark = "."+lang+"."+form+"."+x+"-"+tag+extend
-        prezquality = form+" "+x
+        mark = ".{0}.{1}.{2}-{3}{4}".format(lang, form, x, tag, extend)
+        prezquality = "{0} {1}".format(form, x)
     elif (audiocodec == "3"):
-        mark = "."+lang+"."+form+".DTS"+"."+x+"-"+tag+extend
-        prezquality = form+" DTS."+x
+        mark = ".{0}..DTS.{1}-{2}{3}".format(lang, form, x, tag, extend)
+        prezquality = "{0} DTS.{1}".format(form, x)
     else:
-        mark = "."+lang+"."+form+".AC3"+"."+x+"-"+tag+extend
-        prezquality = form+" AC3."+x
+        mark = ".{0}.{1}.AC3.{2}-{3}{4}".format(lang, form, x, tag, extend)
+        prezquality = "{0} AC3.{1}".format(form, x)
 
-    #___ Mkvmerge ___#
+    # Mkvmerge
     def remux_ext():
         if (subtype == "3"):
-            if (audiotype == "4"):  #--> FILE - Audio MULTi / SRT MULTi
+            if (audiotype == "4"):  # Audio MULTi / SRT MULTi
                 return (
-                    " && mv "+thumb+title+"."+year+stag+mark+" "+thumb+\
-                    title+extend+" && mkvmerge -o "+thumb+title+"."+year+\
-                    stag+mark+" --compression -1:none --default-track 0:yes "\
-                    "--forced-track 0:no --default-track 1:yes "\
-                    "--forced-track 1:no --default-track 2:no "\
-                    "--forced-track 2:no "+thumb+title+extend+\
-                    " --default-track '0:yes' --forced-track '0:no'"\
-                    " --language '0:und' "+sync+"--track-name '0:"+titlesub+\
-                    "'"+charset+" "+idsub+" --default-track '0:no' "+forced+\
-                    "--language '0:und' "+sync2+"--track-name '0:"+titlesub2+\
-                    "'"+charset2+" "+idsub2+" && rm -f "+thumb+title+extend
-                )
+                    " && mv {0}{1}.{2}{3}{4} {0}{1}{5} && mkvmerge -o {0}{1}."
+                    "{2}{3}{4} --compression -1:none --default-track 0:yes --"
+                    "forced-track 0:no --default-track 1:yes --forced-track 1"
+                    ":no --default-track 2:no --forced-track 2:no {0}{1}{5} -"
+                    "-default-track '0:yes' --forced-track '0:no' --language "
+                    "'0:und' {6}--track-name '0:{7}'{8} {9} --default-track '"
+                    "0:no' {10}--language '0:und' {11}--track-name '0:{12}'"
+                    "{13} {14} && rm -f {0}{1}{5}"
+                    .format(thumb, title, year, stag, mark, extend, sync,
+                            titlesub, charset, idsub, forced, sync2,
+                            titlesub2, charset2, idsub2))
 
-            else:                   #--> FILE - Audio FR-VO / SRT MULTi
+            else:                   # Audio FR-VO / SRT MULTi
                 return (
-                    " && mv "+thumb+title+"."+year+stag+mark+" "+thumb+\
-                    title+extend+" && mkvmerge -o "+thumb+title+"."+year+\
-                    stag+mark+" --compression -1:none --default-track 0:yes "\
-                    "--forced-track 0:no --default-track 1:yes "\
-                    "--forced-track 1:no "+thumb+title+extend+\
-                    " --default-track '0:yes' --forced-track '0:no' "\
-                    "--language '0:und' "+sync+"--track-name '0:"+titlesub+\
-                    "'"+charset+" "+idsub+" --default-track '0:no' "+forced+\
-                    "--language '0:und' "+sync2+"--track-name '0:"+titlesub2+\
-                    "'"+charset2+" "+idsub2+" && rm -f "+thumb+title+extend
-                )
+                    " && mv {0}{1}.{2}{3}{4} {0}{1}{5} && mkvmerge -o {0}{1}."
+                    "{2}{3}{4} --compression -1:none --default-track 0:yes --"
+                    "forced-track 0:no --default-track 1:yes --forced-track 1"
+                    ":no {0}{1}{5} --default-track '0:yes' --forced-track '0:"
+                    "no' --language '0:und' {6}--track-name '0:{7}'{8} {9} --"
+                    "default-track '0:no' {10}--language '0:und' {11}--track-"
+                    "name '0:{12}'{13} {14} && rm -f {0}{1}{5}"
+                    .format(thumb, title, year, stag, mark, extend, sync,
+                            titlesub, charset, idsub, forced, sync2,
+                            titlesub2, charset2, idsub2))
 
         else:
-            if (audiotype == "4"):  #--> FILE - Audio MULTi / SRT FR-VO
+            if (audiotype == "4"):  # Audio MULTi / SRT FR-VO
                 return (
-                    " && mv "+thumb+title+"."+year+stag+mark+" "+thumb+title+\
-                    extend+" && mkvmerge -o "+thumb+title+"."+year+stag+mark+\
-                    " --compression -1:none --default-track 0:yes "\
-                    "--forced-track 0:no --default-track 1:yes "\
-                    "--forced-track 1:no --default-track 2:no --forced-track"\
-                    " 2:no "+thumb+title+extend+" --default-track '0:yes' "+\
-                    forced+"--language '0:und' "+sync+"--track-name '0:"+\
-                    titlesub+"'"+charset+" "+idsub+" && rm -f "+thumb+\
-                    title+extend
-                )
+                    " && mv {0}{1}.{2}{3}{4} {0}{1}{5} && mkvmerge -o {0}{1}."
+                    "{2}{3}{4} --compression -1:none --default-track 0:yes --"
+                    "forced-track 0:no --default-track 1:yes --forced-track 1"
+                    ":no --default-track 2:no --forced-track 2:no {0}{1}{5} -"
+                    "-default-track '0:yes' {6}--language '0:und' {7}--track-"
+                    "name '0:{8}'{9} {10} && rm -f {0}{1}{5}"
+                    .format(thumb, title, year, stag, mark, extend, forced,
+                            sync, titlesub, charset, idsub))
 
-            else:                   #--> FILE - Audio FR-VO / SRT FR-VO
+            else:                   # Audio FR-VO / SRT FR-VO
                 return (
-                    " && mv "+thumb+title+"."+year+stag+mark+" "+thumb+title+\
-                    extend+" && mkvmerge -o "+thumb+title+"."+year+stag+mark+\
-                    " --compression -1:none --default-track 0:yes "\
-                    "--forced-track 0:no --default-track 1:yes "\
-                    "--forced-track 1:no "+thumb+title+extend+" "\
-                    "--default-track '0:yes' "+forced+"--language '0:und' "+\
-                    sync+"--track-name '0:"+titlesub+"'"+charset+" "+idsub+\
-                    " && rm -f "+thumb+title+extend
-                )
+                    " && mv {0}{1}.{2}{3}{4} {0}{1}{5} && mkvmerge -o {0}{1}."
+                    "{2}{3}{4} --compression -1:none --default-track 0:yes --"
+                    "forced-track 0:no --default-track 1:yes --forced-track 1"
+                    ":no {0}{1}{5} --default-track '0:yes' {6}--language '0:u"
+                    "nd' {7}--track-name '0:{8}'{9} {10} && rm -f {0}{1}{5}"
+                    .format(thumb, title, year, stag, mark, extend, forced,
+                            sync, titlesub, charset, idsub))
 
     def remux_int():
         if (subtype == "3"):
-            if (audiotype == "4"):  #--> SOURCE - Audio MULTi / SRT MULTi
+            if (audiotype == "4"):  # Audio MULTi / SRT MULTi
                 return (
-                    " && mv "+thumb+title+"."+year+stag+mark+" "+thumb+title+\
-                    extend+" && mkvmerge -o "+thumb+title+"."+year+stag+mark+\
-                    " --compression -1:none --default-track 0:yes "\
-                    "--forced-track 0:no --default-track 1:yes "\
-                    "--forced-track 1:no --default-track 2:no "\
-                    "--forced-track 2:no --default-track 3:yes "\
-                    "--forced-track 3:no --default-track 4:no "+\
-                    forced+thumb+title+extend+" && rm -f "+thumb+title+extend
-                )
+                    " && mv {0}{1}.{2}{3}{4} {0}{1}{5} && mkvmerge -o {0}{1}."
+                    "{2}{3}{4} --compression -1:none --default-track 0:yes --"
+                    "forced-track 0:no --default-track 1:yes --forced-track 1"
+                    ":no --default-track 2:no --forced-track 2:no --default-t"
+                    "rack 3:yes --forced-track 3:no --default-track 4:no {6}"
+                    "{0}{1}{5} && rm -f {0}{1}{5}"
+                    .format(thumb, title, year, stag, mark, extend, forced))
 
-            else:                   #--> SOURCE - Audio FR/VO / SRT MULTi
+            else:                   # Audio FR/VO / SRT MULTi
                 return (
-                    " && mv "+thumb+title+"."+year+stag+mark+" "+thumb+title+\
-                    extend+" && mkvmerge -o "+thumb+title+"."+year+stag+mark+\
-                    " --compression -1:none --default-track 0:yes "\
-                    "--forced-track 0:no --default-track 1:yes "\
-                    "--forced-track 1:no --default-track 2:yes "\
-                    "--forced-track 2:no --default-track 3:no "+forced+\
-                    thumb+title+extend+" && rm -f "+thumb+title+extend
-                )
+                    " && mv {0}{1}.{2}{3}{4} {0}{1}{5} && mkvmerge -o {0}{1}."
+                    "{2}{3}{4} --compression -1:none --default-track 0:yes --"
+                    "forced-track 0:no --default-track 1:yes --forced-track 1"
+                    ":no --default-track 2:yes --forced-track 2:no --default-"
+                    "track 3:no {6}{0}{1}{5} && rm -f {0}{1}{5}"
+                    .format(thumb, title, year, stag, mark, extend, forced))
+
         else:
-            if (audiotype == "4"):  #--> SOURCE - Audio MULTi / SRT FR/VO
+            if (audiotype == "4"):  # Audio MULTi / SRT FR/VO
                 return (
-                    " && mv "+thumb+title+"."+year+stag+mark+" "+thumb+title+\
-                    extend+" && mkvmerge -o "+thumb+title+"."+year+stag+mark+\
-                    " --compression -1:none --default-track 0:yes "\
-                    "--forced-track 0:no --default-track 1:yes "\
-                    "--forced-track 1:no --default-track 2:no "\
-                    "--forced-track 2:no --default-track 3:yes "+forced+\
-                    thumb+title+extend+" && rm -f "+thumb+title+extend
-                )
+                    " && mv {0}{1}.{2}{3}{4} {0}{1}{5} && mkvmerge -o {0}{1}."
+                    "{2}{3}{4} --compression -1:none --default-track 0:yes --"
+                    "forced-track 0:no --default-track 1:yes --forced-track 1"
+                    ":no --default-track 2:no --forced-track 2:no --default-t"
+                    "rack 3:yes {6}{0}{1}{5} && rm -f {0}{1}{5}"
+                    .format(thumb, title, year, stag, mark, extend, forced))
 
-            else:                   #--> SOURCE - Audio FR/VO / SRT FR/VO
+            else:                   # Audio FR/VO / SRT FR/VO
                 return (
-                    " && mv "+thumb+title+"."+year+stag+mark+" "+thumb+title+\
-                    extend+" && mkvmerge -o "+thumb+title+"."+year+stag+mark+\
-                    " --compression -1:none --default-track 0:yes "\
-                    "--forced-track 0:no --default-track 1:yes "\
-                    "--forced-track 1:no --default-track 2:yes "+forced+\
-                    thumb+title+extend+" && rm -f "+thumb+title+extend
-                )
+                    " && mv {0}{1}.{2}{3}{4} {0}{1}{5} && mkvmerge -o {0}{1}."
+                    "{2}{3}{4} --compression -1:none --default-track 0:yes --"
+                    "forced-track 0:no --default-track 1:yes --forced-track 1"
+                    ":no --default-track 2:yes {6}{0}{1}{5} && rm -f {0}{1}"
+                    "{5}".format(thumb, title, year, stag,
+                                 mark, extend, forced))
 
-    #___ Subtitles Params ___#
+    # Subtitles Params
     def infos_subs_in():
         if (subtype == "3"):
             if (subsource == "4"):
-                idsub = raw_input(GREEN+"SUBTITLES TRACK 01 ISO ID "+YELLOW+\
-                                  "(ex: 1)"+GREEN+" : "+END)
-                idsub2 = raw_input(GREEN+"SUBTITLES TRACK 02 ISO ID "+YELLOW+\
-                                   "(ex: 2)"+GREEN+" : "+END)
+                idsub = raw_input("{0}SUBTITLES TRACK 01 ISO ID {1}(ex: 1){0}"
+                                  " : {3}".format(GREEN, YELLOW, END))
+                idsub2 = raw_input("{0}SUBTITLES TRACK 02 ISO ID {1}(ex: 2)"
+                                   "{0} : {2}".format(GREEN, YELLOW, END))
             else:
-                idsub = raw_input(GREEN+"SUBTITLES TRACK 01 FFMPEG ID "+\
-                                  YELLOW+"(ex: 1)"+GREEN+" : "+END)
-                idsub2 = raw_input(GREEN+"SUBTITLES TRACK 02 FFMPEG ID "+\
-                                   YELLOW+"(ex: 2)"+GREEN+" : "+END)
-            titlesub = raw_input(GREEN+"SUBTITLES TRACK 01 TITLE "+YELLOW+\
-                                 "(ex: Full.French)"+GREEN+" : "+END)
-            titlesub2 = raw_input(GREEN+"SUBTITLES TRACK 02 TITLE "+YELLOW+\
-                                  "(ex: French.Forced)"+GREEN+" : "+END)
-
+                idsub = raw_input("{0}SUBTITLES TRACK 01 FFMPEG ID {1}(ex: 1)"
+                                  "{0} : {2}".format(GREEN, YELLOW, END))
+                idsub2 = raw_input("{0}SUBTITLES TRACK 02 FFMPEG ID {1}(ex: 2"
+                                   "){0} : {2}".format(GREEN, YELLOW, END))
+            titlesub = raw_input("{0}SUBTITLES TRACK 01 TITLE {1}(ex: Full.Fr"
+                                 "ench){0} : {2}".format(GREEN, YELLOW, END))
+            titlesub2 = raw_input("{0}SUBTITLES TRACK 02 TITLE {1}(ex: French"
+                                  ".Forced){0} : {2}"
+                                  .format(GREEN, YELLOW, END))
         else:
             if (subsource == "4"):
-                idsub = raw_input(GREEN+"SUBTITLES TRACK ISO ID "+YELLOW+\
-                                  "(ex: 1)"+GREEN+" : "+END)
+                idsub = raw_input("{0}SUBTITLES TRACK ISO ID {1}(ex: 1){0} : "
+                                  "{2}".format(GREEN, YELLOW, END))
             else:
-                idsub = raw_input(GREEN+"SUBTITLES TRACK FFMPEG ID "+YELLOW+\
-                                  "(ex: 1)"+GREEN+" : "+END)
+                idsub = raw_input("{0}SUBTITLES TRACK FFMPEG ID {1}(ex: 1){0}"
+                                  " : {2}".format(GREEN, YELLOW, END))
             if (subtype == "1"):
                 titlesub = "FULL.FRENCH"
             elif (subtype == "2"):
@@ -555,22 +530,25 @@ def main():
         readline.set_completer(completer)
 
         if (subtype == "3"):
-            ub = raw_input(GREEN+"SUBTITLES TRACK 01 SOURCE > \n"+END)
-            ub2 = raw_input(GREEN+"SUBTITLES TRACK 02 SOURCE > \n"+END)
+            ub = raw_input("{0}SUBTITLES TRACK 01 SOURCE > \n{1}"
+                           .format(GREEN, END))
+            ub2 = raw_input("{0}SUBTITLES TRACK 02 SOURCE > \n{1}"
+                            .format(GREEN, END))
             readline.parse_and_bind("tab: ")
-            idsub = folder+ub
-            idsub2 = folder+ub2
+            idsub = "{0}{1}".format(folder, ub)
+            idsub2 = "{0}{1}".format(folder, ub2)
             if (subsource == "3"):
-                titlesub = raw_input(GREEN+"SUBTITLES TRACK 01 TITLE  "+\
-                                     YELLOW+"(ex: Full.French)"+GREEN+\
-                                     " : "+END)
-                titlesub2 = raw_input(GREEN+"SUBTITLES TRACK 02 TITLE  "+\
-                                      YELLOW+"(ex: French.Forced)"+GREEN+\
-                                      " : "+END)
+                titlesub = raw_input("{0}SUBTITLES TRACK 01 TITLE {1}"
+                                     "(ex: Full.French){0} : {2}"
+                                     .format(GREEN, YELLOW, END))
+                titlesub2 = raw_input("{0}SUBTITLES TRACK 02 TITLE {1}"
+                                      "(ex: French.Forced){0} : {2}"
+                                      .format(GREEN, YELLOW, END))
         else:
-            ub = raw_input(GREEN+"SUBTITLES TRACK SOURCE > \n"+END)
+            ub = raw_input("{0}SUBTITLES TRACK SOURCE > \n{1}"
+                           .format(GREEN, END))
             readline.parse_and_bind("tab: ")
-            idsub = folder+ub
+            idsub = "{0}{1}".format(folder, ub)
             if (subtype == "1"):
                 titlesub = "FULL.FRENCH"
             elif (subtype == "2"):
@@ -579,13 +557,13 @@ def main():
             titlesub2 = ""
 
         if (subtype == "3"):
-            idcharset = raw_input(GREEN+"SUBTITLES 01 CHARSET ANSI "+YELLOW+\
-                                  "(y/n)"+GREEN+" : "+END)
-            idcharset2 = raw_input(GREEN+"SUBTITLES 02 CHARSET ANSI "+YELLOW+\
-                                   "(y/n)"+GREEN+" : "+END)
+            idcharset = raw_input("{0}SUBTITLES 01 CHARSET ANSI {1}(y/n){0} :"
+                                  " {2}".format(GREEN, YELLOW, END))
+            idcharset2 = raw_input("{0}SUBTITLES 02 CHARSET ANSI {1}(y/n){0} "
+                                   ": {2}".format(GREEN, YELLOW, END))
         else:
-            idcharset = raw_input(GREEN+"SUBTITLES CHARSET ANSI "+YELLOW+\
-                                  "(y/n)"+GREEN+" : "+END)
+            idcharset = raw_input("{0}SUBTITLES CHARSET ANSI {1}(y/n){0} : "
+                                  "{2}".format(GREEN, YELLOW, END))
 
         if (idcharset == "y"):
             charset = " --sub-charset '0:cp1252'"
@@ -598,20 +576,20 @@ def main():
         else:
             charset2 = ""
 
-        subsync = raw_input(GREEN+"SUBTITLES DELAY "+YELLOW+\
-                            "(y/n)"+GREEN+" : "+END)
+        subsync = raw_input("{0}SUBTITLES DELAY {1}(y/n){0} : {2}"
+                            .format(GREEN, YELLOW, END))
         if (subsync == "y"):
             if (subtype == "3"):
-                subdelay1 = raw_input(GREEN+"SUBTITLES 01 DELAY "+YELLOW+\
-                                      "(ex: -200)"+GREEN+" : "+END)
-                subdelay2 = raw_input(GREEN+"SUBTITLES 02 DELAY "+YELLOW+\
-                                      "(ex: -200)"+GREEN+" : "+END)
-                sync = "--sync 0:"+subdelay1+" "
-                sync2 = "--sync 0:"+subdelay2+" "
+                subdelay1 = raw_input("{0}SUBTITLES 01 DELAY {1}(ex: -200){0}"
+                                      " : {2}".format(GREEN, YELLOW, END))
+                subdelay2 = raw_input("{1}SUBTITLES 02 DELAY {1}(ex: -200){1}"
+                                      " : {1}".format(GREEN, YELLOW, END))
+                sync = "--sync 0:{0}".format(subdelay1)
+                sync2 = "--sync 0:{0} ".format(subdelay2)
             else:
-                subdelay = raw_input(GREEN+"SUBTITLES DELAY "+YELLOW+\
-                                     "(ex: -200)"+GREEN+" : "+END)
-                sync = "--sync 0:"+subdelay+" "
+                subdelay = raw_input("{0}SUBTITLES DELAY {1}(ex: -200){0} : "
+                                     "{2}".format(GREEN, YELLOW, END))
+                sync = "--sync 0:{0} ".format(subdelay)
                 sync2 = ""
         else:
             sync = ""
@@ -621,69 +599,61 @@ def main():
                           charset, charset2, sync, sync2)
         return (infos_subs_out)
 
-    #___ Subtitles Extract ___#
+    # Subtitles Extract
     def iso_extract():
-        if (subtype == "3"):    #-->  EXTRACT ISO MULTi Subs
+        if (subtype == "3"):    # EXTRACT ISO MULTi Subs
             return (
-                "sudo mount -o loop -t iso9660 "+source+" /media/ && cd "+\
-                thumb+" && mencoder -dvd-device /media/ dvd://1 -vobsubout "+\
-                title+"1 -vobsuboutindex 0 -sid "+idsub+\
-                " -o /dev/null -nosound "\
-                "-ovc frameno && mencoder -dvd-device /media/ dvd://1"\
-                " -vobsubout "+title+"2 -vobsuboutindex 0 -sid "+idsub2+\
-                " -o /dev/null -nosound -ovc frameno && sudo umount -f"\
-                " /media*"
-            )
+                "sudo mount -o loop -t iso9660 {0} /media/ && cd {1} && menco"
+                "der -dvd-device /media/ dvd://1 -vobsubout {2}1 -vobsuboutin"
+                "dex 0 -sid {3} -o /dev/null -nosound -ovc frameno && mencode"
+                "r -dvd-device /media/ dvd://1 -vobsubout {2}2 -vobsuboutinde"
+                "x 0 -sid {4} -o /dev/null -nosound -ovc frameno && sudo umou"
+                "nt -f /media*".format(source, thumb, title, idsub, idsub2))
 
-        else:                   #-->  EXTRACT ISO FR/VO Subs
+        else:                   # EXTRACT ISO FR/VO Subs
             return (
-                "sudo mount -o loop -t iso9660 "+source+" /media/ && cd "+\
-                thumb+" && mencoder -dvd-device /media/ dvd://1 -vobsubout "+\
-                title+" -vobsuboutindex 0 -sid "+idsub+\
-                " -o /dev/null -nosound "\
-                "-ovc frameno && sudo umount -f /media*"
-            )
+                "sudo mount -o loop -t iso9660 {0} /media/ && cd {1} && menco"
+                "der -dvd-device /media/ dvd://1 -vobsubout {2} -vobsuboutind"
+                "ex 0 -sid {3} -o /dev/null -nosound -ovc frameno && sudo umo"
+                "unt -f /media*".format(source, thumb, title, idsub))
 
     def m2ts_extract():
-        if (subtype == "3"):    #-->  EXTRACT M2TS MULTi Subs
+        if (subtype == "3"):    # EXTRACT M2TS MULTi Subs
             return (
-                "cd "+thumb+" && ffmpeg -i "+source+" -vn -an -map 0:"+idsub+\
-                " -scodec copy "+title+"1.mkv && ffmpeg -i "+source+\
-                " -vn -an -map 0:"+idsub2+" -scodec copy "+title+\
-                "2.mkv && mkvextract tracks "+title+"1.mkv 0:"\
-                +title+"1.pgs && mkvextract tracks "+title+"2.mkv 0:"+title+\
-                "2.pgs && mv "+title+"1.pgs "+title+"1.sup && mv "+title+\
-                "2.pgs "+title+"2.sup && rm -f "+title+"1.mkv && "\
-                "rm -f "+title+"2.mkv"
-            )
+                "cd {0} && ffmpeg -i {1} -vn -an -map 0:{2} -scodec copy {3}1"
+                ".mkv && ffmpeg -i {1} -vn -an -map 0:{4} -scodec copy {3}2.m"
+                "kv && mkvextract tracks {3}1.mkv 0:{3}1.pgs && mkvextract tr"
+                "acks {3}2.mkv 0:{3}2.pgs && mv {3}1.pgs {3}1.sup && mv {3}2."
+                "pgs {3}2.sup && rm -f {3}1.mkv && rm -f {3}2.mkv"
+                .format(thumb, source, idsub, title, idsub2))
 
-        else:                   #-->  EXTRACT M2TS FR/VO Subs
+        else:                   # EXTRACT M2TS FR/VO Subs
             return (
-                "cd "+thumb+" && ffmpeg -i "+source+" -vn -an -map 0:"+idsub+\
-                " -scodec copy "+title+".mkv && mkvextract tracks "+title+\
-                ".mkv 0:"+title+".pgs && mv "+title+".pgs "+title+\
-                ".sup && rm -f "+title+".mkv"
-            )
+                "cd {0} && ffmpeg -i {1} -vn -an -map 0:{2} -scodec copy {3}."
+                "mkv && mkvextract tracks {3}.mkv 0:{3}.pgs && mv {3}.pgs {3}"
+                ".sup && rm -f {3}.mkv".format(thumb, source, idsub, title))
 
     def mkv_format():
         if (subtype == "3"):
-            ext = raw_input(GREEN+"SUBTITLES 01 FORMAT > \n"+YELLOW+"PGS "+\
-                            GREEN+"[1]"+YELLOW+" - VOBSUB "+GREEN+"[2]"+\
-                            YELLOW+" - ASS "+GREEN+"[3]"+YELLOW+" - SRT "+\
-                            GREEN+"[4] : "+END)
-            ext2 = raw_input(GREEN+"SUBTITLES 02 FORMAT > \n"+YELLOW+\
-                             "PGS "+GREEN+"[1]"+YELLOW+" - VOBSUB "+GREEN+\
-                             "[2]"+YELLOW+" - ASS "+GREEN+"[3]"+YELLOW+\
-                             " - SRT "+GREEN+"[4] : "+END)
+            ext = raw_input("{0}SUBTITLES 01 FORMAT > \n{1}PGS {0}[1]{1} - "
+                            "VOBSUB {0}[2]{1} - ASS {0}[3]{1} - SRT {0}[4] "
+                            ": {2}".format(GREEN, YELLOW, END))
+            ext2 = raw_input("{0}SUBTITLES 02 FORMAT > \n{1}PGS {0}[1]{1} -"
+                             " VOBSUB {0}[2]{1} - ASS {0}[3]{1} - SRT {0}[4]"
+                             " : {2}".format(GREEN, YELLOW, END))
         else:
-            ext = raw_input(GREEN+"SUBTITLES FORMAT > \n"+YELLOW+\
-                            "PGS "+GREEN+"[1]"+YELLOW+" - VOBSUB "+GREEN+\
-                            "[2]"+YELLOW+" - ASS "+GREEN+"[3]"+YELLOW+\
-                            " - SRT "+GREEN+"[4] : "+END)
+            ext = raw_input("{0}SUBTITLES FORMAT > \n{1}PGS {0}[1]{1} - VOBS"
+                            "UB {0}[2]{1} - ASS {0}[3]{1} - SRT {0}[4] : {2}"
+                            .format(GREEN, YELLOW, END))
             ext2 = ""
 
+<<<<<<< HEAD
+        ext_resp = [1, 2, 3, 4]
+        ext_values = ["", ".pgs", ".vobsub", ".ass", ".srt"]
+=======
         ext_values = ['', '.pgs', '.vobsub', '.ass', '.srt']
         ext_resp = [1, 2, 3, 4]
+>>>>>>> origin/master
         if (ext in ext_resp):
             ext = ext_values[ext]
         else:
@@ -699,59 +669,55 @@ def main():
     def mkv_extract():
         if (subtype == "3"):
             if (ext == "1"):
-                if (ext2 == "1"):   #-->  MULTi PGS from MKV
+                if (ext2 == "1"):   # EXTRACT MULTi PGS
                     return (
-                        "cd "+thumb+" && mkvextract tracks "+\
-                        source+" "+idsub+":"+title+\
-                        "1"+ext+" && mkvextract tracks "+source+" "+idsub2+\
-                        ":"+title+"2"+ext2+" && mv "+title+"1"+ext+\
-                        " "+title+"1.sup && mv "+title+"2"+ext2+\
-                        " "+title+"2.sup"
-                    )
+                        "cd {0} && mkvextract tracks {1} {2}:{3}1{4} && mkvex"
+                        "tract tracks {1} {5}:{3}2{6} && mv {3}1{4} {3}1.sup "
+                        "&& mv {3}2{6} {3}2.sup"
+                        .format(thumb, source, idsub,
+                                title, ext, idsub2, ext2))
 
-            else:                   #-->  MULTi SRT/ASS/VOBSUB from MKV
+            else:                   # EXTRACT MULTi SRT/ASS/VOBSUB
                 return (
-                    "cd "+thumb+" && mkvextract tracks "+\
-                    source+" "+idsub+":"+title+"1"+ext+\
-                    " && mkvextract tracks "+source+" "+idsub2+\
-                    ":"+title+"2"+ext2
-                )
+                    "cd {0} && mkvextract tracks {1} {2}:{3}1{4} && mkvextrac"
+                    "t tracks {1} {5}:{3}2{6}"
+                    .format(thumb, source, idsub,
+                            title, ext, idsub2, ext2))
         else:
-            if (ext == "1"):        #-->  FR/VO PGS from MKV
+            if (ext == "1"):        # EXTRACT FR/VO PGS
                 return (
-                    "cd "+thumb+" && mkvextract tracks "+\
-                    source+" "+idsub+":"+title+ext+\
-                    " && mv "+title+"1"+ext+" "+title+"1.sup"
-                )
+                    "cd {0} && mkvextract tracks {1} {2}:{3}{4} && mv {3}1{4}"
+                    " {3}1.sup".format(thumb, source, idsub, title, ext))
 
-            else:                   #-->  FR/VO SRT/ASS/VOBSUB from MKV
+            else:                   # EXTRACT FR/VO SRT/ASS/VOBSUB
                 return (
-                    "cd "+thumb+" && mkvextract tracks "+\
-                    source+" "+idsub+":"+title+ext)
+                    "cd {0} && mkvextract tracks {1} {2}:{3}{4}"
+                    .format(thumb, source, idsub, title, ext))
 
     def internal_subs():
-        if (subtype == "3"):        #-->  CONFIG MULTI Subs from SOURCE
-            sub_config = " -map 0:"+idsub+" -metadata:s:s:0 title='"+\
-                         titlesub+"' -metadata:s:s:0 language= -c:s:0 srt "\
-                         "-map 0:"+idsub2+" -metadata:s:s:1 title='"+\
-                         titlesub2+"' -metadata:s:s:1 language= -c:s:1 srt"
+        if (subtype == "3"):        # CONFIG MULTI Subs
+            sub_config = " -map 0:{0} -metadata:s:s:0 title='{1}' -metadata:"\
+                         "s:s:0 language= -c:s:0 srt -map 0:{2} -metadata:s:"\
+                         "s:1 title='{3}' -metadata:s:s:1 language= -c:s:1 s"\
+                         "rt".format(idsub, titlesub, idsub2, titlesub2)
 
-        else:                       #-->  CONFIG FR/VO Subs from SOURCE
-            sub_config = " -map 0:"+idsub+" -metadata:s:s:0 title='"+\
-                         titlesub+"' -metadata:s:s:0 language= -c:s:0 srt"
+        else:                       # CONFIG FR/VO Subs
+            sub_config = " -map 0:{0} -metadata:s:s:0 title='{1}' -metadata:"\
+                         "s:s:0 language= -c:s:0 srt".format(idsub, titlesub)
+
         return (sub_config)
 
-    subsource = raw_input(GREEN+"SUBTITLES FROM > \n"+YELLOW+"SOURCE "+GREEN+\
-                          "[1]"+YELLOW+" - NONE "+GREEN+"[2]"+YELLOW+\
-                          " - FILE "+GREEN+"[3]\n"+YELLOW+"ISO/IMG "+GREEN+\
-                          "[4]"+YELLOW+" - MKV "+GREEN+"[5]"+YELLOW+\
-                          " - M2TS "+GREEN+"[6] : "+END)
+    # Subtitles infos
+    subsource = raw_input("{0}SUBTITLES FROM > \n{1}SOURCE {0}[1]{1} - NONE "
+                          "{0}[2]{1} - FILE {0}[3]\n{1}ISO/IMG {0}[4]{1} - M"
+                          "KV {0}[5]{1} - M2TS {0}[6] : {2}"
+                          .format(GREEN, YELLOW, END))
 
     if (subsource == "1" or subsource == "3" or subsource == "4"
             or subsource == "5" or subsource == "6"):
-        subtype = raw_input(GREEN+"SUBTITLES TYPE > \n"+YELLOW+"FR "+GREEN+\
-                            "[1]"+YELLOW+" - FORCED "+GREEN+"[2]"+YELLOW+\
-                            " - MULTi "+GREEN+"[3] : "+END)
+        subtype = raw_input("{0}SUBTITLES TYPE > \n{1}FR {0}[1]{1} - FORCED "
+                            "{0}[2]{1} - MULTi {0}[3] : {2}"
+                            .format(GREEN, YELLOW, END))
         if (subsource == "1"):
             if (audiotype == "4"):
                 if (subtype == "1"):
@@ -759,8 +725,8 @@ def main():
                 elif (subtype == "2"):
                     forced = "--forced-track 3:yes "
                 else:
-                    stforced = raw_input(GREEN+"USE FORCED TRACK "+YELLOW+\
-                                         "(y/n)"+GREEN+" : "+END)
+                    stforced = raw_input("{0}USE FORCED TRACK {1}(y/n){0} : "
+                                         "{2}".format(GREEN, YELLOW, END))
                     if (stforced == "y"):
                         forced = "--forced-track 4:yes "
                     else:
@@ -771,8 +737,8 @@ def main():
                 elif (subtype == "2"):
                     forced = "--forced-track 2:yes "
                 else:
-                    stforced = raw_input(GREEN+"USE FORCED TRACK "+YELLOW+\
-                                         "(y/n)"+GREEN+" : "+END)
+                    stforced = raw_input("{0}USE FORCED TRACK {1}(y/n){0} : "
+                                         "{2}".format(GREEN, YELLOW, END))
                     if (stforced == "y"):
                         forced = "--forced-track 3:yes "
                     else:
@@ -784,8 +750,8 @@ def main():
             elif (subtype == "2"):
                 forced = "--forced-track '0:yes' "
             else:
-                stforced = raw_input(GREEN+"USE FORCED TRACK "+YELLOW+\
-                                     "(y/n)"+GREEN+" : "+END)
+                stforced = raw_input("{0}USE FORCED TRACK {1}(y/n){0} : "
+                                     "{2}".format(GREEN, YELLOW, END))
                 if (stforced == "y"):
                     forced = "--forced-track '0:yes' "
                 else:
@@ -800,20 +766,19 @@ def main():
         else:
             subforced = "N/A"
 
-        #___ Subtitles Process ___#
+        # Subtitles Process
         def subextract_message():
             print (
-                RED+"\n ->"+GREEN+" EXTRACTION DONE, CHECK RESULT FOLDER "\
-                "& RUN OCR IF NEEDED !"+RED+"\n ->"+GREEN+\
-                " WARNING > PUT FINAL SRT IN SOURCE "\
-                "FOLDER FOR NEXT STEP !\n"+END
-            )
-        if (subsource == "1"):              #-->  SOURCE
+                "{0}\n ->{1} EXTRACTION DONE, CHECK RESULT FOLDER & RUN OCR I"
+                "F NEEDED !{0}\n ->{1} WARNING > PUT FINAL SRT IN SOURCE FOLD"
+                "ER FOR NEXT STEP !\n{2}".format(RED, GREEN, END))
+
+        if (subsource == "1"):          # SOURCE
             (idsub, titlesub, idsub2, titlesub2) = infos_subs_in()
             sub_config = internal_subs()
             sub_remux = remux_int()
 
-        elif (subsource == "4"):            #-->  ISO
+        elif (subsource == "4"):        # ISO
             (idsub, titlesub, idsub2, titlesub2) = infos_subs_in()
             extract_iso = iso_extract()
             os.system(extract_iso)
@@ -827,7 +792,7 @@ def main():
             sub_config = ""
             sub_remux = remux_ext()
 
-        elif (subsource == "5"):            #-->  MKV
+        elif (subsource == "5"):        # MKV
             (idsub, titlesub, idsub2, titlesub2) = infos_subs_in()
             (ext, ext2) = mkv_format()
             extract_mkv = mkv_extract()
@@ -842,7 +807,7 @@ def main():
             sub_config = ""
             sub_remux = remux_ext()
 
-        elif (subsource == "6"):            #-->  M2TS
+        elif (subsource == "6"):        # M2TS
             (idsub, titlesub, idsub2, titlesub2) = infos_subs_in()
             extract_m2ts = m2ts_extract()
             os.system(extract_m2ts)
@@ -856,7 +821,7 @@ def main():
             sub_config = ""
             sub_remux = remux_ext()
 
-        else:                               #-->  FILE
+        else:                           # FILE
             (
                 idsub, titlesub, idsub2, titlesub2,
                 charset, charset2, sync, sync2
@@ -871,29 +836,28 @@ def main():
         titlesub = "N/A"
         subforced = "N/A"
 
-     #___ Aspect Ratio ___#
+    # Aspect Ratio
     def custom():
-        W = raw_input(GREEN+"RESOLUTION WIDTH : "+END)
-        H = raw_input(GREEN+"RESOLUTION HEIGHT : "+END)
-        reso = " -s "+W+"x"+H+crop
+        W = raw_input("{0}RESOLUTION WIDTH : {1}".format(GREEN, END))
+        H = raw_input("{0}RESOLUTION HEIGHT : {1}".format(GREEN, END))
+        reso = " -s {0}x{1}{2}".format(W, H, crop)
         return (reso)
 
     def DVD():
-        ask_sar = raw_input(GREEN+"USE SAMPLE ASPECT RATIO "+YELLOW+\
-                            "(y/n)"+GREEN+" : "+END)
+        ask_sar = raw_input("{0}USE SAMPLE ASPECT RATIO {1}(y/n){0} : {2}"
+                            .format(GREEN, YELLOW, END))
         if (ask_sar == "y"):
-            sar = raw_input(GREEN+"SOURCE ASPECT RATIO > \n"+YELLOW+\
-                            "PAL 16:9 "+GREEN+"[1]"+YELLOW+" - PAL 4:3 "+\
-                            GREEN+"[2]\n"+YELLOW+"NTSC 16:9 "+GREEN+\
-                            "[3]"+YELLOW+" - NTSC 4:3 "+GREEN+"[4] : "+END)
+            sar = raw_input("{0}SOURCE ASPECT RATIO > \n{1}PAL 16:9 {0}[1]{1}"
+                            " - PAL 4:3 {0}[2]\n{1}NTSC 16:9 {0}[3]{1} - NTSC"
+                            " 4:3 {0}[4] : {2}".format(GREEN, YELLOW, END))
             if (sar == "1"):
-                reso = " -sar 64:45"+crop
+                reso = " -sar 64:45{0}".format(crop)
             elif (sar == "2"):
-                reso = " -sar 16:15"+crop
+                reso = " -sar 16:15{0}".format(crop)
             elif (sar == "3"):
-                reso = " -sar 32:27"+crop
+                reso = " -sar 32:27{0}".format(crop)
             elif (sar == "4"):
-                reso = " -sar 8:9"+crop
+                reso = " -sar 8:9{0}".format(crop)
             else:
                 reso = custom()
         else:
@@ -901,53 +865,55 @@ def main():
         return (reso)
 
     def BLURAY():
-        perso = raw_input(GREEN+"CUSTOM RESOLUTION "+YELLOW+\
-                          "(y/n)"+GREEN+" : "+END)
+        perso = raw_input("{0}CUSTOM RESOLUTION {1}(y/n){0} : {2}"
+                          .format(GREEN, YELLOW, END))
         if (perso == "y"):
             reso = custom()
         else:
-            ratio = raw_input(GREEN+"RELEASE ASPECT RATIO > \n"+YELLOW+\
-                              "1.33 - 1.66 - 1.78 - 1.85 - 2.35 - 2.40"+\
-                              GREEN+" : "+END)
+            ratio = raw_input("{0}RELEASE ASPECT RATIO > \n{1}1.33 - 1.66"
+                              " - 1.78 - 1.85 - 2.35 - 2.40{0} : {2}"
+                              .format(GREEN, YELLOW, END))
+
             if (ratio == "2.40"):
-                reso = " -s 720x300"+crop
+                reso = " -s 720x300{0}".format(crop)
             elif (ratio == "2.35"):
-                reso = " -s 720x306"+crop
+                reso = " -s 720x306{0}".format(crop)
             elif (ratio == "1.85"):
-                reso = " -s 720x390"+crop
+                reso = " -s 720x390{0}".format(crop)
             elif (ratio == "1.78"):
-                reso = " -s 720x404"+crop
+                reso = " -s 720x404{0}".format(crop)
             elif (ratio == "1.66"):
-                reso = " -s 720x432"+crop
+                reso = " -s 720x432{0}".format(crop)
             elif (ratio == "1.33"):
-                reso = " -s 720x540"+crop
+                reso = " -s 720x540{0}".format(crop)
             else:
                 reso = custom()
         return (reso)
 
-    scan = raw_input(GREEN+"SCAN AUTOCROP SOURCE "+YELLOW+\
-                     "(y/n)"+GREEN+" : "+END)
+    scan = raw_input("{0}SCAN AUTOCROP SOURCE {1}(y/n){0} : {2}"
+                     .format(GREEN, YELLOW, END))
     if (scan == "y"):
-        os.system("HandBrakeCLI -t 0 --scan -i"+source)
+        os.system("HandBrakeCLI -t 0 --scan -i{0}".format(source))
 
-    ask_screen = raw_input(GREEN+"SCREENSHOT VERIFICATION "+YELLOW+\
-                           "(y/n)"+GREEN+" : "+END)
+    ask_screen = raw_input("{0}SCREENSHOT VERIFICATION {1}(y/n){0} : {2}"
+                           .format(GREEN, YELLOW, END))
     if (ask_screen == "y"):
-        os.system("./thumbnails.py "+source+" 5 2")
+        os.system("./thumbnails.py {0} 5 2".format(source))
 
-    man_crop = raw_input(GREEN+"MANUAL SOURCE CROP "+YELLOW+\
-                         "(y/n)"+GREEN+" : "+END)
+    man_crop = raw_input("{0}MANUAL SOURCE CROP {1}(y/n){0} : {2}"
+                         .format(GREEN, YELLOW, END))
     if (man_crop == "y"):
-        w_crop = raw_input(GREEN+"SOURCE CROP WIDTH "+YELLOW+\
-                           "(ex: 1920)"+GREEN+" : "+END)
-        h_crop = raw_input(GREEN+"SOURCE CROP HEIGHT "+YELLOW+\
-                           "(ex: 800)"+GREEN+" : "+END)
-        x_crop = raw_input(GREEN+"PIXELS CROP LEFT/RIGHT "+YELLOW+\
-                           "(ex: 0)"+GREEN+" : "+END)
-        y_crop = raw_input(GREEN+"PIXELS CROP TOP/BOTTOM "+YELLOW+\
-                           "(ex: 140)"+GREEN+" : "+END)
-        crop = " -filter:v crop="+w_crop+":"+h_crop+\
-               ":"+x_crop+":"+y_crop+""
+        w_crop = raw_input("{0}SOURCE CROP WIDTH {1}(ex: 1920){0} : {2}"
+                           .format(GREEN, YELLOW, END))
+        h_crop = raw_input("{0}SOURCE CROP HEIGHT {1}(ex: 800){0} : {2}"
+                           .format(GREEN, YELLOW, END))
+        x_crop = raw_input("{0}PIXELS CROP LEFT/RIGHT {1}(ex: 0){0} : {2}"
+                           .format(GREEN, YELLOW, END))
+        y_crop = raw_input("{0}PIXELS CROP TOP/BOTTOM {1}(ex: 140){0} : {2}"
+                           .format(GREEN, YELLOW, END))
+
+        crop = " -filter:v crop={0}:{1}:{2}:{3}"\
+               .format(w_crop, h_crop, x_crop, y_crop)
     else:
         crop = ""
     if (format == "4"):
@@ -957,69 +923,48 @@ def main():
     else:
         reso = BLURAY()
 
-    #___ x264/x265 Params ___#
-    level = raw_input(GREEN+"VIDEO FORMAT PROFILE "+YELLOW+\
-                      "(ex: 3.1)"+GREEN+" : "+END)
-    preset = raw_input(GREEN+"CUSTOM PRESET X264/X265 > \n"+YELLOW+\
-                       "FAST "+GREEN+"[1]"+YELLOW+" - SLOW "+GREEN+\
-                       "[2]"+YELLOW+" - SLOWER "+GREEN+"[3]\n"+YELLOW+\
-                       "VERYSLOW "+GREEN+"[4]"+YELLOW+" - PLACEBO "+GREEN+\
-                       "[5]"+YELLOW+" - NONE "+GREEN+"[6] : "+END)
+    # x264/x265 Params
+    level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
+                      .format(GREEN, YELLOW, END))
+    preset = raw_input("{0}CUSTOM PRESET X264/X265 > \n{1}FAST {0}[1]{1} - SL"
+                       "OW {0}[2]{1} - SLOWER {0}[3]\n{1}VERYSLOW {0}[4]{1} -"
+                       " PLACEBO {0}[5]{1} - NONE {0}[6] : {2}"
+                       .format(GREEN, YELLOW, END))
 
-    if (preset == "1"):
-        prest = " -preset fast"
-    elif (preset == "2"):
-        preset = " -preset slow"
-    elif (preset == "3"):
-        preset = " -preset slower"
-    elif (preset == "4"):
-        preset = " -preset veryslow"
-    elif (preset == "5"):
-        preset = " -preset placebo"
+    preset_resp = [1, 2, 3, 4, 5]
+    preset_values = ["", "fast", "slow", "slower", "veryslow", "placebo"]
+    if (preset in preset_resp):
+        preset = " -preset {0}".format(preset_values[preset])
     else:
         preset = ""
 
-    tuned = raw_input(GREEN+"X264/X265 TUNE > \n"+YELLOW+"FILM "+GREEN+\
-                      "[1]"+YELLOW+" - ANIMATION "+GREEN+"[2]"+YELLOW+\
-                      " - GRAIN "+GREEN+"[3]\n"+YELLOW+"STILLIMAGE "+GREEN+\
-                      "[4]"+YELLOW+" - PSNR "+GREEN+"[5]"+YELLOW+\
-                      " - SSIM "+GREEN+"[6]\n"+YELLOW+"FASTDECODE "+GREEN+\
-                      "[7]"+YELLOW+" - "+GREEN+"[8]"+YELLOW+\
-                      " - NONE "+GREEN+"[9] : "+END)
+    tuned = raw_input("{0}X264/X265 TUNE > \n{1}FILM {0}[1]{1} - ANIMATION "
+                      "{0}[2]{1} - GRAIN {0}[3]\n{1}STILLIMAGE {0}[4]{1} - "
+                      "PSNR {0}[5]{1} - SSIM {0}[6]\n{1}FASTDECODE {0}[7]{1}"
+                      " - {0}[8]{1} - NONE {0}[9] : {2}"
+                      .format(GREEN, YELLOW, END))
 
-    if (tuned == "1"):
-        tune = " -tune film"
-    elif (tuned == "2"):
-        tune = " -tune animation"
-    elif (tuned == "3"):
-        tune = " -tune grain"
-    elif (tuned == "4"):
-        tune = " -tune stillimage"
-    elif (tuned == "5"):
-        tune = " -tune psnr"
-    elif (tuned == "6"):
-        tune = " -tune ssim"
-    elif (tuned == "7"):
-        tune = " -tune fastdecode"
-    elif (tuned == "8"):
-        tune = " -tune zerolatency"
+    tuned_resp = [1, 2, 3, 4, 5, 6, 7, 8]
+    tuned_values = ["", "film", "animation", "grain", "stillimage", "psnr",
+                    "ssim", "fastdecode", "zerolatency"]
+    if (tuned in tuned_resp):
+        tune = " -tune {0}".format(tuned_values[tuned])
     else:
         tune = ""
 
-    #___ x264 Expert Mode ___#
-    x264 = raw_input(GREEN+"X264/X265 EXPERT MODE "+YELLOW+\
-                     "(y/n)"+GREEN+" : "+END)
+    # Expert Mode ___#
+    x264 = raw_input("{0}X264/X265 EXPERT MODE {1}(y/n){0} : {2}"
+                     .format(GREEN, YELLOW, END))
     if (x264 == "y"):
-        threads_ = raw_input(GREEN+"PROCESSOR THREADS "+YELLOW+\
-                             "(ex: 8)"+GREEN+" : "+END)
+        threads_ = raw_input("{0}PROCESSOR THREADS {1}(ex: 8){0} : {2}"
+                             .format(GREEN, YELLOW, END))
         if not (threads_):
             threads = " -threads 0"
         else:
-            threads = " -threads "+threads_
+            threads = " -threads {0}".format(threads_)
 
-        thread_type_ = raw_input(GREEN+"THREAD TYPE > \n"+YELLOW+\
-                                 "SLICE "+GREEN+"[1]"+YELLOW+\
-                                 " - FRAME "+GREEN+"[2] : "+END)
+        thread_type_ = raw_input("{0}THREAD TYPE > \n{1}SLICE {0}[1]{1} - FRA"
+                                 "ME {0}[2] : {2}".format(GREEN, YELLOW, END))
         if (thread_type_ == "1"):
             thread_type = " -thread_type slice"
         elif (thread_type_ == "2"):
@@ -1029,8 +974,8 @@ def main():
         if (encode_type == "2"):
             fastfirstpass = ""
         else:
-            fastfirstpass_ =  raw_input(GREEN+"FAST FIRST PASS "+YELLOW+\
-                                        "(y/n)"+GREEN+" : "+END)
+            fastfirstpass_ = raw_input("{0}FAST FIRST PASS {1}(y/n){0} : {2}"
+                                       .format(GREEN, YELLOW, END))
             if (fastfirstpass_ == "y"):
                 fastfirstpass = " -fastfirstpass 1"
             elif (fastfirstpass_ == "n"):
@@ -1038,15 +983,15 @@ def main():
             else:
                 fastfirstpass = ""
 
-        refs_ = raw_input(GREEN+"REFERENCE FRAMES "+YELLOW+\
-                          "(ex: 8)"+GREEN+" : "+END)
+        refs_ = raw_input("{0}REFERENCE FRAMES {1}(ex: 8){0} : {2}"
+                          .format(GREEN, YELLOW, END))
         if not (refs_):
             refs = ""
         else:
-            refs = " -refs "+refs_
+            refs = " -refs {0}".format(refs_)
 
-        mixed_ = raw_input(GREEN+"MIXED REFERENCES "+YELLOW+\
-                           "(y/n)"+GREEN+" : "+END)
+        mixed_ = raw_input("{0}MIXED REFERENCES {1}(y/n){0} : {2}"
+                           .format(GREEN, YELLOW, END))
         if (mixed_ == "n"):
             mixed = " -mixed-refs 0"
         elif (mixed_ == "y"):
@@ -1054,27 +999,26 @@ def main():
         else:
             mixed = ""
 
-        bf_ = raw_input(GREEN+"MAXIMUM B-FRAMES "+YELLOW+\
-                        "(ex: 16)"+GREEN+" : "+END)
+        bf_ = raw_input("MAXIMUM B-FRAMES {1}(ex: 16){0} : {2}"
+                        .format(GREEN, YELLOW, END))
         if not (bf_):
             bf = ""
         else:
-            bf = " -bf "+bf_
+            bf = " -bf {0}".format(bf_)
 
-        pyramid_ = raw_input(GREEN+"PYRAMIDAL METHOD > \n"+YELLOW+\
-                             "NONE "+GREEN+"[1]"+YELLOW+" - NORMAL "+GREEN+\
-                             "[2]"+YELLOW+" - STRICT "+GREEN+"[3] : "+END)
-        if (pyramid_ == "1"):
-            pyramid = " -b-pyramid none"
-        elif (pyramid_ == "2"):
-            pyramid = " -b-pyramid normal"
-        elif (pyramid_ == "3"):
-            pyramid = " -b-pyramid strict"
+        pyramid_ = raw_input("{0}PYRAMIDAL METHOD > \n{1}NONE {0}[1]{1} - NOR"
+                             "MAL {0}[2]{1} - STRICT {0}[3] : {2}"
+                             .format(GREEN, YELLOW, END))
+
+        pyramid_resp = [1, 2, 3]
+        pyramid_values = ["", "none", "normal", "strict"]
+        if (pyramid_ in pyramid_resp):
+            pyramid = " -b-pyramid {0}".format(pyramid_values[pyramid_])
         else:
             pyramid = ""
 
-        weightb_ = raw_input(GREEN+"WEIGHTED B-FRAMES "+YELLOW+\
-                             "(y/n)"+GREEN+" : "+END)
+        weightb_ = raw_input("{0}WEIGHTED B-FRAMES {1}(y/n){0} : {2}"
+                             .format(GREEN, YELLOW, END))
         if (weightb_ == "n"):
             weightb = " -weightb 0"
         elif (weightb_ == "y"):
@@ -1082,20 +1026,19 @@ def main():
         else:
             weightb = ""
 
-        weightp_ = raw_input(GREEN+"WEIGHTED P-FRAMES > \n"+YELLOW+\
-                             "NONE "+GREEN+"[1]"+YELLOW+" - SIMPLE "+GREEN+\
-                             "[2]"+YELLOW+" - SMART "+GREEN+"[3] : "+END)
-        if (weightp_ == "1"):
-            weightp = " -weightp none"
-        elif (weightp_ == "2"):
-            weightp = " -weightp simple"
-        elif (weightp_ == "3"):
-            weightp = " -weightp smart"
+        weightp_ = raw_input("{0}WEIGHTED P-FRAMES > \n{1}NONE {0}[1]{1} - SI"
+                             "MPLE {0}[2]{1} - SMART {0}[3] : {2}"
+                             .format(GREEN, YELLOW, END))
+
+        weightp_resp = [1, 2, 3]
+        weightp_values = ["", "none", "simple", "smart"]
+        if (weightp_ in weightp_resp):
+            weightp = " -weightp {0}".format(weightp_values[weightp_])
         else:
             weightp = ""
 
-        dct_ = raw_input(GREEN+"ENABLE 8x8 TRANSFORM "+YELLOW+\
-                         "(y/n)"+GREEN+" : "+END)
+        dct_ = raw_input("{0}ENABLE 8x8 TRANSFORM {1}(y/n){0} : {2}"
+                         .format(GREEN, YELLOW, END))
         if (dct_ == "n"):
             dct = " -8x8dct 0"
         elif (dct_ == "y"):
@@ -1103,8 +1046,8 @@ def main():
         else:
             dct = ""
 
-        cabac_ = raw_input(GREEN+"ENABLE CABAC "+YELLOW+\
-                           "(y/n)"+GREEN+" : "+END)
+        cabac_ = raw_input("{0}ENABLE CABAC {1}(y/n){0} : {2}"
+                           .format(GREEN, YELLOW, END))
         if (cabac_ == "n"):
             cabac = " -coder vlc"
         elif (cabac_ == "y"):
@@ -1112,112 +1055,86 @@ def main():
         else:
             cabac = ""
 
-        b_strategy_ = raw_input(GREEN+"ADAPTIVE B-FRAMES > \n"+YELLOW+\
-                                "VERYFAST "+GREEN+"[1]"+YELLOW+\
-                                " - FAST "+GREEN+"[2]"+YELLOW+\
-                                " - SLOWER "+GREEN+"[3] : "+END)
-        if (b_strategy_ == "1"):
-            b_strategy = " -b_strategy 0"
-        elif (b_strategy_ == "2"):
-            b_strategy = " -b_strategy 1"
-        elif (b_strategy_ == "3"):
-            b_strategy = " -b_strategy 2"
+        b_strat = raw_input("{0}ADAPTIVE B-FRAMES > \n{0}VERYFAST {0}[1]"
+                            "{1} - FAST {0}[2]{1} - SLOWER {0}[3] : {2}"
+                            .format(GREEN, YELLOW, END))
+
+        b_strategy_resp = [1, 2, 3]
+        b_strategy_values = ["", "0", "1", "2"]
+        if (b_strat in b_strategy_resp):
+            b_strategy = " -b_strategy {0}".format(b_strategy_values[b_strat])
         else:
             b_strategy = ""
 
-        direct_ = raw_input(GREEN+"ADAPTIVE DIRECT MODE > \n"+YELLOW+\
-                            "NONE "+GREEN+"[1]"+YELLOW+" - SPATIAL "+GREEN+\
-                            "[2]\n"+YELLOW+"TEMPORAL "+GREEN+"[3]"+YELLOW+\
-                            " - AUTO "+GREEN+"[4] : "+END)
-        if (direct_ == "1"):
-            direct = " -direct-pred none"
-        elif (direct_ == "2"):
-            direct = " -direct-pred spatial"
-        elif (direct_ == "3"):
-            direct = " -direct-pred temporal"
-        elif (direct_ == "4"):
-            direct = " -direct-pred auto"
+        direct_ = raw_input("{0}ADAPTIVE DIRECT MODE > \n{1}NONE {0}[1]{1} - "
+                            "SPATIAL {0}[2]\n{1}TEMPORAL {0}[3]{1} - AUTO {0}"
+                            "[4] : {2}".format(GREEN, YELLOW, END))
+
+        direct_resp = [1, 2, 3, 4]
+        direct_values = ["", "none", "spatial", "temporal", "auto"]
+        if (direct_ in direct_resp):
+            direct = " -direct-pred {0}".format(direct_values[direct_])
         else:
             direct = ""
 
-        me_method_ = raw_input(GREEN+"MOTION ESTIMATION METHOD > \n"+YELLOW+\
-                               "DIA "+GREEN+"[1]"+YELLOW+" - HEX "+GREEN+\
-                               "[2]\n"+YELLOW+"UMH "+GREEN+"[3]"+YELLOW+\
-                               " - ESA "+GREEN+"[4]"+YELLOW+\
-                               " - TESA "+GREEN+"[5] : "+END)
-        if (me_method_ == "1"):
-            me_method = " -me_method dia"
-        elif (me_method_ == "2"):
-            me_method = " -me_method hex"
-        elif (me_method_ == "3"):
-            me_method = " -me_method umh"
-        elif (me_method_ == "4"):
-            me_method = " -me_method esa"
-        elif (me_method_ == "5"):
-            me_method = " -me_method tesa"
+        me_method_ = raw_input("{0}MOTION ESTIMATION METHOD > \n{1}DIA {0}[1]"
+                               "{1} - HEX {0}[2]\n{1}UMH {0}[3]{1} - ESA {0}["
+                               "4]{1} - TESA {0}[5] : {2}"
+                               .format(GREEN, YELLOW, END))
+
+        me_resp = [1, 2, 3, 4, 5]
+        me_values = ["", "dia", "hex", "umh", "esa", "tesa"]
+        if (me_method_ in me_resp):
+            me_method = " -me_method {0}".format(me_values[me_method_])
         else:
             me_method = ""
 
-        subq_ = raw_input(GREEN+"SUBPIXEL MOTION ESTIMATION "+YELLOW+\
-                          "(ex: 11)"+GREEN+" : "+END)
+        subq_ = raw_input("{0}SUBPIXEL MOTION ESTIMATION {1}(ex: 11){0} : {2}"
+                          .format(GREEN, YELLOW, END))
         if not (subq_):
             subq = ""
         else:
-            subq = " -subq "+subq_
+            subq = " -subq {0}".format(subq_)
 
-        me_range_ = raw_input(GREEN+"MOTION ESTIMATION RANGE "+YELLOW+\
-                              "(ex: 16)"+GREEN+" : "+END)
+        me_range_ = raw_input("{0}MOTION ESTIMATION RANGE {1}(ex: 16){0} : "
+                              "{2}".format(GREEN, YELLOW, END))
         if not (me_range_):
             me_range = ""
         else:
-            me_range = " -me_range "+me_range_
+            me_range = " -me_range {0}".format(me_range_)
 
-        partitions_ = raw_input(GREEN+"PARTITIONS TYPE > \n"+YELLOW+\
-                                "ALL "+GREEN+"[1]"+YELLOW+" - p8x8 "+GREEN+\
-                                "[2]"+YELLOW+" - p4x4 "+GREEN+\
-                                "[3]\n"+YELLOW+"NONE "+GREEN+"[4]"+YELLOW+\
-                                " - b8x8 "+GREEN+"[5]"+YELLOW+\
-                                " - i8x8 "+GREEN+"[6]"+YELLOW+\
-                                " - i4x4 "+GREEN+"[7] : "+END)
-        if (partitions_ == "1"):
-            partitions = " -partitions all"
-        elif (partitions_ == "2"):
-            partitions = " -partitions p8x8"
-        elif (partitions_ == "3"):
-            partitions = " -partitions p4x4"
-        elif (partitions_ == "4"):
-            partitions = " -partitions none"
-        elif (partitions_ == "5"):
-            partitions = " -partitions b8x8"
-        elif (partitions_ == "6"):
-            partitions = " -partitions i8x8"
-        elif (partitions_ == "7"):
-            partitions = " -partitions i4x4"
+        parts_ = raw_input("PARTITIONS TYPE > \n{1}ALL {0}[1]{1} - p8x8 {0}[2"
+                           "]{1} - p4x4 {0}[3]\n{1}NONE {0}[4]{1} - b8x8 {0}["
+                           "5]{1} - i8x8 {0}[6]{1} - i4x4 {0}[7] : {2}"
+                           .format(GREEN, YELLOW, END))
+
+        parts_resp = [1, 2, 3, 4, 5, 6, 7]
+        p_values = ["", "all", "p8x8", "p4x4", "none", "b8x8", "i8x8", "i4x4"]
+        if (parts_ in parts_resp):
+            partitions = " -partitions {0}".format(p_values[parts_])
         else:
             partitions = ""
 
-        trellis_ = raw_input(GREEN+"TRELLIS MODE > \n"+YELLOW+\
-                             "OFF "+GREEN+"[1]"+YELLOW+\
-                             " - DEFAULT "+GREEN+"[2]"+YELLOW+\
-                             " - ALL "+GREEN+"[3] : "+END)
-        if (trellis_ == "1"):
-            trellis = " -trellis 0"
-        elif (trellis_ == "2"):
-            trellis = " -trellis 1"
-        elif (trellis_ == "3"):
-            trellis = " -trellis 2"
+        trellis_ = raw_input("{0}TRELLIS MODE > \n{1}OFF {0}[1]{1} - DEFAULT "
+                             "{0}[2]{1} - ALL {0}[3] : {2}"
+                             .format(GREEN, YELLOW, END))
+
+        trellis_resp = [1, 2, 3]
+        trellis_values = ["", "0", "1", "2"]
+        if (trellis_ in trellis_resp):
+            trellis = " -trellis {0}".format(trellis_values[trellis_])
         else:
             trellis = ""
 
-        aq_ = raw_input(GREEN+"ADAPTIVE QUANTIZATION "+YELLOW+\
-                        "(ex: 1.5)"+GREEN+" : "+END)
+        aq_ = raw_input("{0}ADAPTIVE QUANTIZATION {1}(ex: 1.5){0} : {2}"
+                        .format(GREEN, YELLOW, END))
         if not (aq_):
             aq = ""
         else:
-            aq = " -aq-strength "+aq_
+            aq = " -aq-strength {0}".format(aq_)
 
-        psy_ = raw_input(GREEN+"PSYCHOVISUAL OPTIMIZATION "+YELLOW+\
-                         "(y/n)"+GREEN+" : "+END)
+        psy_ = raw_input("{0}PSYCHOVISUAL OPTIMIZATION {1}(y/n){0} : {2}"
+                         .format(GREEN, YELLOW, END))
         if (psy_) == "n":
             psy = " -psy 0"
         elif (psy_) == "y":
@@ -1225,34 +1142,34 @@ def main():
         else:
             psy = ""
 
-        psyrd1 = raw_input(GREEN+"RATE DISTORTION [psy-rd] "+YELLOW+\
-                           "(ex: 1.00)"+GREEN+" : "+END)
-        if not (psyrd1):
+        psy1 = raw_input("{0}RATE DISTORTION [psy-rd] {1}(ex: 1.00){0} : {2}"
+                         .format(GREEN, YELLOW, END))
+        if not (psy1):
             psyrd = ""
         else:
-            psyrd2 = raw_input(GREEN+"PSYCHOVISUAL TRELLIS [psy-rd] "+\
-                               YELLOW+"(ex: 0.15)"+GREEN+" : "+END)
-            if not (psyrd2):
+            psy2 = raw_input("{0}PSYCHOVISUAL TRELLIS [psy-rd] {1}(ex: 0.15)"
+                             "{0} : {2}".format(GREEN, YELLOW, END))
+            if not (psy2):
                 psyrd = ""
             else:
-                psyrd = " -psy-rd "+psyrd1+":"+psyrd2
+                psyrd = " -psy-rd {0}:{1}".format(psy1, psy2)
 
-        deblock_ = raw_input(GREEN+"DEBLOCKING "+YELLOW+\
-                             "(ex: -1:-1)"+GREEN+" : "+END)
+        deblock_ = raw_input("{0}DEBLOCKING {1}(ex: -1:-1){0} : {2}"
+                             .format(GREEN, YELLOW, END))
         if not (deblock_):
             deblock = ""
         else:
-            deblock = " -deblock "+deblock_
+            deblock = " -deblock {0}".format(deblock_)
 
-        lookahead_ = raw_input(GREEN+"FRAMES LOOKAHEAD "+YELLOW+\
-                     "(ex: 60)"+GREEN+" : "+END)
+        lookahead_ = raw_input("{0}FRAMES LOOKAHEAD {1}(ex: 60){0} : {2}"
+                               .format(GREEN, YELLOW, END))
         if not (lookahead_):
             lookahead = ""
         else:
-            lookahead = " -rc-lookahead "+lookahead_
+            lookahead = " -rc-lookahead {0}".format(lookahead_)
 
-        bluray_ = raw_input(GREEN+"BLURAY COMPATIBILITY "+YELLOW+\
-                            "(y/n)"+GREEN+" : "+END)
+        bluray_ = raw_input("{0}BLURAY COMPATIBILITY {1}(y/n){0} : {2}"
+                            .format(GREEN, YELLOW, END))
         if (bluray_ == "y"):
             bluray = " -bluray-compat 1"
         elif (bluray_ == "n"):
@@ -1260,8 +1177,8 @@ def main():
         else:
             bluray = ""
 
-        fastpskip_ = raw_input(GREEN+"FAST SKIP on P-FRAMES "+YELLOW+\
-                               "(y/n)"+GREEN+" : "+END)
+        fastpskip_ = raw_input("{0}FAST SKIP on P-FRAMES {1}(y/n){0} : {2}"
+                               .format(GREEN, YELLOW, END))
         if (fastpskip_ == "y"):
             fastpskip = " -fast-pskip 1"
         elif (fastpskip_ == "n"):
@@ -1269,29 +1186,29 @@ def main():
         else:
             fastpskip = ""
 
-        g_ = raw_input(GREEN+"KEYFRAME INTERVAL "+YELLOW+\
-                       "(ex: 250)"+GREEN+" : "+END)
+        g_ = raw_input("{0}KEYFRAME INTERVAL {1}(ex: 250){0} : {2}"
+                       .format(GREEN, YELLOW, END))
         if not (g_):
             g = ""
         else:
-            g = " -g "+g_
+            g = " -g {0}".format(g_)
 
-        keyint_min_ = raw_input(GREEN+"MINIMAL KEY INTERVAL "+YELLOW+\
-                                "(ex: 25)"+GREEN+" : "+END)
+        keyint_min_ = raw_input("{0}MINIMAL KEY INTERVAL {1}(ex: 25){0} : {2}"
+                                .format(GREEN, YELLOW, END))
         if not (keyint_min_):
             keyint_min = ""
         else:
-            keyint_min = " -keyint_min "+keyint_min_
+            keyint_min = " -keyint_min {0}".format(keyint_min_)
 
-        scenecut_ =  raw_input(GREEN+"SCENECUT DETECTION "+YELLOW+\
-                               "(ex: 40)"+GREEN+" : "+END)
+        scenecut_ = raw_input("{0}SCENECUT DETECTION {1}(ex: 40){0} : {2}"
+                              .format(GREEN, YELLOW, END))
         if not (scenecut_):
             scenecut = ""
         else:
-            scenecut = " -sc_threshold "+scenecut_
+            scenecut = " -sc_threshold {0}".format(scenecut_)
 
-        cmp_ = raw_input(GREEN+"CHROMA MOTION ESTIMATION "+YELLOW+\
-                         "(y/n)"+GREEN+" : "+END)
+        cmp_ = raw_input("{0}CHROMA MOTION ESTIMATION {1}(y/n){0} : {2}"
+                         .format(GREEN, YELLOW, END))
         if (cmp_ == "n"):
             cmp = " -cmp sad"
         elif (cmp_ == "y"):
@@ -1299,92 +1216,93 @@ def main():
         else:
             cmp = ""
 
-        param = preset+tune+threads+thread_type+fastfirstpass+refs+mixed+\
-                bf+pyramid+weightb+weightp+dct+cabac+b_strategy+direct+\
-                me_method+subq+me_range+partitions+trellis+aq+psy+psyrd+\
-                deblock+lookahead+bluray+fastpskip+g+keyint_min+scenecut+cmp
+        param = "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}"\
+                "{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}"\
+                .format(preset, tune, threads, thread_type, fastfirstpass,
+                        refs, mixed, bf, pyramid, weightb, weightp, dct,
+                        cabac, b_strategy, direct, me_method, subq, me_range,
+                        partitions, trellis, aq, psy, psyrd, deblock,
+                        lookahead, bluray, fastpskip, g, keyint_min,
+                        scenecut, cmp)
 
-        pass1 = preset+tune+threads+thread_type+fastfirstpass
+        pass1 = "{0}{1}{2}{3}{4}".format(preset, tune, threads,
+                                         thread_type, fastfirstpass)
 
     else:
-        param = preset+tune+" -threads 0"
-        pass1 = preset+tune+" -threads 0"
+        param = "{0}{1} -threads 0".format(preset, tune)
+        pass1 = "{0}{1} -threads 0".format(preset, tune)
 
-    #___ Prez / Torrent  ___#
-    nfosource = raw_input(GREEN+"RELEASE SOURCE "+YELLOW+\
-                          "(ex: 1080p.HDZ)"+GREEN+" : "+END)
-    nfoimdb = raw_input(GREEN+"RELEASE IMDB ID "+YELLOW+\
-                        "(ex: 6686697)"+GREEN+" : "+END)
+    # Prez / Torrent
+    nfosource = raw_input("{0}RELEASE SOURCE {1}(ex: 1080p.HDZ){0} : {2}"
+                          .format(GREEN, YELLOW, END))
+    nfoimdb = raw_input("{0}RELEASE IMDB ID {1}(ex: 6686697){0} : {2}"
+                        .format(GREEN, YELLOW, END))
 
     if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
-        # Search Release Title (IMDB-OMDB-TMDB-MyAPIFilms)
 
-        searchIMDB = "http://deanclatworthy.com/imdb/?id=tt"+nfoimdb
+        searchIMDB = "http://deanclatworthy.com/imdb/?id=tt{0}"\
+                     .format(nfoimdb)
         try:
             data1 = loads(urlopen(searchIMDB).read())
         except (HTTPError, ValueError, URLError):
             data1 = ""
             pass
 
-        searchTMDB = "http://api.themoviedb.org/3/movie/tt"+nfoimdb+\
-                     "?api_key="+tmdb_api_key+"&language=fr"
-        dataTMDB = urllib2.Request(\
-                   searchTMDB, headers={"Accept" : "application/json"})
+        searchTMDB = "http://api.themoviedb.org/3/movie/tt{0}?api_key={1}&"\
+                     "language=fr".format(nfoimdb, tmdb_api_key)
+        dataTMDB = urllib2.Request(searchTMDB,
+                                   headers={"Accept": "application/json"})
         try:
             data2 = loads(urllib2.urlopen(dataTMDB).read())
         except (HTTPError, ValueError, URLError):
             data2 = ""
             pass
 
-        searchOMDB = "http://www.omdbapi.com/?i=tt%s"+nfoimdb
+        searchOMDB = "http://www.omdbapi.com/?i=tt{0}".format(nfoimdb)
         try:
             data3 = loads(urlopen(searchOMDB).read())
         except (HTTPError, ValueError, URLError):
             data3 = ""
             pass
 
-        searchAPI = "http://www.myapifilms.com/imdb?idIMDB=tt%s&format="\
-                    "JSON&aka=0&business=0&seasons=0&seasonYear=0&techn"\
-                    "ical=0&lang=en-us&actors=N&biography=0&trailer=0&u"\
-                    "niqueName=0&filmography=0&bornDied=0&starSign=0&ac"\
-                    "torActress=0&actorTrivia=0&movieTrivia=0" % imdb
+        searchAPI = "http://www.myapifilms.com/imdb?idIMDB=tt{0}&format=JSON"\
+                    "&aka=0&business=0&seasons=0&seasonYear=0&technical=0&la"\
+                    "ng=en-us&actors=N&biography=0&trailer=0&uniqueName=0&fi"\
+                    "lmography=0&bornDied=0&starSign=0&actorActress=0&actorT"\
+                    "rivia=0&movieTrivia=0".format(nfoimdb)
         try:
             data4 = loads(urlopen(searchAPI).read())
         except(HTTPError, ValueError, URLError):
             data4 = ""
             pass
 
-        tit1 = "title"
-        tit2 = "original_title"
-        tit3 = "Title"
-        tit4 = "title"
+        tit = ["title", "original_title", "Title", "title"]
 
-        if (tit1 in data1):
-            dir = "%s" % data1['title']
-        elif (tit2 in data2):
-            dir = "%s" % data2['original_title']
-        elif (tit3 in data3):
-            dir = "%s" % data3['Title']
-        elif (tit4 in data4):
-            dir = "%s" % data4['title']
+        if (tit[0] in data1):
+            dir = "{0}".format(data1['title'])
+        elif (tit[1] in data2):
+            dir = "{0}".format(data2['original_title'])
+        elif (tit[2] in data3):
+            dir = "{0}".format(data3['Title'])
+        elif (tit[3] in data4):
+            dir = "{0}".format(data4['title'])
         else:
             nfoimdb = ""
 
-        if (tit1 in data1 or tit2 in data2 or tit3 in data3 or tit4 in data4):
-            name = dir.replace(' ', '.').replace('/', '')\
-                      .replace('(', '').replace(')', '')\
-                      .replace('"', '').replace(':', '')\
-                      .replace("'", "").replace("[", "")\
-                      .replace("]", "").replace(";", "")\
-                      .replace(",", "")
+        if (tit[0] in data1 or tit[1] in data2
+                or tit[3] in data3 or tit[4] in data4):
+            name = dir.replace(' ', '.').replace('/', '').replace('(', '')\
+                      .replace(')', '').replace('"', '').replace(':', '')\
+                      .replace("'", "").replace("[", "").replace("]", "")\
+                      .replace(";", "").replace(",", "")
         else:
             name = ""
     else:
         name = ""
 
-    tsize = raw_input(GREEN+"RELEASE SIZE > \n"+YELLOW+\
-                      "SD - 350 - 550 - 700 - 1.37 - 2.05 - 2.74 - 4.37 "\
-                      "- 6.56 - HD"+GREEN+" : "+END)
+    tsize = raw_input("{0}RELEASE SIZE > \n{1}SD - 350 - 550 - 700 - 1.37"
+                      " - 2.05 - 2.74 - 4.37 - 6.56 - HD{0} : {2}"
+                      .format(GREEN, YELLOW, END))
 
     tsize = tsize.lower()
     if (tsize == "350"):
@@ -1418,10 +1336,10 @@ def main():
         pieces = "20"
         prezsize = "..Go"
 
-    pprint = raw_input(GREEN+"PRINT FFMPEG FINAL COMMAND "+YELLOW+\
-                       "(y/n)"+GREEN+" : "+END)
+    pprint = raw_input("{0}PRINT FFMPEG FINAL COMMAND {1}(y/n){0} : {2}"
+                       .format(GREEN, YELLOW, END))
 
-    #___ Return Global Values ___#
+    # Return Global Values
     info_main = (
         source, thumb, team, announce, title, year, stag, string, codec,
         encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
@@ -1432,10 +1350,9 @@ def main():
 
     return (info_main)
 
-#---> PROCESS <---#
+# ANKOA_PROCESS
 
 banner()
-
 (
     source, thumb, team, announce, title, year, stag, string, codec,
     encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
@@ -1444,23 +1361,21 @@ banner()
     pieces, name, pprint
 ) = main()
 
-run_ffmpeg = [
-    ffmpeg(),"","","","","","","","","","","","","","","","","","",""
-]
+run_ffmpeg = [ffmpeg(), "", "", "", "", "", "", "", "",
+              "", "", "", "", "", "", "", "", "", "", ""]
 
-run_data = [
-    data(),"","","","","","","","","","","","","","","","","","",""
-]
+run_data = [data(), "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", ""]
 
 n = 1
-
 if (pprint == "y"):
     print (ffmpeg())
 
-again = raw_input(GREEN+"NEXT ENCODE "+YELLOW+"(y/n)"+GREEN+" : "+END)
+again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
+                  .format(GREEN, YELLOW, END))
+
 while (again != "n"):
     next()
-
     (
         source, thumb, team, announce, title, year, stag, string, codec,
         encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
@@ -1474,18 +1389,18 @@ while (again != "n"):
     n = n + 1
 
     if (n != 20):
-        again = raw_input(GREEN+"NEXT ENCODE "+YELLOW+\
-                          "(y/n)"+GREEN+" : "+END)
+        again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
+                          .format(GREEN, YELLOW, END))
     else:
         break
 
-for i in range (n):
+for i in range(n):
     os.system(run_ffmpeg[i])
     os.system(run_data[i])
     i = i + 1
 
-print (RED+"\n ->"+GREEN+" ALL JOBS DONE, CONGRATULATIONS !"+END)
-print (RED+" ->"+GREEN+" NFO, THUMBNAILS, (PREZ) & TORRENT CREATED !\n"+END)
+print ("{0}\n ->{1} ALL JOBS DONE, CONGRATULATIONS !\n{0} ->{1} NFO, THUMB"
+       "NAILS, (PREZ) & TORRENT CREATED !\n{2}".format(RED, GREEN, END))
 
 sys.exit()
 

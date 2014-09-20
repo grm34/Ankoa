@@ -1,10 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#
-#-------------------- [ AnKoA ] -------------------#
-#     Made with love by grm34 (FRIPOUILLEJACK)     #
-#--------------------------------------------------#
+
 """
+    [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
+
     Copyright PARDO Jérémy (Sept 2014)
     Contact: jerem.pardo@gmail.com
 
@@ -48,14 +47,16 @@ from style import color
 
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
+
 def calcul():
-    HH = raw_input(GREEN+"CALCULATOR HOURS : "+END)
-    MM = raw_input(GREEN+"CALCULATOR MINUTES : "+END)
-    SS = raw_input(GREEN+"CALCULATOR SECONDS : "+END)
-    audiobit = raw_input(GREEN+"CALCULATOR AUDIO BITRATE : "+END)
-    rls_size = raw_input(GREEN+"CALCULATOR SIZE > \n"+YELLOW+\
-                         "350 - 550 - 700 - 1.37 - 2.05 - 2.74 - 4.37 "\
-                         "- 6.56"+GREEN+" : "+END)
+    HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
+    MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
+    SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
+    audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
+                         .format(GREEN, END))
+    rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350 - 550 - 700 - 1.37 - "
+                         "2.05 - 2.74 - 4.37 - 6.56{0} : {2}"
+                         .format(GREEN, YELLOW, GREEN, END))
 
     if (rls_size == "350"):
         calsize = "357.8"
@@ -79,9 +80,8 @@ def calcul():
     info_calcul = (HH, MM, SS, audiobit, rls_size, calsize)
     return (info_calcul)
 
+
 def calc(HH, MM, SS, audiobit, rls_size, calsize):
     return (
-        "wcalc [{"+calsize+"-[{"+audiobit+"/8}/1024*[{"+HH+\
-        "*3600}+{"+MM+"*60}+"+SS+"]]}/[{"+HH+"*3600}+{"+MM+\
-        "*60}+"+SS+"]]*8*1024"
-    )
+        "wcalc [{{0}-[{{1}/8}/1024*[{{2}*3600}+{{3}*60}+{4}]]}/[{{2}*3600}+{"
+        "{3}*60}+{4}]]*8*1024".format(calsize, audiobit, HH, MM, SS))

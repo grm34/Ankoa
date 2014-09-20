@@ -1,8 +1,6 @@
 #!/bin/bash
 #
-#-------------------- [ AnKoA ] -------------------#
-#     Made with love by grm34 (FRIPOUILLEJACK)     #
-#--------------------------------------------------#
+# [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
 #
 # Copyright PARDO Jérémy (Sept 2014)
 # Contact: jerem.pardo@gmail.com

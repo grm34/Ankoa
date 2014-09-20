@@ -1,10 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#
-#-------------------- [ AnKoA ] -------------------#
-#     Made with love by grm34 (FRIPOUILLEJACK)     #
-#--------------------------------------------------#
+
 """
+    [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
+
     Copyright PARDO Jérémy (Sept 2014)
     Contact: jerem.pardo@gmail.com
 
@@ -43,6 +42,7 @@
     The fact that you are presently reading this means that you have had
     knowledge of the CeCILL-C license and that you accept its terms.
 
+
 iNFOS:
 
     folder........: source path (ex: /home/toto/torrents/)
@@ -54,6 +54,7 @@ iNFOS:
     tag_thumb.....: Thumbnails tag (ex: <KULTURA PROUDLY PRESENT>)
 
 """
+
 
 def option():
 

@@ -1,10 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#
-#-------------------- [ AnKoA ] -------------------#
-#     Made with love by grm34 (FRIPOUILLEJACK)     #
-#--------------------------------------------------#
+
 """
+    [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
+
     Copyright PARDO Jérémy (Sept 2014)
     Contact: jerem.pardo@gmail.com
 
@@ -62,9 +61,10 @@ from style import color
 
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
+
 def snapshot(path, nb_lgn, nb_col):
-    buff=os.popen('mplayer -identify -frames 0 '+path+\
-                  ' 2>/dev/null| grep ID_')
+    buff=os.popen('mplayer -identify -frames 0 {0} 2>/dev/null| grep ID_'
+                  .format(path))
     infos=buff.read()
     buff.close()
 
