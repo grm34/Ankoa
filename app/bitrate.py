@@ -56,7 +56,7 @@ def calcul():
                          .format(GREEN, END))
     rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350 - 550 - 700 - 1.37 - "
                          "2.05 - 2.74 - 4.37 - 6.56{0} : {2}"
-                         .format(GREEN, YELLOW, GREEN, END))
+                         .format(GREEN, YELLOW, END))
 
     if (rls_size == "350"):
         calsize = "357.8"
