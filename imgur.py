@@ -73,15 +73,17 @@ try:
     thumb_link = str(resp.find('original')).replace('<original>', '')\
                                            .replace('</original>', '')
     if (len(args) == 2 and args[1] == "add"):
-        f = file(sys.argv[1][:-3]+"txt", 'r')
+        f = file("{0}txt".format(sys.argv[1][:-3]), 'r')
         chaine = f.read()
         f.close()
         data = chaine.replace("thumbnails_link", thumb_link)
-        f = file(sys.argv[1][:-3]+"txt", 'w')
+        f = file("{0}txt".format(sys.argv[1][:-3]), 'w')
         f.write(data)
         f.close
     else:
-        print (GREEN+"\nThumbnails url > "+BLUE+thumb_link+"\n"+END)
+        print ("{0}\nThumbnails url > {1}{2}\n{3}"
+               .format(GREEN, BLUE, thumb_link, END))
 
 except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
-    print (RED+"\nThumbnails Upload Error > "+BLUE+str(e)+"\n"+END)
+    print ("{0}\nThumbnails Upload Error > {1}{2}\n{3}"
+           .format(RED, BLUE, str(e), END))
