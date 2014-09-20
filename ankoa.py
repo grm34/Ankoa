@@ -647,13 +647,8 @@ def main():
                             .format(GREEN, YELLOW, END))
             ext2 = ""
 
-<<<<<<< HEAD
         ext_resp = [1, 2, 3, 4]
         ext_values = ["", ".pgs", ".vobsub", ".ass", ".srt"]
-=======
-        ext_values = ['', '.pgs', '.vobsub', '.ass', '.srt']
-        ext_resp = [1, 2, 3, 4]
->>>>>>> origin/master
         if (ext in ext_resp):
             ext = ext_values[ext]
         else:
