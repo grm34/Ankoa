@@ -495,7 +495,7 @@ def main():
         if (subtype == "3"):
             if (subsource == "4"):
                 idsub = raw_input("{0}SUBTITLES TRACK 01 ISO ID {1}(ex: 1){0}"
-                                  " : {3}".format(GREEN, YELLOW, END))
+                                  " : {2}".format(GREEN, YELLOW, END))
                 idsub2 = raw_input("{0}SUBTITLES TRACK 02 ISO ID {1}(ex: 2)"
                                    "{0} : {2}".format(GREEN, YELLOW, END))
             else:
