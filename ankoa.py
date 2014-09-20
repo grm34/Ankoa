@@ -1098,7 +1098,7 @@ def main():
         else:
             me_range = " -me_range {0}".format(me_range_)
 
-        parts_ = raw_input("PARTITIONS TYPE > \n{1}ALL {0}[1]{1} - p8x8 {0}[2"
+        parts_ = raw_input("{0}PARTITIONS TYPE > \n{1}ALL {0}[1]{1} - p8x8 {0}[2"
                            "]{1} - p4x4 {0}[3]\n{1}NONE {0}[4]{1} - b8x8 {0}["
                            "5]{1} - i8x8 {0}[6]{1} - i4x4 {0}[7] : {2}"
                            .format(GREEN, YELLOW, END))
