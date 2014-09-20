@@ -994,7 +994,7 @@ def main():
         else:
             mixed = ""
 
-        bf_ = raw_input("MAXIMUM B-FRAMES {1}(ex: 16){0} : {2}"
+        bf_ = raw_input("{0}MAXIMUM B-FRAMES {1}(ex: 16){0} : {2}"
                         .format(GREEN, YELLOW, END))
         if not (bf_):
             bf = ""
@@ -1050,7 +1050,7 @@ def main():
         else:
             cabac = ""
 
-        b_strat = raw_input("{0}ADAPTIVE B-FRAMES > \n{0}VERYFAST {0}[1]"
+        b_strat = raw_input("{0}ADAPTIVE B-FRAMES > \n{1}VERYFAST {0}[1]"
                             "{1} - FAST {0}[2]{1} - SLOWER {0}[3] : {2}"
                             .format(GREEN, YELLOW, END))
 
