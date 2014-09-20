@@ -1364,7 +1364,7 @@ run_data = [data(), "", "", "", "", "", "", "", "",
 
 n = 1
 if (pprint == "y"):
-    print (ffmpeg())
+    print ("{0}"ffmpeg()"{1}".format(BLUE, END))
 
 again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
                   .format(GREEN, YELLOW, END))
