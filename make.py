@@ -1,10 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#
-#-------------------- [ AnKoA ] -------------------#
-#     Made with love by grm34 (FRIPOUILLEJACK)     #
-#--------------------------------------------------#
+
 """
+    [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
+
     Copyright PARDO Jérémy (Sept 2014)
     Contact: jerem.pardo@gmail.com
 
@@ -54,13 +53,13 @@ from style import (banner, next, color)
 from settings import option
 
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
-
 (BLUE, RED, YELLOW, GREEN, END) = color()
+
 
 def main():
     usage = "./make.py SOURCE.mkv SOURCE SUBS SUBFORCED URL"
 
-    parser = optparse.OptionParser(usage = usage)
+    parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if(len(args) != 5):
         parser.print_help()
@@ -72,18 +71,18 @@ def main():
     forced = sys.argv[4]
     url = sys.argv[5]
 
-    process = "./thumbnails.py "+source+" 5 2 && ./nfogen.sh "+source+\
-              " "+rls_source+" "+sub+" "+forced+" "+url+" && cd "+thumb+\
-              " && mktorrent -a http://tk.gks.gs:6969/announce"\
-              " -p -t 8 -l 22 "+source
+    process = "./thumbnails.py {0} 5 2 && ./nfogen.sh {0} {1} {2} {3}"\
+              " {4} && cd {5} && mktorrent -a {6} -p -t 8 -l 22 {0}"\
+              .format(source, rls_source, sub, forced, url, thumb, announce)
 
     try:
         subprocess.check_output(process, shell=True)
-        print (RED+"\n ->"+GREEN+" ALL JOBS DONE, CONGRATULATIONS !"+END)
-        print (RED+" ->"+GREEN+" NFO, THUMBNAILS & TORRENT CREATED !\n"+END)
+        print ("{0}\n ->{1} ALL JOBS DONE, CONGRATULATIONS !\n{0} ->{1} NFO, "
+               "THUMBNAILS & TORRENT CREATED !\n{2}".format(RED, GREEN, END))
+
     except (OSError, CalledProcessError):
-        print (GREEN+"\n -> "+BLUE+"ERROR : "+RED+"Bad source selection"\
-               ", please try again !\n"+END)
+        print ("{0}\n -> {1}ERROR : {2}Bad source selection, please try again"
+               " !\n{3}".format(GREEN, BLUE, RED, END))
 
 if (__name__ == "__main__"):
     main()
