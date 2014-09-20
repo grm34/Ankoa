@@ -90,6 +90,8 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 ***
 #### License :
 
+    [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
+
     Copyright PARDO Jérémy (Sept 2014)
     Contact: jerem.pardo@gmail.com
 
