@@ -5,7 +5,6 @@ AnkoA v3.2.0
 
 ![AnkoA](http://i.imgur.com/BlG3BNs.png)
 
-
 ## Description :
 
 * FFMPEG easy encoding
@@ -14,13 +13,11 @@ AnkoA v3.2.0
 * Genprez Upload
 * Auto make .torrent
 
-
 ## How to install AnkoA ?
 
 Take a tour on the [wiki](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki) !
 
 Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
-
 
 ## Usage :
 
@@ -54,7 +51,6 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
     iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')
     URL.................: release infos url  →  http://www.imdb.com/title/tt0315733  
 
-***
 ## Version :
 
 Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
@@ -67,8 +63,7 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 * [@Hydrog3n](https://github.com/Hydrog3n)
 * [@speedy76](https://github.com/speedy76)
 
-***
-### Links :
+#### Links :
 
 * [AnkoA wiki](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki)
 * [AnkoA changelog](https://github.com/grm34/AnkoA/wiki/Changelog)
