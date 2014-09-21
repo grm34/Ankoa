@@ -63,9 +63,9 @@ from style import color
 
 
 def snapshot(path, nb_lgn, nb_col):
-    buff=os.popen('mplayer -identify -frames 0 {0} 2>/dev/null| grep ID_'
-                  .format(path))
-    infos=buff.read()
+    buff = os.popen('mplayer -identify -frames 0 {0} 2>/dev/null| grep ID_'
+                    .format(path))
+    infos = buff.read()
     buff.close()
 
     longueur = int(re.findall('ID_LENGTH=([0-9]*)', infos)[0])-300
@@ -74,47 +74,49 @@ def snapshot(path, nb_lgn, nb_col):
     width = int(re.findall('ID_VIDEO_WIDTH=([0-9]*)', infos)[0])
 
     for i in range(300, longueur-interval, interval):
-        os.system('mplayer -nosound -ss '+str(i)+\
-                  ' -frames 4 -vf scale -vo png:z=0 '+path)
+        os.system('mplayer -nosound -ss {0} -frames 4 -vf scale'
+                  ' -vo png:z=0 {1}'.format(str(i), path))
         try:
-            shutil.move('00000004.png', os.path.expanduser(thumb)+\
+            shutil.move('00000004.png', os.path.expanduser(thumb) +
                         'rtemp/'+str(i).zfill(5)+'.png')
-            image = Image.open(os.path.expanduser(thumb)+\
+            image = Image.open(os.path.expanduser(thumb) +
                                'rtemp/'+str(i).zfill(5)+'.png')
             draw = ImageDraw.Draw(image)
 
             if (width <= 720):
-                font = ImageFont.truetype(os.path.expanduser("app/")+\
+                font = ImageFont.truetype(os.path.expanduser("app/") +
                                           'police.ttf', 20)
             elif (width > 720 and width <= 1280):
-                font = ImageFont.truetype(os.path.expanduser("app/")+\
+                font = ImageFont.truetype(os.path.expanduser("app/") +
                                           'police.ttf', 35)
             else:
-                font = ImageFont.truetype(os.path.expanduser("app/")+\
+                font = ImageFont.truetype(os.path.expanduser("app/") +
                                           'police.ttf', 50)
 
             draw.text((10, 10),
                       time.strftime('%H:%M:%S', time.gmtime(i)),
                       font=font)
 
-            image.save(os.path.expanduser(thumb)+\
+            image.save(os.path.expanduser(thumb) +
                        'rtemp/'+str(i).zfill(5)+'.png')
 
-        except (IOError, IndexError):
-            print (GREEN+"\n ->"+BLUE+" BAD THUMBS : "+\
-                   RED+str(e)+"\n"+END)
+        except (IOError, IndexError) as e:
+            print ("\n{0} ->{1} BAD THUMBS : {1}str(e){2}{3}\n"
+                   .format(GREEN, RED, BLUE, str(e), END))
             sys.exit()
 
     for i in range(1, 4):
-        os.remove('0000000'+str(i)+'.png')
+        os.remove('0000000{0}.png'.format(str(i)))
 
     return (infos, longueur)
+
 
 def trait_path(path):
     path = path.replace(' ', '\\ ').replace('[', '\\[')\
                .replace(']', '\\]').replace('(', '\\(')\
                .replace(')', '\\)')
     return (path)
+
 
 def index_th(infos, nb_col, nb_lgn):
     width = int(re.findall('ID_VIDEO_WIDTH=([0-9]*)', infos)[0])
@@ -141,7 +143,7 @@ def index_th(infos, nb_col, nb_lgn):
     pre.sort()
 
     for i in pre:
-        im=Image.open(i)
+        im = Image.open(i)
         im_t = im.resize((width, height), Image.ANTIALIAS)
 
         if (width <= 720):
@@ -164,9 +166,10 @@ def index_th(infos, nb_col, nb_lgn):
                 y += 10+height
                 x = 0
             else:
-                x+=1
+                x += 1
 
-    img_idx.save(os.path.expanduser(thumb)+'index.png' , "PNG")
+    img_idx.save(os.path.expanduser(thumb)+'index.png', "PNG")
+
 
 def img_infos(infos, duree, path):
     width = re.findall('ID_VIDEO_WIDTH=([0-9]*)', infos)[0]
@@ -179,62 +182,63 @@ def img_infos(infos, duree, path):
     title = nom[-1]
 
     if (int(width) <= 720):
-        font = ImageFont.truetype(os.path.expanduser("app/")+\
+        font = ImageFont.truetype(os.path.expanduser("app/") +
                                   'police.ttf', 20)
-        draw.text((10, 10), ""+tag+"", font=font, fill="#000000")
+        draw.text((10, 10), ""+tag_thumb+"", font=font, fill="#000000")
         draw.text((20, 35), "TiTLE : " + title[:-4],
                   font=font, fill="#000000")
-        draw.text((20, 55), "SiZE..............: " +\
+        draw.text((20, 55), "SiZE..............: " +
                   str(int(float(taille)/1048576)) + " Mo",
                   font=font, fill="#000000")
-        draw.text((20, 75), "DURATiON..........: " +\
+        draw.text((20, 75), "DURATiON..........: " +
                   str(int(float(duree)/60+5)) + " Min",
                   font=font, fill="#000000")
-        draw.text((20, 95), "RESOLUTiON........: " +\
+        draw.text((20, 95), "RESOLUTiON........: " +
                   width + "x" + height, font=font, fill="#000000")
 
     elif (int(width) > 720 and int(width) <= 1280):
-        font = ImageFont.truetype(os.path.expanduser("app/")+\
+        font = ImageFont.truetype(os.path.expanduser("app/") +
                                   'police.ttf', 35)
-        draw.text((15, 15), ""+tag+"", font=font, fill="#000000")
+        draw.text((15, 15), ""+tag_thumb+"", font=font, fill="#000000")
         draw.text((30, 60), "TiTLE : " + title[:-4],
                   font=font, fill="#000000")
-        draw.text((30, 100), "SiZE..............: " +\
+        draw.text((30, 100), "SiZE..............: " +
                   str(int(float(taille)/1048576)) + " Mo",
                   font=font, fill="#000000")
-        draw.text((30, 140), "DURATiON..........: " +\
+        draw.text((30, 140), "DURATiON..........: " +
                   str(int(float(duree)/60+5)) + " Min",
                   font=font, fill="#000000")
-        draw.text((30, 180), "RESOLUTiON........: " +\
+        draw.text((30, 180), "RESOLUTiON........: " +
                   width + "x" + height, font=font, fill="#000000")
     else:
-        font = ImageFont.truetype(os.path.expanduser("app/")+\
+        font = ImageFont.truetype(os.path.expanduser("app/") +
                                   'police.ttf', 50)
-        draw.text((20, 20), ""+tag+"", font=font, fill="#000000")
+        draw.text((20, 20), ""+tag_thumb+"", font=font, fill="#000000")
         draw.text((40, 85), "TiTLE : " + title[:-4],
                   font=font, fill="#000000")
-        draw.text((40, 145), "SiZE..............: " +\
+        draw.text((40, 145), "SiZE..............: " +
                   str(int(float(taille)/1048576)) + " Mo",
                   font=font, fill="#000000")
-        draw.text((40, 205), "DURATiON..........: " +\
+        draw.text((40, 205), "DURATiON..........: " +
                   str(int(float(duree)/60+5)) + " Min",
                   font=font, fill="#000000")
-        draw.text((40, 265), "RESOLUTiON........: " +\
-        width + "x" + height, font=font, fill="#000000")
+        draw.text((40, 265), "RESOLUTiON........: " +
+                  width + "x" + height, font=font, fill="#000000")
 
     image.save(os.path.expanduser(thumb)+'index.png', "PNG")
     shutil.move(os.path.expanduser(thumb)+'index.png',
                 os.path.expanduser(thumb)+title[:-3]+'png')
 
     if (width > 800):
-        resize = ("convert -quality 0 -resize 3470000@ "+thumb+\
-                  title[:-3]+"png "+thumb+title[:-3]+"png")
+        resize = ("convert -quality 0 -resize 3470000@ {0}{1}png {0}{1}png"
+                  .format(thumb, title[:-3]))
         os.system(resize)
+
 
 def main(argv):
     usage = "./thumbnails.py video 5 2"
 
-    parser = optparse.OptionParser(usage = usage)
+    parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 3):
         parser.print_help()
@@ -249,8 +253,8 @@ def main(argv):
         img_infos(info, longueur, path)
 
     except (IOError, IndexError) as e:
-        print (GREEN+"\n ->"+BLUE+" BAD THUMBS : "+\
-               RED+str(e)+"\n"+END)
+        print ("\n{0} ->{1} BAD THUMBS : {1}str(e){2}{3}\n"
+               .format(GREEN, RED, BLUE, str(e), END))
         sys.exit()
 
     if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
