@@ -58,7 +58,6 @@ from settings import option
 from style import color
 
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
-
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
 
