@@ -1234,6 +1234,7 @@ def main():
                         .format(GREEN, YELLOW, END))
 
     if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
+        print ("{0} -> {1}Scanning API Databases...{2}".format(RED, BLUE, END))
 
         searchIMDB = "http://deanclatworthy.com/imdb/?id=tt{0}"\
                      .format(nfoimdb)
