@@ -57,7 +57,7 @@ function get_media_info( $video ){
 
 function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ $media = get_media_info( $video );
 
-    # CODECS AUDIO
+    // CODECS AUDIO
     $ACODEC['55'] = 'MP3'; $ACODEC['6B'] = 'MP3'; $ACODEC['A_MPEG/L3'] = 'MP3'; $ACODEC['MP3'] = 'MP3';     # MP3
     $ACODEC['40'] = 'AAC'; $ACODEC['67'] = 'AAC'; $ACODEC['AAC'] = 'AAC'; $ACODEC['A_AAC'] = 'AAC';         # AAC
     $ACODEC['A_AC3'] = 'AC3'; $ACODEC['AC-3'] = 'AC3'; $ACODEC['AC3'] = 'AC3';                              # AC3
@@ -66,7 +66,7 @@ function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ 
     $ACODEC['A_TRUEHD'] = 'TrueHD'; $ACODEC['TRUEHD'] = 'TrueHD';                                           # TrueHD
     $ACODEC['N/A'] = 'N/A'; $ACODEC[''] = '';
 
-    # VIDEO INFOS
+    // VIDEO INFOS
     if(isset( $media['Video'] )){ $tags['V_R'] = preg_replace('`([^0-9])`i', '', $media['Video']['width'] ) . " x " . preg_replace('`([^0-9])`i', '', $media['Video']['height'] );}
     $tags['V_A'] = isset( $media['Video']['display_aspect_ratio'] ) ? $media['Video']['display_aspect_ratio'] : 'N/A';
     $tags['V_L'] = isset( $media['General']['duration'] ) ? $media['General']['duration'] : 'N/A';
@@ -76,7 +76,7 @@ function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ 
     $tags['V_FP'] = isset( $media['Video']['format_profile'] ) ? $media['Video']['format_profile'] : 'N/A';
     $tags['V_B'] = isset( $media['Video']['bit_rate'] ) ? $media['Video']['bit_rate'] : ( isset( $media['Video']['nominal_bit_rate'] ) ? $media['Video']['nominal_bit_rate'] : $media['General']['overall_bit_rate']);
 
-    # AUDIO 1 INFOS
+    // AUDIO 1 INFOS
     $tags['A_L'] = isset( $media['Audio']['title'] ) ? $media['Audio']['title'] : ( isset( $media['Audio #1']['title'] ) ? $media['Audio #1']['title'] : 'ENGLiSH' );
     $A_C = isset( $media['Audio']['codec_id'] ) ? $media['Audio']['codec_id'] : ( isset( $media['Audio #1']['codec_id'] ) ? $media['Audio #1']['codec_id'] : 'N/A' ); $tags['A_C'] = $ACODEC[$A_C];
     $tags['A_B'] = isset( $media['Audio']['bit_rate'] ) ? $media['Audio']['bit_rate'] : ( isset( $media['Audio #1']['bit_rate'] ) ? $media['Audio #1']['bit_rate'] : '128Kbps' );
@@ -84,7 +84,7 @@ function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ 
     $tags['A_CH'] = isset( $media['Audio']['channel(s)'] ) ? $media['Audio']['channel(s)'] : ( isset( $media['Audio #1']['channel(s)'] ) ? $media['Audio #1']['channel(s)'] : 'N/A' );
     $tags['A_MOD'] = isset( $media['Audio']['compression_mode'] ) ? $media['Audio']['compression_mode'] : ( isset( $media['Audio #1']['compression_mode'] ) ? $media['Audio #1']['compression_mode'] : 'Lossy' );
 
-    # AUDIO 2 INFOS
+    // AUDIO 2 INFOS
     $A_L2 = isset( $media['Audio #2']['title'] ) ? $media['Audio #2']['title'] : '';
     $A_C2 = isset( $media['Audio #2']['codec_id'] ) ? $media['Audio #2']['codec_id'] : ''; $tags['A_C2'] = $ACODEC[$A_C2];
     $A_B2 = isset( $media['Audio #2']['bit_rate'] ) ? $media['Audio #2']['bit_rate'] : '';
@@ -94,14 +94,14 @@ function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ 
     if(isset( $media['Audio #2'] )){ $tags['A_L2'] = '|  '.$A_L2; $tags['A_C2'] = '|  '.$tags['A_C2']; $tags['A_B2'] = '|  '.$A_B2; $tags['A_SR2'] = '|  '.$A_SR2; $tags['A_CH2'] = '|  '.$A_CH2; $tags['A_MOD2'] = '|  '.$A_MOD2;}
     else{ $tags['A_L2'] = $A_L2; $tags['A_C2'] = $tags['A_C2']; $tags['A_B2'] = $A_B2; $tags['A_SR2'] = $A_SR2; $tags['A_CH2'] = $A_CH2; $tags['A_MOD2'] = $A_MOD2;}
 
-    # SUBTITLES INFOS
+    // SUBTITLES INFOS
     $tags['S_F'] = isset( $media['Text']['format'] ) ? $media['Text']['format'] : ( isset( $media['Text #1']['format'] ) ? $media['Text #1']['format'] : 'N/A' );
     $tags['S_C'] = isset( $media['Text']['codec_id'] ) ? $media['Text']['codec_id'] : ( isset( $media['Text #1']['codec_id'] ) ? $media['Text #1']['codec_id'] : 'N/A' );
 
-    # RELEASE INFOS
+    // RELEASE INFOS
     $tags['DATE'] = @date( 'd-m-Y' ); $tags['SOURCE'] = $source; $tags['SOURCESRT'] = $sourcesrt; $tags['B0'] = $imdb; $tags['TITRE_RELEASE'] = $release_name; $tags['FORCED'] = $forced;
 
-    # WRITE NFO
+    // WRITE NFO
     $template = file_get_contents( "app/nfo_base.nfo" ); preg_match_all( "/<\!(.*?)[ ]*\!>/", $template, $matches );
     foreach ( $matches[1] as $key => $value ){$template_value = $tags[$value]; $taglen = strlen( $matches[0][$key] ); $align = STR_PAD_RIGHT;
         if ( in_array( $value, array( 'TITRE_RELEASE' ) ) ) $align = STR_PAD_BOTH; $template = str_replace( $matches[0][$key], str_pad( substr( $template_value, 0, $taglen ), $taglen, ' ', $align ), $template );
