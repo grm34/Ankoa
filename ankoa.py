@@ -1348,7 +1348,7 @@ def main():
 
 # ANKOA_PROCESS
 
-print banner()
+banner()
 (
     source, thumb, team, announce, title, year, stag, string, codec,
     encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
@@ -1371,7 +1371,7 @@ again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
                   .format(GREEN, YELLOW, END))
 
 while (again != "n"):
-    print next()
+    next()
     (
         source, thumb, team, announce, title, year, stag, string, codec,
         encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
