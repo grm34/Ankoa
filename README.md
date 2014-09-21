@@ -54,13 +54,13 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
     iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')
     URL.................: release infos url  →  http://www.imdb.com/title/tt0315733  
 
-
-## Version :
+***
+### Version :
 
 Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 
-
-## Thanks for assistance and contributions :
+***
+#### Thanks for assistance and contributions :
 
 * [@thibs](https://github.com/thibs7777777)
 * [@Rockweb](https://github.com/Rockweb)
@@ -69,18 +69,7 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 * [@speedy76](https://github.com/speedy76)
 
 ***
-
-#### Preview (older version) :
-
-![Preview](http://i.imgur.com/kGjj63X.png)
-
-    Don't be afraid, as you can see on the preview, x264 Expert Mode is on...
-    When you select off, x264 params will be controlled by the preset & tune.
-    In this case, all expert questions will be skipped !
-    This option is only for advanced encoders...
-
-***
-#### Links :
+### Links :
 
 * [AnkoA wiki](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki)
 * [AnkoA changelog](https://github.com/grm34/AnkoA/wiki/Changelog)
@@ -88,7 +77,7 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 * [Video demonstration](https://www.youtube.com/watch?v=RvEIvgnXdBg&feature=youtu.be)
 
 ***
-#### License :
+### License :
 
     [AnKoA] Made with love by grm34 (FRIPOUILLEJACK)
 
@@ -131,7 +120,7 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
     knowledge of the CeCILL-C license and that you accept its terms.
 
 ***    
-#### Project stats :
+### Project stats :
     
 	Filename:    Source:    Comment:    Both:    Blank:    Total:
 
@@ -150,4 +139,13 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 	[Total] :       1820         542       77       304      2743
 	
 ***
+### Preview (older version) :
 
+![Preview](http://i.imgur.com/kGjj63X.png)
+
+    Don't be afraid, as you can see on the preview, x264 Expert Mode is on...
+    When you select off, x264 params will be controlled by the preset & tune.
+    In this case, all expert questions will be skipped !
+    This option is only for advanced encoders...
+
+***
