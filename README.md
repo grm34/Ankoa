@@ -55,12 +55,10 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
     URL.................: release infos url  →  http://www.imdb.com/title/tt0315733  
 
 ***
-### Version :
+## Version :
 
 Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 
-
-***
 #### Thanks for assistance and contributions :
 
 * [@thibs](https://github.com/thibs7777777)
