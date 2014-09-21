@@ -1098,9 +1098,9 @@ def main():
         else:
             me_range = " -me_range {0}".format(me_range_)
 
-        parts_ = raw_input("{0}PARTITIONS TYPE > \n{1}ALL {0}[1]{1} - p8x8 {0}[2"
-                           "]{1} - p4x4 {0}[3]\n{1}NONE {0}[4]{1} - b8x8 {0}["
-                           "5]{1} - i8x8 {0}[6]{1} - i4x4 {0}[7] : {2}"
+        parts_ = raw_input("{0}PARTITIONS TYPE > \n{1}ALL {0}[1]{1} - p8x8 "
+                           "{0}[2]{1} - p4x4 {0}[3]\n{1}NONE {0}[4]{1} - b8x8"
+                           "{0}[5]{1} - i8x8 {0}[6]{1} - i4x4 {0}[7] : {2}"
                            .format(GREEN, YELLOW, END))
 
         parts_resp = [1, 2, 3, 4, 5, 6, 7]
@@ -1348,7 +1348,7 @@ def main():
 
 # ANKOA_PROCESS
 
-banner()
+print banner()
 (
     source, thumb, team, announce, title, year, stag, string, codec,
     encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
@@ -1365,13 +1365,13 @@ run_data = [data(), "", "", "", "", "", "", "", "",
 
 n = 1
 if (pprint == "y"):
-    print (ffmpeg())
+    print ffmpeg()
 
 again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
                   .format(GREEN, YELLOW, END))
 
 while (again != "n"):
-    next()
+    print next()
     (
         source, thumb, team, announce, title, year, stag, string, codec,
         encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
