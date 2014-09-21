@@ -368,6 +368,8 @@ def main():
         print smart_str(prez)
         sys.stdout.close()
         sys.stdout = temp
+        print ("\n{0} -> {1}PREZ CREATED, CONGRATULATIONS !{2}\n"
+               .format(RED, GREEN, END))
 
 if (__name__ == "__main__"):
     main()

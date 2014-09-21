@@ -49,8 +49,13 @@ IMDB=${5}
 EXT=${1##*.}
 FILE_NAME=`basename "${FINAL}" ".${EXT}"`
 
+RED='\e[0;31m'
+GREEN='\e[0;32m'
+END='\e[0m'
+
 if [ -f "${FINAL}" ]; then
     php -e app/nfo.php "${FINAL}" "${FILE_NAME}" "${SOURCE}" "${SOURCESRT}" "${IMDB}" "${FORCED}" >> XXX002$FILE_NAME.nfo
+    echo -e "\n${RED} -> ${GREEN}NFO CREATED, CONGRATULATIONS !${END}\n"
 else
-    echo "NFO Error : bad source !"
+    echo -e "\n${GREEN} -> ${RED}NFO Error : bad source !\n${END}"
 fi

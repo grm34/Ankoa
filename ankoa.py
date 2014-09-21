@@ -1395,7 +1395,7 @@ for i in range(n):
     os.system(run_data[i])
     i = i + 1
 
-print ("{0}\n ->{1} ALL JOBS DONE, CONGRATULATIONS !\n{0} ->{1} NFO, THUMB"
+print ("{0}\n ->{1} ENCODE(s) DONE, CONGRATULATIONS !\n{0} ->{1} NFO, THUMB"
        "NAILS, (PREZ) & TORRENT CREATED !\n{2}".format(RED, GREEN, END))
 
 sys.exit()

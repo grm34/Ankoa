@@ -77,8 +77,8 @@ def main():
 
     try:
         subprocess.check_output(process, shell=True)
-        print ("{0}\n ->{1} ALL JOBS DONE, CONGRATULATIONS !\n{0} ->{1} NFO, "
-               "THUMBNAILS & TORRENT CREATED !\n{2}".format(RED, GREEN, END))
+        print ("\n{0} -> {1}NFO, THUMBNAILS & TORRENT CREATED !\n{2}"
+               .format(RED, GREEN, END))
 
     except (OSError, CalledProcessError):
         print ("{0}\n -> {1}ERROR : {2}Bad source selection, please try again"
