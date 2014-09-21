@@ -59,6 +59,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 
 Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 
+
 ***
 #### Thanks for assistance and contributions :
 
