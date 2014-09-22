@@ -86,7 +86,7 @@ def main():
     rm = ("rm setup.py")
     os.system(chmod)
 
-    # WRITE settings
+    # WRITE personal settings
     f = file('app/settings.py', 'r')
     chaine = f.read()
     f.close()
