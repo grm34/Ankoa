@@ -103,8 +103,8 @@ def main():
             # SAVE personal settings
             temp = sys.stdout
             sys.stdout = open('app/save.txt', 'w')
-            print ("{0}|{1}|{2}|{3}|{4}".format(source, result,
-                                                team, tk, api))
+            print ("{0}\n{1}\n{2}\n{3}\n{4}".format(source, result,
+                                                    team, tk, api))
             sys.stdout.close()
             sys.stdout = temp
 
