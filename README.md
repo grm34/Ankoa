@@ -123,11 +123,11 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 	genprez.py       271          62        7        35       375
 	imgur.py          40          43        0         6        89
 	make.py           34          43        0        11        88
-	setup.py          42          46        0        13       101
+	setup.py          55          48        0        14       117
 	thumbnails.py    167          43       18        35       263
 	bitrate.py        36          43        0         9        88
 	settings.py       10          55        0         5        70
-	style.py          14          67        5         6        92
+	style.py          14          66        5         6        91
 	nfogen.sh         15          41        1         4        61
 
 	[Total] :       1820         542       77       304      2743
