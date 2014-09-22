@@ -46,26 +46,40 @@
 import os
 import sys
 import optparse
+import readline
 sys.path.append("app/")
-from style import color
+from style import (banner, color)
 
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
 
 def main():
-    usage = "./setup.py SOURCE_PATH RESULT_PATH TEAM TK_ANNOUNCE TMDB_API_KEY"
 
-    parser = optparse.OptionParser(usage=usage)
-    (options, args) = parser.parse_args()
-    if (len(args) != 5):
-        parser.print_help()
-        parser.exit(1)
+    # Auto complete
+    def completer(text, state):
+        return (
+            [entry + "/" for entry in os.listdir(
+                os.path.dirname(
+                    readline.get_line_buffer())
+                ) if entry.startswith(text)][state])
 
-    source = sys.argv[1]
-    result = sys.argv[2]
-    team = sys.argv[3]
-    tk = sys.argv[4]
-    api = sys.argv[5]
+    readline.parse_and_bind("tab: complete")
+    readline.set_completer(completer)
+
+    # Install form
+    banner()
+    source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torrents/)"
+                       "{0} : {2}".format(GREEN, YELLOW, END))
+    result = raw_input("{0}ENTER DESTINATION PATH {1}(ex: /home/user/encod"
+                       "es/){0} : {2}".format(GREEN, YELLOW, END))
+    team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0} : {2}"
+                     .format(GREEN, YELLOW, END))
+    readline.parse_and_bind("tab: ")
+    tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tracker.c"
+                   "om:80/announce ){0} : {2}".format(GREEN, YELLOW, END))
+    api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https://www."
+                    "themoviedb.org/documentation/api ){0} : {2}"
+                    .format(GREEN, YELLOW, END))
 
     # AUTHORIZE & CLEAN
     chmod = ("chmod +x * && cd app/ && chmod +x * && cd ..")

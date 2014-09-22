@@ -1,2 +1,8 @@
 # Personal NFO
 /app/nfo_base.nfo
+
+# Setup
+setup.py
+
+# Personal Settings
+/app/settings.py
