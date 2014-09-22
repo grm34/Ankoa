@@ -177,7 +177,7 @@ def main():
 
             print ("\n{0} AnkoA {1}-> {2}Update successful !\n{3}"
                    .format(BLUE, RED, GREEN, END))
-        except IOError:
+        except (IOError, IndexError):
             print ("\n{0} AnkoA {1}-> {2}Update error, fix it"
                    " with a clean install !\n{3}"
                    .format(BLUE, GREEN, RED, END))
