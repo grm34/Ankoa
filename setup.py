@@ -97,7 +97,7 @@ def main():
                 tk != "" or api != ""):
 
             # AUTHORIZE
-            os.system("chmod +x * && cd app/ && chmod +x * && cd ..")
+            os.system("chmod +x * && chmod +x app/*")
             os.system("cp app/base.nfo app/nfo_base.nfo")
 
             # SAVE personal settings
@@ -144,7 +144,7 @@ def main():
     if (sys.argv[1] == "update"):
 
         # AUTHORIZE
-        os.system("chmod +x * && cd app/ && chmod +x * && cd ..")
+        os.system("chmod +x * && chmod +x app/*")
 
         try:
             # READ personal settings
