@@ -96,10 +96,9 @@ def main():
         if (source != "" or result != "" or team != "" or
                 tk != "" or api != ""):
 
-            # AUTHORIZE & CLEAN
-            chmod = ("chmod +x * && cd app/ && chmod +x * && cd ..")
-            rm = ("rm setup.py")
-            os.system(chmod)
+            # AUTHORIZE
+            os.system("chmod +x * && cd app/ && chmod +x * && cd ..")
+            os.system("cp app/base.nfo app/nfo_base.nfo")
 
             # SAVE personal settings
             temp = sys.stdout
@@ -131,7 +130,7 @@ def main():
             ff.write(data)
             ff.close
 
-            os.system(rm)
+            os.system("rm setup.py")
 
             print ("\n{0} AnkoA {1}-> {2}Installation successful !\n{3}"
                    .format(BLUE, RED, GREEN, END))
@@ -144,10 +143,8 @@ def main():
     # UPDATE
     if (sys.argv[1] == "update"):
 
-        # AUTHORIZE & CLEAN
-        chmod = ("chmod +x * && cd app/ && chmod +x * && cd ..")
-        rm = ("rm setup.py")
-        os.system(chmod)
+        # AUTHORIZE
+        os.system("chmod +x * && cd app/ && chmod +x * && cd ..")
 
         try:
             # READ personal settings
@@ -176,7 +173,7 @@ def main():
             ff.write(data)
             ff.close
 
-            os.system(rm)
+            os.system("rm setup.py")
 
             print ("\n{0} AnkoA {1}-> {2}Update successful !\n{3}"
                    .format(BLUE, RED, GREEN, END))
