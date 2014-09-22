@@ -81,37 +81,42 @@ def main():
                     "themoviedb.org/documentation/api){0} : {2}"
                     .format(GREEN, YELLOW, END))
 
-    # AUTHORIZE & CLEAN
-    chmod = ("chmod +x * && cd app/ && chmod +x * && cd ..")
-    rm = ("rm setup.py")
-    os.system(chmod)
+    if not source and not result and not team and not tk and not api:
+        # AUTHORIZE & CLEAN
+        chmod = ("chmod +x * && cd app/ && chmod +x * && cd ..")
+        rm = ("rm setup.py")
+        os.system(chmod)
 
-    # WRITE personal settings
-    f = file('app/settings.py', 'r')
-    chaine = f.read()
-    f.close()
-    data = chaine.replace("XXX001", source.strip())\
-                 .replace("XXX002", result.strip())\
-                 .replace("XXX003", team.strip().replace(' ', '.'))\
-                 .replace("XXX004", tk.strip())\
-                 .replace("XXX005", api.strip())
-    f = file('app/settings.py', 'w')
-    f.write(data)
-    f.close
+        # WRITE personal settings
+        f = file('app/settings.py', 'r')
+        chaine = f.read()
+        f.close()
+        data = chaine.replace("XXX001", source.strip())\
+                     .replace("XXX002", result.strip())\
+                     .replace("XXX003", team.strip().replace(' ', '.'))\
+                     .replace("XXX004", tk.strip())\
+                     .replace("XXX005", api.strip())
+        f = file('app/settings.py', 'w')
+        f.write(data)
+        f.close
 
-    # WRITE nfogen settings
-    ff = file('nfogen.sh', 'r')
-    chaine = ff.read()
-    ff.close()
-    data = chaine.replace("XXX002", result.strip())
-    ff = file('nfogen.sh', 'w')
-    ff.write(data)
-    ff.close
+        # WRITE nfogen settings
+        ff = file('nfogen.sh', 'r')
+        chaine = ff.read()
+        ff.close()
+        data = chaine.replace("XXX002", result.strip())
+        ff = file('nfogen.sh', 'w')
+        ff.write(data)
+        ff.close
 
-    os.system(rm)
+        os.system(rm)
 
-    print ("\n{0} AnkoA {1}-> {2}Installation successful !\n{3}"
-           .format(BLUE, RED, GREEN, END))
+        print ("\n{0} AnkoA {1}-> {2}Installation successful !\n{3}"
+               .format(BLUE, RED, GREEN, END))
+
+    else:
+        print ("\n{0} AnkoA {1}-> {2}Invalid settings, please try again !\n{3}"
+               .format(BLUE, GREEN, RED, END))
 
 if (__name__ == "__main__"):
     main()
