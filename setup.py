@@ -94,7 +94,7 @@ def main():
 
     os.system(rm)
 
-    print ("\n{0}AnkoA {1}=> {2}Installation successful !\n{3}"
+    print ("\n{0} AnkoA {1}=> {2}Installation successful !\n{3}"
            .format(BLUE, RED, GREEN, END))
 
 if (__name__ == "__main__"):
