@@ -81,7 +81,7 @@ def main():
                     "themoviedb.org/documentation/api){0} : {2}"
                     .format(GREEN, YELLOW, END))
 
-    if not source and not result and not team and not tk and not api:
+    if (source == "" or result == "" or team == "" or tk == "" or api == ""):
         # AUTHORIZE & CLEAN
         chmod = ("chmod +x * && cd app/ && chmod +x * && cd ..")
         rm = ("rm setup.py")
