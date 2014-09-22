@@ -99,7 +99,7 @@ def main():
     f.write(data)
     f.close
 
-    # WRITE nfogen
+    # WRITE nfogen settings
     ff = file('nfogen.sh', 'r')
     chaine = ff.read()
     ff.close()
