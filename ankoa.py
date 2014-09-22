@@ -163,7 +163,7 @@ def main():
                 os.system(scan[x])
                 x = x + 1
 
-    except (OSError, CalledProcessError) as e:
+    except (OSError, CalledProcessError):
         print ("{0}\n -> {1}ERROR : {2}Bad source selection, please try"
                " again !\n{3}".format(GREEN, BLUE, RED, END))
         sys.exit()
