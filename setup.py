@@ -115,7 +115,8 @@ def main():
                .format(BLUE, RED, GREEN, END))
 
     else:
-        print ("\n{0} AnkoA {1}-> {2}Invalid settings, please try again !\n{3}"
+        print ("\n{0} AnkoA {1}-> {2}Invalid settings,"
+               " please try again !\n{3}"
                .format(BLUE, GREEN, RED, END))
 
 if (__name__ == "__main__"):
