@@ -76,9 +76,9 @@ def main():
                      .format(GREEN, YELLOW, END))
     readline.parse_and_bind("tab: ")
     tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tracker.c"
-                   "om:80/announce ){0} : {2}".format(GREEN, YELLOW, END))
+                   "om:80/announce){0} : {2}".format(GREEN, YELLOW, END))
     api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https://www."
-                    "themoviedb.org/documentation/api ){0} : {2}"
+                    "themoviedb.org/documentation/api){0} : {2}"
                     .format(GREEN, YELLOW, END))
 
     # AUTHORIZE & CLEAN
@@ -90,9 +90,11 @@ def main():
     f = file('app/settings.py', 'r')
     chaine = f.read()
     f.close()
-    data = chaine.replace("XXX001", source).replace("XXX002", result)\
-                 .replace("XXX003", team).replace("XXX004", tk)\
-                 .replace("XXX005", api)
+    data = chaine.replace("XXX001", source.strip())\
+                 .replace("XXX002", result.strip())\
+                 .replace("XXX003", team.strip())\
+                 .replace("XXX004", tk.strip())\
+                 .replace("XXX005", api.strip())
     f = file('app/settings.py', 'w')
     f.write(data)
     f.close
@@ -101,7 +103,7 @@ def main():
     ff = file('nfogen.sh', 'r')
     chaine = ff.read()
     ff.close()
-    data = chaine.replace("XXX002", result)
+    data = chaine.replace("XXX002", result.strip())
     ff = file('nfogen.sh', 'w')
     ff.write(data)
     ff.close
