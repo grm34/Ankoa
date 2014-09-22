@@ -81,9 +81,9 @@ try:
         f.write(data)
         f.close
     else:
-        print ("{0}\nThumbnails url > {1}{2}\n{3}"
+        print ("{0}\n Thumbnails url > {1}{2}\n{3}"
                .format(GREEN, BLUE, thumb_link, END))
 
 except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
-    print ("{0}\nThumbnails Upload Error > {1}{2}\n{3}"
+    print ("{0}\n Thumbnails Upload Error > {1}{2}\n{3}"
            .format(RED, BLUE, str(e), END))
