@@ -92,7 +92,7 @@ def main():
     f.close()
     data = chaine.replace("XXX001", source.strip())\
                  .replace("XXX002", result.strip())\
-                 .replace("XXX003", team.strip())\
+                 .replace("XXX003", team.strip().replace(' ', '.')\
                  .replace("XXX004", tk.strip())\
                  .replace("XXX005", api.strip())
     f = file('app/settings.py', 'w')
