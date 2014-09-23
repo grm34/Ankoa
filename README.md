@@ -15,7 +15,7 @@ AnkoA v3.2.1
 
 ## How to install AnkoA ?
 
-Take a tour on the [**wiki**](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki)
+Take a tour on the [**wiki**](https://github.com/grm34/AnkoA/wiki)
 
 Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 
