@@ -52,7 +52,7 @@ import urllib2
 import subprocess
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
-from subprocess import CalledProcessError, check_output
+from subprocess import (CalledProcessError, check_output)
 from pprint import pprint
 sys.path.append("app/")
 from style import (banner, next, color)
