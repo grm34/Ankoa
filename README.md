@@ -116,21 +116,21 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
 ***    
 ### Project stats :
     
-	Filename:    Source:    Comment:    Both:    Blank:    Total:
+	Filename:         Source:    Comment:    Both:    Blank:    Total:
 
-	nfo.php           32          39       21        20       112
-	ankoa.py        1159          60       25       160      1404
-	genprez.py       271          62        7        35       375
-	imgur.py          40          43        0         6        89
-	make.py           34          43        0        11        88
-	setup.py         104          56        0        26       186
-	thumbnails.py    167          43       18        35       263
-	bitrate.py        36          43        0         9        88
-	settings.py       10          55        0         5        70
-	style.py          14          66        5         6        91
-	nfogen.sh         15          41        1         4        61
+	nfo.php                32          39       21        20       112
+	ankoa.py             1159          60       25       160      1404
+	genprez.py            271          62        7        35       375
+	imgur.py               40          43        0         6        89
+	make.py                34          43        0        11        88
+	setup.py              104          56        0        26       186
+	thumbnails.py         167          43       18        35       263
+	bitrate.py             36          43        0         9        88
+	settings.py            10          55        0         5        70
+	style.py               14          66        5         6        91
+	nfogen.sh              15          41        1         4        61
 
-	[Total] :       1882         551       77       317      2827
+	[Total] :            1882         551       77       317      2827
 	
 ***
 ### Preview (older version) :
