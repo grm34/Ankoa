@@ -15,28 +15,28 @@ AnkoA v3.2.1
 
 ## How to install AnkoA ?
 
-Take a tour on the [**wiki**](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki) !
+Take a tour on the [**wiki**](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki)
 
 Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 
 ## Usage :
 
-* Easy encoding tool :
+* **Easy encoding tool :**
 `./ankoa.py`
 
-* Thumbnails generator :
+* **Thumbnails generator :**
 `./thumbnails source.video 5 2`
 
-* Upload thumbnails on imgur :
+* **Upload thumbnails on imgur :**
 `./imgur.py thumbnails.png`
 
-* Genprez :
+* **Genprez :**
 `./genprez.py LANGUAGE QUALITY CODECS SUBS SIZE ID_IMDB`
 
-* NFO generator :
+* **NFO generator :**
 `./nfogen.sh source.video SOURCE SUBS SUBFORCED URL`
  
-* Thumbs+nfo+torrent :
+* **Thumbs+nfo+torrent :**
 `./make.py source.video SOURCE SUBS SUBFORCED URL`
 
 ### Values :
@@ -53,7 +53,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 
 ## Version :
 
-Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
+Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog)
 
 #### Thanks for assistance and contributions :
 
@@ -123,14 +123,14 @@ Take a tour on the [changelog](https://github.com/grm34/AnkoA/wiki/changelog) !
 	genprez.py       271          62        7        35       375
 	imgur.py          40          43        0         6        89
 	make.py           34          43        0        11        88
-	setup.py          55          48        0        14       117
+	setup.py         104          56        0        26       186
 	thumbnails.py    167          43       18        35       263
 	bitrate.py        36          43        0         9        88
 	settings.py       10          55        0         5        70
 	style.py          14          66        5         6        91
 	nfogen.sh         15          41        1         4        61
 
-	[Total] :       1820         542       77       304      2743
+	[Total] :       1882         551       77       317      2827
 	
 ***
 ### Preview (older version) :
