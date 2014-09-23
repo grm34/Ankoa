@@ -118,7 +118,7 @@ def main():
     # Auto complete
     def completer(text, state):
         return (
-            [entry for entry in os.listdir(
+            [entry.replace(' ', '\ ')  for entry in os.listdir(
                 folder + os.path.dirname(
                     readline.get_line_buffer())
                 ) if entry.startswith(text)][state])
