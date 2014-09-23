@@ -137,13 +137,3 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
 	[Total] :            1882         551       77       317      2827
 	
 ***
-### Preview (older version) :
-
-![Preview](http://i.imgur.com/kGjj63X.png)
-
-    Don't be afraid, as you can see on the preview, x264 Expert Mode is on...
-    When you select off, x264 params will be controlled by the preset & tune.
-    In this case, all expert questions will be skipped !
-    This option is only for advanced encoders...
-
-***
