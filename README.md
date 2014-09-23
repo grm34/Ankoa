@@ -65,9 +65,12 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
 
 #### Links :
 
-* [AnkoA wiki](https://github.com/grm34/AnkoA/wiki/AnkoA-Wiki)
-* [AnkoA changelog](https://github.com/grm34/AnkoA/wiki/Changelog)
+* [AnkoA wiki](https://github.com/grm34/AnkoA/wiki)
+* [Install or update AnkoA](https://github.com/grm34/AnkoA/wiki/Install-or-update-AnkoA)
 * [Compile Multimedia Environment](https://github.com/grm34/AnkoA/wiki/Compile-Multimedia-Environment)
+* [How to crop with AnkoA](https://github.com/grm34/AnkoA/wiki/How-to-crop-with-AnkoA)
+* [How to use subtitles with AnkoA](https://github.com/grm34/AnkoA/wiki/How-to-use-subtitles-with-AnkoA)
+* [AnkoA changelog](https://github.com/grm34/AnkoA/wiki/Changelog)
 * [Video demonstration](https://www.youtube.com/watch?v=RvEIvgnXdBg&feature=youtu.be)
 
 ***
