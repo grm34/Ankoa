@@ -25,7 +25,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 `./ankoa.py`
 
 * **Thumbnails generator :**
-`./thumbnails source.video 5 2`
+`./thumbnails.py source.video 5 2`
 
 * **Upload thumbnails on imgur :**
 `./imgur.py thumbnails.png`
