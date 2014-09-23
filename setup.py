@@ -130,8 +130,6 @@ def main():
             ff.write(data)
             ff.close
 
-            os.system("rm setup.py")
-
             print ("\n{0} AnkoA {1}-> {2}Installation successful !\n{3}"
                    .format(BLUE, RED, GREEN, END))
 
@@ -172,8 +170,6 @@ def main():
             ff = file('nfogen.sh', 'w')
             ff.write(data)
             ff.close
-
-            os.system("rm setup.py")
 
             print ("\n{0} AnkoA {1}-> {2}Update successful !\n{3}"
                    .format(BLUE, RED, GREEN, END))
