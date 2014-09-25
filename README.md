@@ -123,7 +123,7 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     Filename:         Source:    Comment:    Both:    Blank:    Total:
 
     nfo.php                32          39       21        20       112
-    ankoa.py               99          49        2        24       174
+    ankoa.py              100          49        2        24       175
     genprez.py            284          62        7        35       388
     imgur.py               48          45        0         9       102
     make.py                37          46        0        10        93
@@ -135,6 +135,6 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     system.py            1344         219       41       220      1824
     nfogen.sh              15          41        1         4        61
 
-    [Total] :            2240         766       95       402      3503
+    [Total] :            2240         766       95       402      3504
 
 ***

@@ -95,17 +95,18 @@ def main():
     def data():
         if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
             prezz = "&& ./genprez.py {0} {1} {2} {3} {4} && mv {5}{6}*.txt "\
-                    "{5}{7}.{8}{9}{10}txt && ./imgur.py {5}{7}.{8}*.png add "\
-                    .format(audiolang, prezquality, titlesub, prezsize,
-                            nfoimdb, thumb, name, title, year, stag, mark[:3])
+                    "{5}{7}.{8}{9}{10}txt && ./imgur.py {5}{7}.{8}{9}{10}pn"\
+                    "g add ".format(audiolang, prezquality, titlesub,
+                                    prezsize, nfoimdb, thumb, name, title,
+                                    year, stag, mark[:-3])
 
             zipp = "cd {0} && zip -r {1}.zip -m {1}.{2}{3}*.torrent {1}.{2}"\
                    "{3}*.nfo {1}.{2}{3}*.txt {1}*.log {1}.{2}{3}*.png"\
                    .format(thumb, title, year, stag)
 
         else:
-            prezz = "&& ./imgur.py {0}{1}.{2}*.png "\
-                    .format(thumb, title, year)
+            prezz = "&& ./imgur.py {0}{1}.{2}{3}{4}.png "\
+                    .format(thumb, title, year, stag, mark[:-3])
 
             zipp = "cd {0} && zip -r {1}.zip -m {1}.{2}{3}*.torrent {1}."\
                    "{2}{3}*.nfo {1}*.log {1}.{2}{3}*.png"\
@@ -114,8 +115,8 @@ def main():
         return (
             "./thumbnails.py {0}{1}.{2}{3}{4} 5 2 {5}&& ./nfogen.sh {0}{1}."
             "{2}{3}{4} {6} {7} {8} http://www.imdb.com/title/tt{9} && rm -f"
-            "{0}{1}*.mbtree && cd {0} && mktorrent -a {10} -p -t 8 -l {11} "
-            "{1}.{2}{3}{4} && {12}"
+            " {0}{1}*.mbtree && cd {0} && mktorrent -a {10} -p -t 8 -l {11}"
+            " {1}.{2}{3}{4} && {12}"
             .format(thumb, title, year, stag, mark, prezz, nfosource,
                     titlesub, subforced, nfoimdb, announce, pieces, zipp))
 
