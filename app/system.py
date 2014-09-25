@@ -864,7 +864,7 @@ def ANKOA_SYSTEM():
                             .format(GREEN, YELLOW, END))
         if (subsync == "y"):
 
-            # MULTi SUBS
+            # Delay MULTi SUBS
             if (subtype == "3"):
                 subdelay1 = raw_input("{0}SUBTITLES 01 DELAY {1}(ex: -200){0}"
                                       " : {2}".format(GREEN, YELLOW, END))
@@ -879,7 +879,7 @@ def ANKOA_SYSTEM():
                 else:
                     sync2 = "--sync 0:{0} ".format(subdelay2)
 
-            # Single SUBS
+            # Delay Single SUBS
             else:
                 subdelay = raw_input("{0}SUBTITLES DELAY {1}(ex: -200){0} : "
                                      "{2}".format(GREEN, YELLOW, END))
