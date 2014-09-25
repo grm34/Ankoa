@@ -1761,7 +1761,7 @@ def ANKOA_SYSTEM():
 
         # Replace Title Bad chars
         if (tit[0] in data1 or tit[1] in data2
-                or tit[3] in data3 or tit[4] in data4):
+                or tit[2] in data3 or tit[3] in data4):
             name = dir.replace(' ', '.').replace('/', '').replace('(', '')\
                       .replace(')', '').replace('"', '').replace(':', '')\
                       .replace("'", "").replace("[", "").replace("]", "")\
