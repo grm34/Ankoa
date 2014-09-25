@@ -35,7 +35,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 
 * **NFO generator :**
 `./nfogen.sh source.video SOURCE SUBS SUBFORCED URL`
- 
+
 * **Thumbs+nfo+torrent :**
 `./make.py source.video SOURCE SUBS SUBFORCED URL`
 
@@ -49,7 +49,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
     CODECS..............: release codecs     →  AC3.x264
     SiZE................: release size       →  1.37Go
     iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')
-    URL.................: release infos url  →  http://www.imdb.com/title/tt0315733  
+    URL.................: release infos url  →  http://www.imdb.com/title/tt0315733
 
 ## Version :
 
@@ -83,7 +83,7 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     Contact: jerem.pardo@gmail.com
 
     This software is a computer program whose purpose is to help command
-    line encoders. Intuitive command line interface with many tools:  
+    line encoders. Intuitive command line interface with many tools:
 
     * FFMPEG easy encoding
     * Thumbnails Generator
@@ -92,16 +92,16 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     * Auto make .torrent
 
     This software is governed by the CeCILL-C license under French law and
-    abiding by the rules of distribution of free software.  You can  use, 
+    abiding by the rules of distribution of free software.  You can  use,
     modify and/or redistribute the software under the terms of the CeCILL-C
     license as circulated by CEA, CNRS and INRIA at the following URL
-    "http://www.cecill.info". 
+    "http://www.cecill.info".
 
     As a counterpart to the access to the source code and  rights to copy,
     modify and redistribute granted by the license, users are provided only
     with a limited warranty  and the software's author,  the holder of the
     economic rights,  and the successive licensors  have only  limited
-    liability. 
+    liability.
 
     In this respect, the user's attention is drawn to the risks associated
     with loading,  using,  modifying and/or developing or reproducing the
@@ -110,30 +110,31 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     therefore means  that it is reserved for developers  and  experienced
     professionals having in-depth computer knowledge. Users are therefore
     encouraged to load and test the software's suitability as regards their
-    requirements in conditions enabling the security of their systems and/or 
-    data to be ensured and,  more generally, to use and operate it in the 
-    same conditions as regards security. 
+    requirements in conditions enabling the security of their systems and/or
+    data to be ensured and,  more generally, to use and operate it in the
+    same conditions as regards security.
 
     The fact that you are presently reading this means that you have had
     knowledge of the CeCILL-C license and that you accept its terms.
 
-***    
+***
 ### Project stats :
-    
-	Filename:         Source:    Comment:    Both:    Blank:    Total:
 
-	nfo.php                32          39       21        20       112
-	ankoa.py             1159          60       25       160      1404
-	genprez.py            271          62        7        35       375
-	imgur.py               40          43        0         6        89
-	make.py                34          43        0        11        88
-	setup.py              104          56        0        26       186
-	thumbnails.py         167          43       18        35       263
-	bitrate.py             36          43        0         9        88
-	settings.py            10          55        0         5        70
-	style.py               14          66        5         6        91
-	nfogen.sh              15          41        1         4        61
+    Filename:         Source:    Comment:    Both:    Blank:    Total:
 
-	[Total] :            1882         551       77       317      2827
-	
+    nfo.php                32          39       21        20       112
+    ankoa.py               94          46        2        24       166
+    genprez.py            271          62        7        35       375
+    imgur.py               40          43        0         6        89
+    make.py                34          43        0        11        88
+    setup.py              102          56        0        24       182
+    thumbnails.py         167          43       18        35       263
+    bitrate.py             36          43        0         9        88
+    settings.py            10          55        0         5        70
+    style.py               14          66        5         6        91
+    system.py            1079          59       23       138      1299
+    nfogen.sh              15          41        1         4        61
+
+    [Total] :            1894         596       77       317      2884
+
 ***
