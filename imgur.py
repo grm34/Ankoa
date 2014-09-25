@@ -43,6 +43,7 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
+import os
 import sys
 import optparse
 import urllib
