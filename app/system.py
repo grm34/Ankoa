@@ -124,8 +124,7 @@ def ANKOA_SYSTEM():
     except (OSError) as e:
         print ("\n{0} -> {1}ERROR : {2}{4}{3}\n"
                .format(GREEN, BLUE, RED, END, str(e)))
-        os.system("./ankoa.py")
-        sys.exit(0)
+        sys.exit()
 
     # Video Params
     codec_type = raw_input("{0}VIDEO CODEC > \n{1}x264 {0}[1]{1} - x265 {0}"
