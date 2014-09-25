@@ -54,6 +54,7 @@ from style import (banner, next, color)
 
 def main():
 
+    # ANKOA SYSTEM
     banner()
     (
         source, thumb, team, announce, title, year, stag, string, codec,
@@ -63,6 +64,7 @@ def main():
         pieces, name, pprint
     ) = ANKOA_SYSTEM()
 
+    # FFMPEG CLI
     def ffmpeg():
         if (encode_type == "2"):    # CRF
             return (
@@ -89,6 +91,7 @@ def main():
                         team, interlace, param, audio_config, sub_config,
                         sub_remux))
 
+    # ANKOA TOOLS
     def data():
         if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
             prezz = "&& ./genprez.py {0} {1} {2} {3} {4} && mv {5}{6}*.txt "\
@@ -116,7 +119,7 @@ def main():
             .format(thumb, title, year, stag, mark, prezz, nfosource,
                     titlesub, subforced, nfoimdb, announce, pieces, zipp))
 
-    # Process
+    # PROCESS
     run_ffmpeg = [ffmpeg(), "", "", "", "", "", "", "", "",
                   "", "", "", "", "", "", "", "", "", "", ""]
 
@@ -130,7 +133,7 @@ def main():
     again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
                       .format(GREEN, YELLOW, END))
 
-    # Next
+    # NEXT
     while (again != "n"):
         next()
         (
@@ -151,7 +154,7 @@ def main():
         else:
             break
 
-    # Run
+    # RUN
     for i in range(n):
         try:
             os.system(run_ffmpeg[i])
