@@ -130,6 +130,7 @@ def main():
     again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
                       .format(GREEN, YELLOW, END))
 
+    # Next
     while (again != "n"):
         next()
         (
@@ -150,6 +151,7 @@ def main():
         else:
             break
 
+    # Run
     for i in range(n):
         os.system(run_ffmpeg[i])
         os.system(run_data[i])
