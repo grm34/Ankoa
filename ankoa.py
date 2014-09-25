@@ -116,6 +116,7 @@ def main():
             .format(thumb, title, year, stag, mark, prezz, nfosource,
                     titlesub, subforced, nfoimdb, announce, pieces, zipp))
 
+    # Process
     run_ffmpeg = [ffmpeg(), "", "", "", "", "", "", "", "",
                   "", "", "", "", "", "", "", "", "", "", ""]
 
