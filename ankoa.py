@@ -115,7 +115,7 @@ def main():
             "./thumbnails.py {0}{1}.{2}{3}{4} 5 2 {5}&& ./nfogen.sh {0}{1}."
             "{2}{3}{4} {6} {7} {8} http://www.imdb.com/title/tt{9} && rm -f"
             "{0}{1}*.mbtree && cd {0} && mktorrent -a {10} -p -t 8 -l {11} "
-            "{1}.{2}{3}{4} {12}"
+            "{1}.{2}{3}{4} && {12}"
             .format(thumb, title, year, stag, mark, prezz, nfosource,
                     titlesub, subforced, nfoimdb, announce, pieces, zipp))
 
