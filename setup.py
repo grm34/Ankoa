@@ -83,14 +83,14 @@ def main():
         source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torrent"
                            "s/){0} : {2}".format(GREEN, YELLOW, END))
         while not source or os.path.exists(source) is False:
-            print ("{0} -> {1}ERROR : {2}Bad SOURCE PATH, please try"
+            print ("\n{0} -> {1}ERROR : {2}Bad SOURCE PATH, please try"
                    " again !{3}\n".format(GREEN, BLUE, RED, END))
             source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torre"
                                "nts/){0} : {2}".format(GREEN, YELLOW, END))
         result = raw_input("{0}ENTER DESTINATION PATH {1}(ex: /home/user/en"
                            "codes/){0} : {2}".format(GREEN, YELLOW, END))
         while not result or os.path.exists(result) is False:
-            print ("{0} -> {1}ERROR : {2}Bad DESTINATION PATH, please try"
+            print ("\n{0} -> {1}ERROR : {2}Bad DESTINATION PATH, please try"
                    " again !{3}\n".format(GREEN, BLUE, RED, END))
             result = raw_input("{0}ENTER DESTINATION PATH {1}(ex: /home/user/"
                                "encodes/){0} : {2}"
@@ -99,15 +99,15 @@ def main():
         team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0} :"
                          " {2}".format(GREEN, YELLOW, END))
         while not team:
-            print ("{0} -> {1}ERROR : {2}Please, specify team name "
+            print ("\n{0} -> {1}ERROR : {2}Please, specify team name "
                    "!{3}\n".format(GREEN, BLUE, RED, END))
             team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0}"
                              " : {2}".format(GREEN, YELLOW, END))
         tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tk.com"
                        ":80/announce){0} : {2}".format(GREEN, YELLOW, END))
         while not tk:
-            print ("{0} -> {1}ERROR : {2}Please, specify tracker url announce"
-                   " !{3}\n".format(GREEN, BLUE, RED, END))
+            print ("\n{0} -> {1}ERROR : {2}Please, specify tracker url announ"
+                   "ce !{3}\n".format(GREEN, BLUE, RED, END))
             tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tk.c"
                            "om:80/announce){0} : {2}"
                            .format(GREEN, YELLOW, END))
@@ -115,7 +115,7 @@ def main():
                         "ww.themoviedb.org/documentation/api){0} : {2}"
                         .format(GREEN, YELLOW, END))
         while not api:
-            print ("{0} -> {1}ERROR : {2}Please, specify TMDB API KEY"
+            print ("\n{0} -> {1}ERROR : {2}Please, specify TMDB API KEY"
                    " !{3}\n".format(GREEN, BLUE, RED, END))
         api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https://w"
                         "ww.themoviedb.org/documentation/api){0} : {2}"

@@ -272,7 +272,7 @@ def main(argv):
         if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
             shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
     else:
-        print ("{0} -> {1}ERROR : {2}Bad source selection, please try"
+        print ("\n{0} -> {1}ERROR : {2}Bad source selection, please try"
                " again !{3}\n".format(GREEN, BLUE, RED, END))
 
 if (__name__ == "__main__"):

@@ -87,14 +87,14 @@ def main():
                 f.write(data)
                 f.close
             else:
-                print ("{0}\n Thumbnails url > {1}{2}\n{3}"
+                print ("\n{0} Thumbnails url > {1}{2}\n{3}"
                        .format(GREEN, BLUE, thumb_link, END))
 
         except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
-            print ("{0}\n Thumbnails Upload Error > {1}{2}\n{3}"
+            print ("\n{0} Thumbnails Upload Error > {1}{2}\n{3}"
                    .format(RED, BLUE, str(e), END))
     else:
-        print ("{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
+        print ("\n{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
                " again !{3}\n".format(GREEN, BLUE, RED, END))
 
 if (__name__ == "__main__"):
