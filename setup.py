@@ -117,9 +117,9 @@ def main():
         while not api:
             print ("\n{0} -> {1}ERROR : {2}Please, specify TMDB API KEY"
                    " !{3}\n".format(GREEN, BLUE, RED, END))
-        api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https://w"
-                        "ww.themoviedb.org/documentation/api){0} : {2}"
-                        .format(GREEN, YELLOW, END))
+            api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https:/"
+                            "/www.themoviedb.org/documentation/api){0} : {2}"
+                            .format(GREEN, YELLOW, END))
 
         if (source != "" or result != "" or team != "" or
                 tk != "" or api != ""):
