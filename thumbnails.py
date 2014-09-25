@@ -73,8 +73,13 @@ def snapshot(path, nb_lgn, nb_col):
     width = int(re.findall('ID_VIDEO_WIDTH=([0-9]*)', infos)[0])
 
     for i in range(300, longueur-interval, interval):
-        os.system('mplayer -nosound -ss {0} -frames 4 -vf scale'
-                  ' -vo png:z=0 {1}'.format(str(i), path))
+        try:
+            os.system('mplayer -nosound -ss {0} -frames 4 -vf scale'
+                      ' -vo png:z=0 {1}'.format(str(i), path))
+        except OSError as e:
+            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
         try:
             shutil.move('00000004.png', os.path.expanduser(thumb) +
                         'rtemp/'+str(i).zfill(5)+'.png')
@@ -231,33 +236,44 @@ def img_infos(infos, duree, path):
     if (width > 800):
         resize = ("convert -quality 0 -resize 3470000@ {0}{1}png {0}{1}png"
                   .format(thumb, title[:-3]))
-        os.system(resize)
+        try:
+            os.system(resize)
+        except OSError as e:
+            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
 
 
 def main(argv):
-    usage = "./thumbnails.py video 5 2"
 
+    # HELP
+    usage = "./thumbnails.py source.video 5 2"
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 3):
         parser.print_help()
         parser.exit(1)
 
-    if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
-        shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
-    try:
-        path = trait_path(argv[0])
-        info, longueur = snapshot(path, argv[1], argv[2])
-        index_th(info, argv[2], argv[1])
-        img_infos(info, longueur, path)
+    # RUN
+    if os.path.isfile(sys.argv[1]) is True:
+        if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
+            shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
+        try:
+            path = trait_path(argv[0])
+            info, longueur = snapshot(path, argv[1], argv[2])
+            index_th(info, argv[2], argv[1])
+            img_infos(info, longueur, path)
 
-    except (IOError, IndexError) as e:
-        print ("\n{0} ->{1} BAD THUMBS : {1}str(e){2}{3}\n"
-               .format(GREEN, RED, BLUE, str(e), END))
-        sys.exit()
+        except (IOError, IndexError) as e:
+            print ("\n{0} ->{1} BAD THUMBS : {1}str(e){2}{3}\n"
+                   .format(GREEN, RED, BLUE, str(e), END))
+            sys.exit()
 
-    if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
-        shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
+        if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
+            shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
+    else:
+        print ("{0} -> {1}ERROR : {2}Bad source selection, please try"
+               " again !{3}\n".format(GREEN, BLUE, RED, END))
 
 if (__name__ == "__main__"):
     main(sys.argv[1:])

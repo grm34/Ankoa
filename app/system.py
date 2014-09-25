@@ -49,10 +49,8 @@ import readline
 import optparse
 import json
 import urllib2
-import subprocess
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
-from subprocess import (CalledProcessError, check_output)
 from style import (color)
 from bitrate import (calcul, calc)
 from settings import option
@@ -75,15 +73,25 @@ def ANKOA_SYSTEM():
     readline.parse_and_bind("tab: complete")
     readline.set_completer(completer)
     prefix = raw_input("{0}RELEASE SOURCE > \n{1}".format(GREEN, END))
-    readline.parse_and_bind("tab: ")
-    if not (prefix):
+    while not prefix or os.path.isfile(folder+prefix) is False:
         print ("{0} -> {1}ERROR : {2}Bad source selection, please try"
-               " again !\n{3}".format(GREEN, BLUE, RED, END))
-        sys.exit()
+               " again !{3}\n".format(GREEN, BLUE, RED, END))
+        prefix = raw_input("{0}RELEASE SOURCE > \n{1}".format(GREEN, END))
+    readline.parse_and_bind("tab: ")
     source = "{0}{1}".format(folder, prefix)
     title = raw_input("{0}RELEASE TITLE {1}(ex: Hudson.Hawk){0} : {2}"
                       .format(GREEN, YELLOW, END))
+    while not (title):
+        print ("\n{0} -> {1}ERROR : {2}Please, specify release title !{3}\n"
+               .format(GREEN, BLUE, RED, END))
+        title = raw_input("{0}RELEASE TITLE {1}(ex: Hudson.Hawk){0} : {2}"
+                          .format(GREEN, YELLOW, END))
     year = raw_input("{0}RELEASE PRODUCTION YEAR : {1}".format(GREEN, END))
+    while not year or len(year) != 4 or year.isdigit() is False:
+        print ("\n{0} -> {1}ERROR : {2}Please, specify valid release year !"
+               "{3}\n".format(GREEN, BLUE, RED, END))
+        year = raw_input("{0}RELEASE PRODUCTION YEAR : {1}"
+                         .format(GREEN, END))
     special = raw_input("{0}SPECIAL TAG {1}(ex: EXTENDED.CUT){0} : {2}"
                         .format(GREEN, YELLOW, END))
 
@@ -108,17 +116,16 @@ def ANKOA_SYSTEM():
                      "INFO {0}[2] : {2}".format(GREEN, YELLOW, END))
     try:
         if (type == "1"):
-            subprocess.check_output(scan[0], shell=True)
+            os.system(scan[0])
         else:
-            subprocess.check_output(scan[1], shell=True)
             for x in range(1, 15):
                 os.system(scan[x])
                 x = x + 1
-
-    except (OSError, CalledProcessError):
-        print ("{0}\n -> {1}ERROR : {2}Bad source selection, please try"
-               " again !\n{3}".format(GREEN, BLUE, RED, END))
-        sys.exit()
+    except (OSError) as e:
+        print ("\n{0} -> {1}ERROR : {2}{4}{3}\n"
+               .format(GREEN, BLUE, RED, END, str(e)))
+        os.system("./ankoa.py")
+        sys.exit(0)
 
     # Video Params
     codec_type = raw_input("{0}VIDEO CODEC > \n{1}x264 {0}[1]{1} - x265 {0}"
@@ -143,12 +150,27 @@ def ANKOA_SYSTEM():
             while (next != "n"):
                 HH, MM, SS, audiobit, rls_size, calsize = calcul()
                 run_calc = calc(HH, MM, SS, audiobit, rls_size, calsize)
-                os.system(run_calc)
+                try:
+                    os.system(run_calc)
+                except OSError as e:
+                    print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                           .format(GREEN, BLUE, RED, END, str(e)))
+                    sys.exit()
                 next = raw_input("{0}TRY AGAIN {1}(y/n){0} : {2}"
                                  .format(GREEN, YELLOW, END))
             bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
+            while not bit or bit.isdigit() is False:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify valid video "
+                       "bitrate !{3}\n".format(GREEN, BLUE, RED, END))
+                bit = raw_input("{0}VIDEO BITRATE Kbps : {1}"
+                                .format(GREEN, END))
         else:
             bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
+            while not bit or bit.isdigit() is False:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify valid video "
+                       "bitrate !{3}\n".format(GREEN, BLUE, RED, END))
+                bit = raw_input("{0}VIDEO BITRATE Kbps : {1}"
+                                .format(GREEN, END))
 
     format = raw_input("{0}RELEASE FORMAT > \n{1}HDTV {0}[1]{1} - PDTV {0}[2]"
                        "{1} - BDRip {0}[3]\n{1}DVDRip {0}[4]{1} - BRRip {0}[5"
@@ -170,15 +192,30 @@ def ANKOA_SYSTEM():
                       .format(GREEN, YELLOW, END))
     ffmpeg = "ffmpeg -i {0}".format(source)
     if (scan2 == "y"):
-        os.system(ffmpeg)
+        try:
+            os.system(ffmpeg)
+        except OSError as e:
+            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
 
     idvideo = raw_input("{0}VIDEO TRACK FFMPEG ID {1}(ex: 0){0} : {2}"
                         .format(GREEN, YELLOW, END))
+    while not idvideo or len(idvideo) > 2 or idvideo.isdigit() is False:
+        print ("\n{0} -> {1}ERROR : {2}Please, specify valid video ID !{3}\n"
+               .format(GREEN, BLUE, RED, END))
+        idvideo = raw_input("{0}VIDEO TRACK FFMPEG ID {1}(ex: 0){0} : {2}"
+                            .format(GREEN, YELLOW, END))
     modif_fps = raw_input("{0}CHANGE VIDEO FRAMERATE {1}(y/n){0} : {2}"
                           .format(GREEN, YELLOW, END))
     if (modif_fps == "y"):
         set_fps = raw_input("{0}VIDEO FRAMERATE {1}(ex: 23.98){0} : {2}"
                             .format(GREEN, YELLOW, END))
+        while not (set_fps):
+            print ("\n{0} -> {1}ERROR : {2}Please, specify video FPS !{3}\n"
+                   .format(GREEN, BLUE, RED, END))
+            set_fps = raw_input("{0}VIDEO FRAMERATE {1}(ex: 23.98){0} : {2}"
+                                .format(GREEN, YELLOW, END))
         fps = " -r {0}".format(set_fps)
     else:
         fps = ""
@@ -204,43 +241,129 @@ def ANKOA_SYSTEM():
     if (audiotype == "1" or audiotype == "2" or audiotype == "3"):
         audionum = raw_input("{0}AUDIO TRACK FFMPEG ID {1}(ex: 1){0} : {2}"
                              .format(GREEN, YELLOW, END))
+        while not audionum or len(audionum) > 2\
+                or audionum.isdigit() is False:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio ID !"
+                   "{3}\n".format(GREEN, BLUE, RED, END))
+            audionum = raw_input("{0}AUDIO TRACK FFMPEG ID {1}(ex: 1){0} :"
+                                 " {2}".format(GREEN, YELLOW, END))
         if (audiotype == "3"):
             audiolang = raw_input("{0}AUDIO TRACK TITLE {1}(ex: Espagnol){0} "
                                   ": {2}".format(GREEN, YELLOW, END))
+            while not audiolang:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify audio title !"
+                       "{3}\n".format(GREEN, BLUE, RED, END))
+                audiolang = raw_input("{0}AUDIO TRACK TITLE {1}(ex: Espagnol)"
+                                      "{0} : {2}".format(GREEN, YELLOW, END))
         audiocodec = raw_input("{0}AUDIO TRACK CODEC > \n{1}MP3 {0}[1]{1} - A"
                                "C3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
                                .format(GREEN, YELLOW, END))
+        while audiocodec != 1 or audiocodec != 2 or audiocodec != 3:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify valid codec !"
+                   "{3}\n".format(GREEN, BLUE, RED, END))
+            audiocodec = raw_input("{0}AUDIO TRACK CODEC > \n{1}MP3 {0}[1]{1}"
+                                   " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
+                                   .format(GREEN, YELLOW, END))
         if (audiocodec == "2"):
             abitrate = raw_input("{0}AUDIO TRACK BITRATE Kbps {1}(ex: 448){0}"
                                  " : {2}".format(GREEN, YELLOW, END))
+            while not abitrate or abitrate.isdigit() is False:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio bi"
+                       "trate !{3}\n".format(GREEN, BLUE, RED, END))
+                abitrate = raw_input("{0}AUDIO TRACK BITRATE Kbps {1}(ex: 448"
+                                     "){0} : {2}".format(GREEN, YELLOW, END))
             surround = raw_input("{0}AUDIO TRACK CHANNELS {1}(ex: 2){0} : {2}"
                                  .format(GREEN, YELLOW, END))
+            while not surround or len(surround) != 1\
+                    or surround.isdigit() is False:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio su"
+                       "rround !{3}\n".format(GREEN, BLUE, RED, END))
+                surround = raw_input("{0}AUDIO TRACK CHANNELS {1}(ex: 2){0} :"
+                                     " {2}".format(GREEN, YELLOW, END))
     elif (audiotype == "4"):
         audionum = raw_input("{0}AUDIO TRACK 01 FFMPEG ID {1}(ex: 1){0} :"
                              " {2}".format(GREEN, YELLOW, END))
+        while not audionum or len(audionum) > 2\
+                or audionum.isdigit() is False:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio ID !"
+                   "{3}\n".format(GREEN, BLUE, RED, END))
+            audionum = raw_input("{0}AUDIO TRACK 01 FFMPEG ID {1}(ex: 1){0} :"
+                                 " {2}".format(GREEN, YELLOW, END))
         audiolang = raw_input("{0}AUDIO TRACK 01 TITLE {1}(ex: English){0} :"
                               " {2}".format(GREEN, YELLOW, END))
+        while not audiolang:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify audio title !"
+                   "{3}\n".format(GREEN, BLUE, RED, END))
+            audiolang = raw_input("{0}AUDIO TRACK TITLE 01 {1}(ex: Espagnol)"
+                                  "{0} : {2}".format(GREEN, YELLOW, END))
         audiocodec = raw_input("{0}AUDIO TRACK 01 CODEC > \n{1}MP3 {0}[1]{1}"
                                " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
                                .format(GREEN, YELLOW, END))
+        while audiocodec != 1 or audiocodec != 2 or audiocodec != 3:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify valid codec !"
+                   "{3}\n".format(GREEN, BLUE, RED, END))
+            audiocodec = raw_input("{0}AUDIO TRACK 01 CODEC > \n{1}MP3 {0}[1]"
+                                   "{1} - AC3 {0}[2]{1} - DTS/COPY {0}[3] : "
+                                   "{2}".format(GREEN, YELLOW, END))
         if (audiocodec == "2"):
             abitrate = raw_input("{0}AUDIO TRACK 01 BITRATE Kbps {1}(ex: 448)"
                                  "{0} : {2}".format(GREEN, YELLOW, END))
+            while not abitrate or abitrate.isdigit() is False:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio bi"
+                       "trate !{3}\n".format(GREEN, BLUE, RED, END))
+                abitrate = raw_input("{0}AUDIO TRACK 01 BITRATE Kbps {1}(ex: "
+                                     "448){0} : {2}"
+                                     .format(GREEN, YELLOW, END))
             surround = raw_input("{0}AUDIO TRACK 01 CHANNELS {1}(ex: 2){0} :"
                                  " {2}".format(GREEN, YELLOW, END))
+            while not surround or len(surround) != 1\
+                    or surround.isdigit() is False:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio su"
+                       "rround !{3}\n".format(GREEN, BLUE, RED, END))
+                surround = raw_input("{0}AUDIO TRACK 01 CHANNELS {1}(ex: 2)"
+                                     "{0} : {2}".format(GREEN, YELLOW, END))
         audionum2 = raw_input("{0}AUDIO TRACK 02 FFMPEG ID {1}(ex: 0){0} :"
                               " {2}".format(GREEN, YELLOW, END))
+        while not audionum2 or len(audionum2) > 2\
+                or audionum2.isdigit() is False:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio ID !"
+                   "{3}\n".format(GREEN, BLUE, RED, END))
+            audionum2 = raw_input("{0}AUDIO TRACK 02 FFMPEG ID {1}(ex: 1){0} "
+                                  ": {2}".format(GREEN, YELLOW, END))
         audiolang2 = raw_input("{0}AUDIO TRACK 02 TITLE {1}(ex: English){0} :"
                                " {2}".format(GREEN, YELLOW, END))
+        while not audiolang2:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify audio title !"
+                   "{3}\n".format(GREEN, BLUE, RED, END))
+            audiolang2 = raw_input("{0}AUDIO TRACK TITLE 02 {1}(ex: English)"
+                                   "{0} : {2}".format(GREEN, YELLOW, END))
         audiocodec2 = raw_input("{0}AUDIO TRACK 02 CODEC > \n{1}MP3 {0}[1]{1}"
                                 " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
                                 .format(GREEN, YELLOW, END))
+        while audiocodec2 != 1 or audiocodec2 != 2 or audiocodec2 != 3:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify valid codec !"
+                   "{3}\n".format(GREEN, BLUE, RED, END))
+            audiocodec2 = raw_input("{0}AUDIO TRACK 02 CODEC > \n{1}MP3 {0}[1"
+                                    "]{1} - AC3 {0}[2]{1} - DTS/COPY {0}[3] :"
+                                    " {2}".format(GREEN, YELLOW, END))
 
         if (audiocodec2 == "2"):
             abitrate2 = raw_input("{0}AUDIO TRACK 02 BITRATE Kbps {1}(ex: 448"
                                   "){0} : {2}".format(GREEN, YELLOW, END))
+            while not abitrate2 or abitrate2.isdigit() is False:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio bi"
+                       "trate !{3}\n".format(GREEN, BLUE, RED, END))
+                abitrate2 = raw_input("{0}AUDIO TRACK 02 BITRATE Kbps {1}(ex:"
+                                      " 448){0} : {2}"
+                                      .format(GREEN, YELLOW, END))
             surround2 = raw_input("{0}AUDIO TRACK 02 CHANNELS {1}(ex: 2){0} :"
                                   " {2}".format(GREEN, YELLOW, END))
+            while not surround2 or len(surround2) != 1\
+                    or surround2.isdigit() is False:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio su"
+                       "rround !{3}\n".format(GREEN, BLUE, RED, END))
+                surround2 = raw_input("{0}AUDIO TRACK 02 CHANNELS {1}(ex: 2)"
+                                      "{0} : {2}".format(GREEN, YELLOW, END))
     else:
         audiocodec = ""
     if (audiotype == "1" or audiotype == "2"
@@ -251,20 +374,20 @@ def ANKOA_SYSTEM():
             if (audiotype == "4"):
                 ar1 = raw_input("{0}AUDIO TRACK 01 SAMPLING RATE {1}(ex: 48)"
                                 "{0} : {2}".format(GREEN, YELLOW, END))
-                if not (ar1):
+                if not ar1 or ar1.isdigit() is False:
                     audiox = " -ar:a:0 48k"
                 else:
                     audiox = " -ar:a:0 {0}k".format(ar1)
                 ar2 = raw_input("{0}AUDIO TRACK 02 SAMPLING RATE {1}(ex: 48)"
                                 "{0} : {2}".format(GREEN, YELLOW, END))
-                if not (ar2):
+                if not ar2 or ar2.isdigit() is False:
                     audiox2 = " -ar:a:1 48k"
                 else:
                     audiox2 = " -ar:a:1 {0}k".format(ar2)
             else:
                 ar = raw_input("{0}AUDIO TRACK SAMPLING RATE {1}(ex: 48){0} :"
                                " {2}".format(GREEN, YELLOW, END))
-                if not (ar):
+                if not ar or ar.isdigit() is False:
                     audiox = " -ar:a:0 48k"
                 else:
                     audiox = " -ar:a:0 {0}k".format(ar)
@@ -448,25 +571,72 @@ def ANKOA_SYSTEM():
             if (subsource == "4"):
                 idsub = raw_input("{0}SUBTITLES TRACK 01 ISO ID {1}(ex: 1){0}"
                                   " : {2}".format(GREEN, YELLOW, END))
+                while not idsub or len(idsub) > 2 or idsub.isdigit() is False:
+                    print ("\n{0} -> {1}ERROR : {2}Please, specify valid subt"
+                           "itles track !{3}\n".format(GREEN, BLUE, RED, END))
+                    idsub = raw_input("{0}SUBTITLES TRACK 01 ISO ID {1}(ex: 1"
+                                      "){0} : {2}".format(GREEN, YELLOW, END))
                 idsub2 = raw_input("{0}SUBTITLES TRACK 02 ISO ID {1}(ex: 2)"
                                    "{0} : {2}".format(GREEN, YELLOW, END))
+                while not idsub2 or len(idsub2) > 2\
+                        or idsub2.isdigit() is False:
+                    print ("\n{0} -> {1}ERROR : {2}Please, specify valid subt"
+                           "itles track !{3}\n".format(GREEN, BLUE, RED, END))
+                    idsub2 = raw_input("{0}SUBTITLES TRACK 01 ISO ID {1}(ex: "
+                                       "1){0} : {2}"
+                                       .format(GREEN, YELLOW, END))
             else:
                 idsub = raw_input("{0}SUBTITLES TRACK 01 FFMPEG ID {1}(ex: 1)"
                                   "{0} : {2}".format(GREEN, YELLOW, END))
+                while not idsub or len(idsub) > 2 or idsub.isdigit() is False:
+                    print ("\n{0} -> {1}ERROR : {2}Please, specify valid subt"
+                           "itles track !{3}\n".format(GREEN, BLUE, RED, END))
+                    idsub = raw_input("{0}SUBTITLES TRACK 01 FFMPEG ID {1}(ex"
+                                      ": 1){0} : {2}"
+                                      .format(GREEN, YELLOW, END))
                 idsub2 = raw_input("{0}SUBTITLES TRACK 02 FFMPEG ID {1}(ex: 2"
                                    "){0} : {2}".format(GREEN, YELLOW, END))
+                while not idsub2 or len(idsub2) > 2\
+                        or idsub2.isdigit() is False:
+                    print ("\n{0} -> {1}ERROR : {2}Please, specify valid subt"
+                           "itles track !{3}\n".format(GREEN, BLUE, RED, END))
+                    idsub2 = raw_input("{0}SUBTITLES TRACK 02 FFMPEG ID {1}(e"
+                                       "x: 2){0} : {2}"
+                                       .format(GREEN, YELLOW, END))
             titlesub = raw_input("{0}SUBTITLES TRACK 01 TITLE {1}(ex: Full.Fr"
                                  "ench){0} : {2}".format(GREEN, YELLOW, END))
+            while not titlesub:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify subtitles "
+                       "track title !{3}\n".format(GREEN, BLUE, RED, END))
+                titlesub = raw_input("{0}SUBTITLES TRACK 01 TITLE {1}(ex: Ful"
+                                     "l.French){0} : {2}"
+                                     .format(GREEN, YELLOW, END))
             titlesub2 = raw_input("{0}SUBTITLES TRACK 02 TITLE {1}(ex: French"
                                   ".Forced){0} : {2}"
                                   .format(GREEN, YELLOW, END))
+            while not titlesub2:
+                print ("\n{0} -> {1}ERROR : {2}Please, specify subtitles "
+                       "track title !{3}\n".format(GREEN, BLUE, RED, END))
+                titlesub2 = raw_input("{0}SUBTITLES TRACK 02 TITLE {1}(ex"
+                                      ": French.Forced){0} : {2}"
+                                      .format(GREEN, YELLOW, END))
         else:
             if (subsource == "4"):
                 idsub = raw_input("{0}SUBTITLES TRACK ISO ID {1}(ex: 1){0} : "
                                   "{2}".format(GREEN, YELLOW, END))
+                while not idsub or len(idsub) > 2 or idsub.isdigit() is False:
+                    print ("\n{0} -> {1}ERROR : {2}Please, specify valid subt"
+                           "itles track !{3}\n".format(GREEN, BLUE, RED, END))
+                    idsub = raw_input("{0}SUBTITLES TRACK ISO ID {1}(ex: 1"
+                                      "){0} : {2}".format(GREEN, YELLOW, END))
             else:
                 idsub = raw_input("{0}SUBTITLES TRACK FFMPEG ID {1}(ex: 1){0}"
                                   " : {2}".format(GREEN, YELLOW, END))
+                while not idsub or len(idsub) > 2 or idsub.isdigit() is False:
+                    print ("\n{0} -> {1}ERROR : {2}Please, specify valid subt"
+                           "itles track !{3}\n".format(GREEN, BLUE, RED, END))
+                    idsub = raw_input("{0}SUBTITLES TRACK FFMPEG ID {1}(ex: 1"
+                                      "){0} : {2}".format(GREEN, YELLOW, END))
             if (subtype == "1"):
                 titlesub = "FULL.FRENCH"
             elif (subtype == "2"):
@@ -484,8 +654,18 @@ def ANKOA_SYSTEM():
         if (subtype == "3"):
             ub = raw_input("{0}SUBTITLES TRACK 01 SOURCE > \n{1}"
                            .format(GREEN, END))
+            while not ub or os.path.isfile(folder+ub) is False:
+                print ("{0} -> {1}ERROR : {2}Bad subtitles source, please try"
+                       " again !{3}\n".format(GREEN, BLUE, RED, END))
+                ub = raw_input("{0}SUBTITLES TRACK 01 SOURCE > \n{1}"
+                               .format(GREEN, END))
             ub2 = raw_input("{0}SUBTITLES TRACK 02 SOURCE > \n{1}"
                             .format(GREEN, END))
+            while not ub2 or os.path.isfile(folder+ub2) is False:
+                print ("{0} -> {1}ERROR : {2}Bad subtitles source, please try"
+                       " again !{3}\n".format(GREEN, BLUE, RED, END))
+                ub2 = raw_input("{0}SUBTITLES TRACK 02 SOURCE > \n{1}"
+                                .format(GREEN, END))
             readline.parse_and_bind("tab: ")
             idsub = "{0}{1}".format(folder, ub)
             idsub2 = "{0}{1}".format(folder, ub2)
@@ -493,12 +673,29 @@ def ANKOA_SYSTEM():
                 titlesub = raw_input("{0}SUBTITLES TRACK 01 TITLE {1}"
                                      "(ex: Full.French){0} : {2}"
                                      .format(GREEN, YELLOW, END))
+                while not titlesub:
+                    print ("\n{0} -> {1}ERROR : {2}Please, specify subtitles "
+                           "track title !{3}\n".format(GREEN, BLUE, RED, END))
+                    titlesub = raw_input("{0}SUBTITLES TRACK 01 TITLE {1}(ex:"
+                                         " Full.French){0} : {2}"
+                                         .format(GREEN, YELLOW, END))
                 titlesub2 = raw_input("{0}SUBTITLES TRACK 02 TITLE {1}"
                                       "(ex: French.Forced){0} : {2}"
                                       .format(GREEN, YELLOW, END))
+                while not titlesub2:
+                    print ("\n{0} -> {1}ERROR : {2}Please, specify subtitles "
+                           "track title !{3}\n".format(GREEN, BLUE, RED, END))
+                    titlesub2 = raw_input("{0}SUBTITLES TRACK 02 TITLE {1}(ex"
+                                          ": French.Forced){0} : {2}"
+                                          .format(GREEN, YELLOW, END))
         else:
             ub = raw_input("{0}SUBTITLES TRACK SOURCE > \n{1}"
                            .format(GREEN, END))
+            while not ub or os.path.isfile(folder+ub) is False:
+                print ("{0} -> {1}ERROR : {2}Bad subtitles source, please try"
+                       " again !{3}\n".format(GREEN, BLUE, RED, END))
+                ub = raw_input("{0}SUBTITLES TRACK SOURCE > \n{1}"
+                               .format(GREEN, END))
             readline.parse_and_bind("tab: ")
             idsub = "{0}{1}".format(folder, ub)
             if (subtype == "1"):
@@ -536,13 +733,23 @@ def ANKOA_SYSTEM():
                                       " : {2}".format(GREEN, YELLOW, END))
                 subdelay2 = raw_input("{1}SUBTITLES 02 DELAY {1}(ex: -200){1}"
                                       " : {1}".format(GREEN, YELLOW, END))
-                sync = "--sync 0:{0}".format(subdelay1)
-                sync2 = "--sync 0:{0} ".format(subdelay2)
+                if not subdelay1:
+                    sync = ""
+                else:
+                    sync = "--sync 0:{0}".format(subdelay1)
+                if not subdelay2:
+                    sync = ""
+                else:
+                    sync2 = "--sync 0:{0} ".format(subdelay2)
             else:
                 subdelay = raw_input("{0}SUBTITLES DELAY {1}(ex: -200){0} : "
                                      "{2}".format(GREEN, YELLOW, END))
-                sync = "--sync 0:{0} ".format(subdelay)
-                sync2 = ""
+                if not subdelay:
+                    sync = ""
+                    sync2 = ""
+                else:
+                    sync = "--sync 0:{0} ".format(subdelay)
+                    sync2 = ""
         else:
             sync = ""
             sync2 = ""
@@ -718,7 +925,7 @@ def ANKOA_SYSTEM():
             print (
                 "{0}\n ->{1} EXTRACTION DONE, CHECK RESULT FOLDER & RUN OCR I"
                 "F NEEDED !{0}\n ->{1} WARNING > PUT FINAL SRT IN SOURCE FOLD"
-                "ER FOR NEXT STEP !\n{2}".format(RED, GREEN, END))
+                "ER FOR NEXT STEP !{2}\n".format(RED, GREEN, END))
 
         if (subsource == "1"):          # SOURCE
             (idsub, titlesub, idsub2, titlesub2) = infos_subs_in()
@@ -728,7 +935,12 @@ def ANKOA_SYSTEM():
         elif (subsource == "4"):        # ISO
             (idsub, titlesub, idsub2, titlesub2) = infos_subs_in()
             extract_iso = iso_extract()
-            os.system(extract_iso)
+            try:
+                os.system(extract_iso)
+            except OSError as e:
+                print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                       .format(GREEN, BLUE, RED, END, str(e)))
+                sys.exit()
             subextract_message()
 
             (
@@ -743,7 +955,12 @@ def ANKOA_SYSTEM():
             (idsub, titlesub, idsub2, titlesub2) = infos_subs_in()
             (ext, ext2) = mkv_format()
             extract_mkv = mkv_extract()
-            os.system(extract_mkv)
+            try:
+                os.system(extract_mkv)
+            except OSError as e:
+                print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                       .format(GREEN, BLUE, RED, END, str(e)))
+                sys.exit()
             subextract_message()
 
             (
@@ -757,7 +974,12 @@ def ANKOA_SYSTEM():
         elif (subsource == "6"):        # M2TS
             (idsub, titlesub, idsub2, titlesub2) = infos_subs_in()
             extract_m2ts = m2ts_extract()
-            os.system(extract_m2ts)
+            try:
+                os.system(extract_m2ts)
+            except OSError as e:
+                print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                       .format(GREEN, BLUE, RED, END, str(e)))
+                sys.exit()
             subextract_message()
 
             (
@@ -786,7 +1008,15 @@ def ANKOA_SYSTEM():
     # Aspect Ratio
     def custom():
         W = raw_input("{0}RESOLUTION WIDTH : {1}".format(GREEN, END))
+        while not W or len(W) > 5 or W.isdigit is False:
+            print ("{0} -> {1}ERROR : {2}Bad WIDTH entry, please try"
+                   " again !{3}\n".format(GREEN, BLUE, RED, END))
+            W = raw_input("{0}RESOLUTION WIDTH : {1}".format(GREEN, END))
         H = raw_input("{0}RESOLUTION HEIGHT : {1}".format(GREEN, END))
+        while not H or len(H) > 5 or H.isdigit is False:
+            print ("{0} -> {1}ERROR : {2}Bad HEIGHT entry, please try"
+                   " again !{3}\n".format(GREEN, BLUE, RED, END))
+            H = raw_input("{0}RESOLUTION HEIGHT : {1}".format(GREEN, END))
         reso = " -s {0}x{1}{2}".format(W, H, crop)
         return (reso)
 
@@ -840,25 +1070,54 @@ def ANKOA_SYSTEM():
     scan = raw_input("{0}SCAN AUTOCROP SOURCE {1}(y/n){0} : {2}"
                      .format(GREEN, YELLOW, END))
     if (scan == "y"):
-        os.system("HandBrakeCLI -t 0 --scan -i{0}".format(source))
+        try:
+            os.system("HandBrakeCLI -t 0 --scan -i{0}".format(source))
+        except OSError as e:
+            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
 
     ask_screen = raw_input("{0}SCREENSHOT VERIFICATION {1}(y/n){0} : {2}"
                            .format(GREEN, YELLOW, END))
     if (ask_screen == "y"):
-        os.system("./thumbnails.py {0} 5 2".format(source))
+        try:
+            os.system("./thumbnails.py {0} 5 2".format(source))
+        except OSError as e:
+            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
 
     man_crop = raw_input("{0}MANUAL SOURCE CROP {1}(y/n){0} : {2}"
                          .format(GREEN, YELLOW, END))
     if (man_crop == "y"):
         w_crop = raw_input("{0}SOURCE CROP WIDTH {1}(ex: 1920){0} : {2}"
                            .format(GREEN, YELLOW, END))
+        while not w_crop or len(w_crop) > 5 or w_crop.isdigit is False:
+            print ("{0} -> {1}ERROR : {2}Bad CROP WIDTH entry, please try"
+                   " again !{3}\n".format(GREEN, BLUE, RED, END))
+            w_crop = raw_input("{0}SOURCE CROP WIDTH {1}(ex: 1920){0} : {2}"
+                               .format(GREEN, YELLOW, END))
         h_crop = raw_input("{0}SOURCE CROP HEIGHT {1}(ex: 800){0} : {2}"
                            .format(GREEN, YELLOW, END))
+        while not h_crop or len(h_crop) > 5 or h_crop.isdigit is False:
+            print ("{0} -> {1}ERROR : {2}Bad CROP HEIGHT entry, please try"
+                   " again !{3}\n".format(GREEN, BLUE, RED, END))
+            h_crop = raw_input("{0}SOURCE CROP HEIGHT {1}(ex: 800){0} : {2}"
+                               .format(GREEN, YELLOW, END))
         x_crop = raw_input("{0}PIXELS CROP LEFT/RIGHT {1}(ex: 0){0} : {2}"
                            .format(GREEN, YELLOW, END))
+        while not x_crop or len(x_crop) > 4 or x_crop.isdigit is False:
+            print ("{0} -> {1}ERROR : {2}Bad CROP LEFT/RIGHT entry, please "
+                   "try again !{3}\n".format(GREEN, BLUE, RED, END))
+            x_crop = raw_input("{0}PIXELS CROP LEFT/RIGHT {1}(ex: 0){0} : "
+                               "{2}".format(GREEN, YELLOW, END))
         y_crop = raw_input("{0}PIXELS CROP TOP/BOTTOM {1}(ex: 140){0} : {2}"
                            .format(GREEN, YELLOW, END))
-
+        while not y_crop or len(y_crop) > 4 or y_crop.isdigit is False:
+            print ("{0} -> {1}ERROR : {2}Bad CROP TOP/BOTTOM entry, please "
+                   "try again !{3}\n".format(GREEN, BLUE, RED, END))
+            y_crop = raw_input("{0}PIXELS CROP TOP/BOTTOM {1}(ex: 140){0} : "
+                               "{2}".format(GREEN, YELLOW, END))
         crop = " -filter:v crop={0}:{1}:{2}:{3}"\
                .format(w_crop, h_crop, x_crop, y_crop)
     else:
@@ -873,11 +1132,16 @@ def ANKOA_SYSTEM():
     # x264/x265 Params
     level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
                       .format(GREEN, YELLOW, END))
+    while not level or len(level) > 3:
+        print ("{0} -> {1}ERROR : {2}Bad FORMAT PROFILE entry, please "
+               "try again !{3}\n".format(GREEN, BLUE, RED, END))
+        level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
+                          .format(GREEN, YELLOW, END))
+
     preset = raw_input("{0}CUSTOM PRESET X264/X265 > \n{1}FAST {0}[1]{1} - SL"
                        "OW {0}[2]{1} - SLOWER {0}[3]\n{1}VERYSLOW {0}[4]{1} -"
                        " PLACEBO {0}[5]{1} - NONE {0}[6] : {2}"
                        .format(GREEN, YELLOW, END))
-
     preset_resp = [1, 2, 3, 4, 5]
     preset_values = ["", "fast", "slow", "slower", "veryslow", "placebo"]
     if (preset in preset_resp):
@@ -1182,6 +1446,11 @@ def ANKOA_SYSTEM():
     # Prez / Torrent
     nfosource = raw_input("{0}RELEASE SOURCE {1}(ex: 1080p.HDZ){0} : {2}"
                           .format(GREEN, YELLOW, END))
+    while not nfosource:
+        print ("{0} -> {1}ERROR : {2}Please, specify RELEASE SOURCE !{3}\n"
+               .format(GREEN, BLUE, RED, END))
+        nfosource = raw_input("{0}RELEASE SOURCE {1}(ex: 1080p.HDZ){0} : {2}"
+                              .format(GREEN, YELLOW, END))
     nfoimdb = raw_input("{0}RELEASE IMDB ID {1}(ex: 6686697){0} : {2}"
                         .format(GREEN, YELLOW, END))
 

@@ -46,8 +46,6 @@
 import os
 import sys
 import optparse
-import subprocess
-from subprocess import CalledProcessError, check_output
 sys.path.append("app/")
 from style import (banner, next, color)
 from settings import option
@@ -57,30 +55,37 @@ from settings import option
 
 
 def main():
-    usage = "./make.py SOURCE.mkv SOURCE SUBS SUBFORCED URL"
 
+    # HELP
+    usage = "./make.py SOURCE.mkv SOURCE SUBS SUBFORCED URL"
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if(len(args) != 5):
         parser.print_help()
         parser.exit(1)
 
+    # VALUES
     source = sys.argv[1]
     rls_source = sys.argv[2]
     sub = sys.argv[3]
     forced = sys.argv[4]
     url = sys.argv[5]
 
+    # RUN
     process = "./thumbnails.py {0} 5 2 && ./nfogen.sh {0} {1} {2} {3}"\
               " {4} && cd {5} && mktorrent -a {6} -p -t 8 -l 22 {0}"\
               .format(source, rls_source, sub, forced, url, thumb, announce)
 
-    try:
-        subprocess.check_output(process, shell=True)
-        print ("\n{0} -> {1}NFO, THUMBNAILS & TORRENT CREATED !\n{2}"
-               .format(RED, GREEN, END))
-
-    except (OSError, CalledProcessError):
+    if os.path.isfile(sys.argv[1]) is True:
+        try:
+            os.system(process)
+            print ("\n{0} -> {1}NFO, THUMBNAILS & TORRENT CREATED !\n{2}"
+                   .format(RED, GREEN, END))
+        except OSError as e:
+            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
+    else:
         print ("{0}\n -> {1}ERROR : {2}Bad source selection, please try again"
                " !\n{3}".format(GREEN, BLUE, RED, END))
 

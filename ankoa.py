@@ -153,9 +153,14 @@ def main():
 
     # Run
     for i in range(n):
-        os.system(run_ffmpeg[i])
-        os.system(run_data[i])
-        i = i + 1
+        try:
+            os.system(run_ffmpeg[i])
+            os.system(run_data[i])
+            i = i + 1
+        except OSError as e:
+            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
 
     print ("{0}\n ->{1} ENCODE(s) DONE, CONGRATULATIONS !\n{0} ->{1} NFO, THU"
            "MBNAILS, (PREZ) & TORRENT CREATED !\n{2}".format(RED, GREEN, END))

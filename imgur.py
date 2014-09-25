@@ -55,35 +55,47 @@ from style import color
 
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
-usage = "./imgur.py /path/to/image.png"
-parser = optparse.OptionParser(usage=usage)
-(options, args) = parser.parse_args()
-if (len(args) < 1 or len(args) > 2):
-    parser.print_help()
-    parser.exit(1)
 
-try:
-    img_file = open(sys.argv[1], "rb")
-    img = base64.b64encode(img_file.read())
-    url = 'http://api.imgur.com/2/upload'
-    key = {'key': '02b62fd8f1d5e78321e62bb42ced459e', 'image': img}
-    data = urllib.urlencode(key)
-    req = urllib2.Request(url, data)
-    resp = BeautifulSoup.BeautifulSoup(urlopen(req))
-    thumb_link = str(resp.find('original')).replace('<original>', '')\
-                                           .replace('</original>', '')
-    if (len(args) == 2 and args[1] == "add"):
-        f = file("{0}txt".format(sys.argv[1][:-3]), 'r')
-        chaine = f.read()
-        f.close()
-        data = chaine.replace("thumbnails_link", thumb_link)
-        f = file("{0}txt".format(sys.argv[1][:-3]), 'w')
-        f.write(data)
-        f.close
+def main():
+
+    # HELP
+    usage = "./imgur.py /path/to/image.png"
+    parser = optparse.OptionParser(usage=usage)
+    (options, args) = parser.parse_args()
+    if (len(args) < 1 or len(args) > 2):
+        parser.print_help()
+        parser.exit(1)
+
+    # UPLOAD IMG FILE
+    if os.path.isfile(sys.argv[1]) is True:
+        try:
+            img_file = open(sys.argv[1], "rb")
+            img = base64.b64encode(img_file.read())
+            url = 'http://api.imgur.com/2/upload'
+            key = {'key': '02b62fd8f1d5e78321e62bb42ced459e', 'image': img}
+            data = urllib.urlencode(key)
+            req = urllib2.Request(url, data)
+            resp = BeautifulSoup.BeautifulSoup(urlopen(req))
+            thumb_link = str(resp.find('original')).replace('<original>', '')\
+                                                   .replace('</original>', '')
+            if (len(args) == 2 and args[1] == "add"):
+                f = file("{0}txt".format(sys.argv[1][:-3]), 'r')
+                chaine = f.read()
+                f.close()
+                data = chaine.replace("thumbnails_link", thumb_link)
+                f = file("{0}txt".format(sys.argv[1][:-3]), 'w')
+                f.write(data)
+                f.close
+            else:
+                print ("{0}\n Thumbnails url > {1}{2}\n{3}"
+                       .format(GREEN, BLUE, thumb_link, END))
+
+        except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
+            print ("{0}\n Thumbnails Upload Error > {1}{2}\n{3}"
+                   .format(RED, BLUE, str(e), END))
     else:
-        print ("{0}\n Thumbnails url > {1}{2}\n{3}"
-               .format(GREEN, BLUE, thumb_link, END))
+        print ("{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
+               " again !{3}\n".format(GREEN, BLUE, RED, END))
 
-except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
-    print ("{0}\n Thumbnails Upload Error > {1}{2}\n{3}"
-           .format(RED, BLUE, str(e), END))
+if (__name__ == "__main__"):
+    main()
