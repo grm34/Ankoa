@@ -158,14 +158,14 @@ def ANKOA_SYSTEM():
                 next = raw_input("{0}TRY AGAIN {1}(y/n){0} : {2}"
                                  .format(GREEN, YELLOW, END))
             bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
-            while not bit or bit.isdigit() is False:
+            while not bit or len(bit) < 3 or bit.isdigit() is False:
                 print ("\n{0} -> {1}ERROR : {2}Please, specify valid video "
                        "bitrate !{3}\n".format(GREEN, BLUE, RED, END))
                 bit = raw_input("{0}VIDEO BITRATE Kbps : {1}"
                                 .format(GREEN, END))
         else:
             bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
-            while not bit or bit.isdigit() is False:
+            while not bit or len(bit) < 3 or bit.isdigit() is False:
                 print ("\n{0} -> {1}ERROR : {2}Please, specify valid video "
                        "bitrate !{3}\n".format(GREEN, BLUE, RED, END))
                 bit = raw_input("{0}VIDEO BITRATE Kbps : {1}"
@@ -232,6 +232,7 @@ def ANKOA_SYSTEM():
         interlace2 = ""
 
     # Audio Infos
+    codec_resp = ["1", "2", "3"]
     audiotype = raw_input("{0}RELEASE AUDIO TYPE > \n{1}FRENCH {0}[1]{1} - EN"
                           "GLiSH {0}[2]\n{1}OTHER {0}[3]{1} - MULTi {0}[4]"
                           "{1} - NONE {0}[5] : {2}"
@@ -257,7 +258,7 @@ def ANKOA_SYSTEM():
         audiocodec = raw_input("{0}AUDIO TRACK CODEC > \n{1}MP3 {0}[1]{1} - A"
                                "C3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
                                .format(GREEN, YELLOW, END))
-        while audiocodec != 1 or audiocodec != 2 or audiocodec != 3:
+        while audiocodec not in codec_resp:
             print ("\n{0} -> {1}ERROR : {2}Please, specify valid codec !"
                    "{3}\n".format(GREEN, BLUE, RED, END))
             audiocodec = raw_input("{0}AUDIO TRACK CODEC > \n{1}MP3 {0}[1]{1}"
@@ -266,7 +267,8 @@ def ANKOA_SYSTEM():
         if (audiocodec == "2"):
             abitrate = raw_input("{0}AUDIO TRACK BITRATE Kbps {1}(ex: 448){0}"
                                  " : {2}".format(GREEN, YELLOW, END))
-            while not abitrate or abitrate.isdigit() is False:
+            while not abitrate or len(abitrate) < 1\
+                    or abitrate.isdigit() is False:
                 print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio bi"
                        "trate !{3}\n".format(GREEN, BLUE, RED, END))
                 abitrate = raw_input("{0}AUDIO TRACK BITRATE Kbps {1}(ex: 448"
@@ -298,7 +300,7 @@ def ANKOA_SYSTEM():
         audiocodec = raw_input("{0}AUDIO TRACK 01 CODEC > \n{1}MP3 {0}[1]{1}"
                                " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
                                .format(GREEN, YELLOW, END))
-        while audiocodec != 1 or audiocodec != 2 or audiocodec != 3:
+        while audiocodec not in codec_resp:
             print ("\n{0} -> {1}ERROR : {2}Please, specify valid codec !"
                    "{3}\n".format(GREEN, BLUE, RED, END))
             audiocodec = raw_input("{0}AUDIO TRACK 01 CODEC > \n{1}MP3 {0}[1]"
@@ -307,7 +309,8 @@ def ANKOA_SYSTEM():
         if (audiocodec == "2"):
             abitrate = raw_input("{0}AUDIO TRACK 01 BITRATE Kbps {1}(ex: 448)"
                                  "{0} : {2}".format(GREEN, YELLOW, END))
-            while not abitrate or abitrate.isdigit() is False:
+            while not abitrate or len(abitrate) < 1\
+                    or abitrate.isdigit() is False:
                 print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio bi"
                        "trate !{3}\n".format(GREEN, BLUE, RED, END))
                 abitrate = raw_input("{0}AUDIO TRACK 01 BITRATE Kbps {1}(ex: "
@@ -339,7 +342,7 @@ def ANKOA_SYSTEM():
         audiocodec2 = raw_input("{0}AUDIO TRACK 02 CODEC > \n{1}MP3 {0}[1]{1}"
                                 " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
                                 .format(GREEN, YELLOW, END))
-        while audiocodec2 != 1 or audiocodec2 != 2 or audiocodec2 != 3:
+        while audiocodec2 not in codec_resp:
             print ("\n{0} -> {1}ERROR : {2}Please, specify valid codec !"
                    "{3}\n".format(GREEN, BLUE, RED, END))
             audiocodec2 = raw_input("{0}AUDIO TRACK 02 CODEC > \n{1}MP3 {0}[1"
@@ -349,7 +352,8 @@ def ANKOA_SYSTEM():
         if (audiocodec2 == "2"):
             abitrate2 = raw_input("{0}AUDIO TRACK 02 BITRATE Kbps {1}(ex: 448"
                                   "){0} : {2}".format(GREEN, YELLOW, END))
-            while not abitrate2 or abitrate2.isdigit() is False:
+            while not abitrate2 or len(abitrate2) < 1\
+                    or abitrate2.isdigit() is False:
                 print ("\n{0} -> {1}ERROR : {2}Please, specify valid audio bi"
                        "trate !{3}\n".format(GREEN, BLUE, RED, END))
                 abitrate2 = raw_input("{0}AUDIO TRACK 02 BITRATE Kbps {1}(ex:"
@@ -1008,12 +1012,12 @@ def ANKOA_SYSTEM():
     def custom():
         W = raw_input("{0}RESOLUTION WIDTH : {1}".format(GREEN, END))
         while not W or len(W) > 5 or W.isdigit is False:
-            print ("{0} -> {1}ERROR : {2}Bad WIDTH entry, please try"
+            print ("\n{0} -> {1}ERROR : {2}Bad WIDTH entry, please try"
                    " again !{3}\n".format(GREEN, BLUE, RED, END))
             W = raw_input("{0}RESOLUTION WIDTH : {1}".format(GREEN, END))
         H = raw_input("{0}RESOLUTION HEIGHT : {1}".format(GREEN, END))
         while not H or len(H) > 5 or H.isdigit is False:
-            print ("{0} -> {1}ERROR : {2}Bad HEIGHT entry, please try"
+            print ("\n{0} -> {1}ERROR : {2}Bad HEIGHT entry, please try"
                    " again !{3}\n".format(GREEN, BLUE, RED, END))
             H = raw_input("{0}RESOLUTION HEIGHT : {1}".format(GREEN, END))
         reso = " -s {0}x{1}{2}".format(W, H, crop)
@@ -1092,28 +1096,28 @@ def ANKOA_SYSTEM():
         w_crop = raw_input("{0}SOURCE CROP WIDTH {1}(ex: 1920){0} : {2}"
                            .format(GREEN, YELLOW, END))
         while not w_crop or len(w_crop) > 5 or w_crop.isdigit is False:
-            print ("{0} -> {1}ERROR : {2}Bad CROP WIDTH entry, please try"
+            print ("\n{0} -> {1}ERROR : {2}Bad CROP WIDTH entry, please try"
                    " again !{3}\n".format(GREEN, BLUE, RED, END))
             w_crop = raw_input("{0}SOURCE CROP WIDTH {1}(ex: 1920){0} : {2}"
                                .format(GREEN, YELLOW, END))
         h_crop = raw_input("{0}SOURCE CROP HEIGHT {1}(ex: 800){0} : {2}"
                            .format(GREEN, YELLOW, END))
         while not h_crop or len(h_crop) > 5 or h_crop.isdigit is False:
-            print ("{0} -> {1}ERROR : {2}Bad CROP HEIGHT entry, please try"
+            print ("\n{0} -> {1}ERROR : {2}Bad CROP HEIGHT entry, please try"
                    " again !{3}\n".format(GREEN, BLUE, RED, END))
             h_crop = raw_input("{0}SOURCE CROP HEIGHT {1}(ex: 800){0} : {2}"
                                .format(GREEN, YELLOW, END))
         x_crop = raw_input("{0}PIXELS CROP LEFT/RIGHT {1}(ex: 0){0} : {2}"
                            .format(GREEN, YELLOW, END))
         while not x_crop or len(x_crop) > 4 or x_crop.isdigit is False:
-            print ("{0} -> {1}ERROR : {2}Bad CROP LEFT/RIGHT entry, please "
+            print ("\n{0} -> {1}ERROR : {2}Bad CROP LEFT/RIGHT entry, please "
                    "try again !{3}\n".format(GREEN, BLUE, RED, END))
             x_crop = raw_input("{0}PIXELS CROP LEFT/RIGHT {1}(ex: 0){0} : "
                                "{2}".format(GREEN, YELLOW, END))
         y_crop = raw_input("{0}PIXELS CROP TOP/BOTTOM {1}(ex: 140){0} : {2}"
                            .format(GREEN, YELLOW, END))
         while not y_crop or len(y_crop) > 4 or y_crop.isdigit is False:
-            print ("{0} -> {1}ERROR : {2}Bad CROP TOP/BOTTOM entry, please "
+            print ("\n{0} -> {1}ERROR : {2}Bad CROP TOP/BOTTOM entry, please "
                    "try again !{3}\n".format(GREEN, BLUE, RED, END))
             y_crop = raw_input("{0}PIXELS CROP TOP/BOTTOM {1}(ex: 140){0} : "
                                "{2}".format(GREEN, YELLOW, END))
@@ -1132,7 +1136,7 @@ def ANKOA_SYSTEM():
     level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
                       .format(GREEN, YELLOW, END))
     while not level or len(level) > 3:
-        print ("{0} -> {1}ERROR : {2}Bad FORMAT PROFILE entry, please "
+        print ("\n{0} -> {1}ERROR : {2}Bad FORMAT PROFILE entry, please "
                "try again !{3}\n".format(GREEN, BLUE, RED, END))
         level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
                           .format(GREEN, YELLOW, END))
@@ -1446,7 +1450,7 @@ def ANKOA_SYSTEM():
     nfosource = raw_input("{0}RELEASE SOURCE {1}(ex: 1080p.HDZ){0} : {2}"
                           .format(GREEN, YELLOW, END))
     while not nfosource:
-        print ("{0} -> {1}ERROR : {2}Please, specify RELEASE SOURCE !{3}\n"
+        print ("\n{0} -> {1}ERROR : {2}Please, specify RELEASE SOURCE !{3}\n"
                .format(GREEN, BLUE, RED, END))
         nfosource = raw_input("{0}RELEASE SOURCE {1}(ex: 1080p.HDZ){0} : {2}"
                               .format(GREEN, YELLOW, END))
