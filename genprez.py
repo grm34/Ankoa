@@ -45,8 +45,9 @@
 
 import sys
 import json
-import optparse
+import socket
 import urllib2
+import optparse
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
 from django.utils.encoding import (smart_str, smart_unicode)
@@ -81,8 +82,11 @@ def main():
     searchIMDB = "http://deanclatworthy.com/imdb/?id=tt{0}"\
                  .format(imdb)
     try:
-        data_IMDB = loads(urlopen(searchIMDB).read())
+        data_IMDB = loads(urlopen(searchIMDB, None, 5.0).read())
     except(HTTPError, ValueError, URLError):
+        data_IMDB = ""
+        pass
+    except socket.timeout:
         data_IMDB = ""
         pass
 
@@ -92,16 +96,22 @@ def main():
     dataTMDB = urllib2.Request(searchTMDB,
                                headers={"Accept": "application/json"})
     try:
-        data_TMDB = loads(urllib2.urlopen(dataTMDB).read())
+        data_TMDB = loads(urllib2.urlopen(dataTMDB, None, 5.0).read())
     except(HTTPError, ValueError, URLError):
+        data_TMDB = ""
+        pass
+    except socket.timeout:
         data_TMDB = ""
         pass
 
     # CONNECT OMDB
     searchOMDB = "http://www.omdbapi.com/?i=tt{0}".format(imdb)
     try:
-        data_OMDB = loads(urlopen(searchOMDB).read())
+        data_OMDB = loads(urlopen(searchOMDB, None, 5.0).read())
     except(HTTPError, ValueError, URLError):
+        data_OMDB = ""
+        pass
+    except socket.timeout:
         data_OMDB = ""
         pass
 
@@ -112,8 +122,11 @@ def main():
                 "queName=0&filmography=0&bornDied=0&starSign=0&actor"\
                 "Actress=1&actorTrivia=0&movieTrivia=0".format(imdb)
     try:
-        data_API = loads(urlopen(searchAPI).read())
+        data_API = loads(urlopen(searchAPI, None, 5.0).read())
     except(HTTPError, ValueError, URLError):
+        data_API = ""
+        pass
+    except socket.timeout:
         data_API = ""
         pass
 

@@ -45,15 +45,16 @@
 
 import os
 import sys
+import json
+import socket
+import urllib2
 import readline
 import optparse
-import json
-import urllib2
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
-from style import (color)
-from bitrate import (calcul, calc)
+from style import color
 from settings import option
+from bitrate import (calcul, calc)
 
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 (BLUE, RED, YELLOW, GREEN, END) = color()
@@ -83,7 +84,7 @@ def ANKOA_SYSTEM():
     # Release Title
     title = raw_input("{0}RELEASE TITLE {1}(ex: Hudson.Hawk){0} : {2}"
                       .format(GREEN, YELLOW, END))
-    while not (title):
+    while not title:
         print ("\n{0} -> {1}ERROR : {2}Please, specify release title !{3}\n"
                .format(GREEN, BLUE, RED, END))
         title = raw_input("{0}RELEASE TITLE {1}(ex: Hudson.Hawk){0} : {2}"
@@ -1696,8 +1697,11 @@ def ANKOA_SYSTEM():
         searchIMDB = "http://deanclatworthy.com/imdb/?id=tt{0}"\
                      .format(nfoimdb)
         try:
-            data1 = loads(urlopen(searchIMDB).read())
+            data1 = loads(urlopen(searchIMDB, None, 5.0).read())
         except (HTTPError, ValueError, URLError):
+            data1 = ""
+            pass
+        except socket.timeout:
             data1 = ""
             pass
 
@@ -1707,16 +1711,22 @@ def ANKOA_SYSTEM():
         dataTMDB = urllib2.Request(searchTMDB,
                                    headers={"Accept": "application/json"})
         try:
-            data2 = loads(urllib2.urlopen(dataTMDB).read())
+            data2 = loads(urllib2.urlopen(dataTMDB, None, 5.0).read())
         except (HTTPError, ValueError, URLError):
+            data2 = ""
+            pass
+        except socket.timeout:
             data2 = ""
             pass
 
         # Search OMDB
         searchOMDB = "http://www.omdbapi.com/?i=tt{0}".format(nfoimdb)
         try:
-            data3 = loads(urlopen(searchOMDB).read())
+            data3 = loads(urlopen(searchOMDB, None, 5.0).read())
         except (HTTPError, ValueError, URLError):
+            data3 = ""
+            pass
+        except socket.timeout:
             data3 = ""
             pass
 
@@ -1727,8 +1737,11 @@ def ANKOA_SYSTEM():
                     "lmography=0&bornDied=0&starSign=0&actorActress=0&actorT"\
                     "rivia=0&movieTrivia=0".format(nfoimdb)
         try:
-            data4 = loads(urlopen(searchAPI).read())
+            data4 = loads(urlopen(searchAPI, None, 5.0).read())
         except(HTTPError, ValueError, URLError):
+            data4 = ""
+            pass
+        except socket.timeout:
             data4 = ""
             pass
 
