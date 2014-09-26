@@ -52,6 +52,7 @@ import readline
 import optparse
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
+from django.utils.encoding import (smart_str, smart_unicode)
 from style import color
 from settings import option
 from bitrate import (calcul, calc)
@@ -1749,13 +1750,13 @@ def ANKOA_SYSTEM():
         tit = ["title", "original_title", "Title", "title"]
 
         if (tit[0] in data1):
-            dir = "{0}".format(data1['title'])
+            dir = "{0}".format(smart_str(data1['title']))
         elif (tit[1] in data2):
-            dir = "{0}".format(data2['original_title'])
+            dir = "{0}".format(smart_str(data2['original_title']))
         elif (tit[2] in data3):
-            dir = "{0}".format(data3['Title'])
+            dir = "{0}".format(smart_str(data3['Title']))
         elif (tit[3] in data4):
-            dir = "{0}".format(data4['title'])
+            dir = "{0}".format(smart_str(data4['title']))
         else:
             nfoimdb = ""
 
