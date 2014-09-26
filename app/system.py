@@ -50,6 +50,7 @@ import socket
 import urllib2
 import readline
 import optparse
+import commands
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
 from django.utils.encoding import (smart_str, smart_unicode)
@@ -111,6 +112,7 @@ def ANKOA_SYSTEM():
     type = raw_input("{0}SCAN INFOS SOURCE > \n{1}HANDBRAKE {0}[1]{1} - MEDIA"
                      "INFO {0}[2] : {2}".format(GREEN, YELLOW, END))
     scan = [
+        "ffmpeg -i " + source,
         "HandBrakeCLI -t 0 --scan -i " + source,
         "mediainfo -f --Inform='General;%Duration/String3%' " + source,
         "mediainfo -f --Inform='General;%FileSize/String4%' " + source,
@@ -131,11 +133,19 @@ def ANKOA_SYSTEM():
 
         # Handbrake Scan
         if (type == "1"):
-            os.system(scan[0])
+            hb = smart_str(commands.getoutput("{0}".format(scan[1])))
+            hb_out = file("{0}{1}.{2}_scan.txt"
+                          .format(thumb, title, year), "w").write(hb)
+            hb_data = file("{0}{1}.{2}_scan.txt"
+                           .format(thumb, title, year), "r").readlines()
+            for lines in hb_data:
+                if ("Duration:" in lines or "Stream #" in lines):
+                    print lines.replace('\n', '')
+            os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
 
         # MediaInfo Scan
         else:
-            for x in range(1, 15):
+            for x in range(2, 16):
                 os.system(scan[x])
                 x = x + 1
 
@@ -198,10 +208,10 @@ def ANKOA_SYSTEM():
     format = raw_input("{0}RELEASE FORMAT > \n{1}HDTV {0}[1]{1} - PDTV {0}[2]"
                        "{1} - BDRip {0}[3]\n{1}DVDRip {0}[4]{1} - BRRip {0}[5"
                        "]{1} - 720p {0}[6] : {2}".format(GREEN, YELLOW, END))
-    form_resp = [1, 2, 3, 4, 5, 6, 7]
+    form_resp = ["1", "2", "3", "4", "5", "6", "7"]
     form_values = ["", "HDTV", "PDTV", "BDRip", "DVDRip",
                    "BRRip", "720p.BluRay", "HR.PDTV"]
-    if (int(format) in form_resp):
+    if (format in form_resp):
         form = form_values[int(format)]
     else:
         form = form_values[5]
@@ -226,10 +236,17 @@ def ANKOA_SYSTEM():
     # Scan Source Tracks
     scan2 = raw_input("{0}FFMPEG SCAN TRACKS {1}(y/n){0} : {2}"
                       .format(GREEN, YELLOW, END))
-    ffmpeg = "ffmpeg -i {0}".format(source)
     if (scan2 == "y"):
         try:
-            os.system(ffmpeg)
+            hb = smart_str(commands.getoutput("{0}".format(scan[0])))
+            hb_out = file("{0}{1}.{2}_scan.txt"
+                          .format(thumb, title, year), "w").write(hb)
+            hb_data = file("{0}{1}.{2}_scan.txt"
+                           .format(thumb, title, year), "r").readlines()
+            for lines in hb_data:
+                if ("Stream #" in lines):
+                    print lines.replace('\n', '')
+            os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}\n"
                    .format(GREEN, BLUE, RED, END, str(e)))
@@ -513,9 +530,9 @@ def ANKOA_SYSTEM():
             config2 = "-c:a:1 copy"
 
     # Audio Languages
-    atype_resp = [1, 2, 3, 4]
+    atype_resp = ["1", "2", "3", "4"]
     lang_values = ["", "FRENCH", "VOSTFR", "VOSTFR", "MULTi"]
-    if (int(audiotype) in atype_resp):
+    if (audiotype in atype_resp):
         lang = lang_values[int(audiotype)]
         if (audiotype == "1"):
             audiolang = lang
@@ -952,9 +969,9 @@ def ANKOA_SYSTEM():
             ext2 = ""
 
         # Subtitles Format Values
-        ext_resp = [1, 2, 3, 4]
+        ext_resp = ["1", "2", "3", "4"]
         ext_values = ["", ".pgs", ".vobsub", ".ass", ".srt"]
-        if (int(ext) in ext_resp):
+        if (ext in ext_resp):
             ext = ext_values[int(ext)]
         else:
             ext = ext_values[4]
@@ -1249,11 +1266,20 @@ def ANKOA_SYSTEM():
         return (reso)
 
     # Scan Autocrop
-    scan = raw_input("{0}SCAN AUTOCROP SOURCE {1}(y/n){0} : {2}"
-                     .format(GREEN, YELLOW, END))
-    if (scan == "y"):
+    scan_crop = raw_input("{0}SCAN AUTOCROP SOURCE {1}(y/n){0} : {2}"
+                          .format(GREEN, YELLOW, END))
+    if (scan_crop == "y"):
         try:
-            os.system("HandBrakeCLI -t 0 --scan -i{0}".format(source))
+            hb = smart_str(commands.getoutput("{0}".format(scan[1])))
+            hb_out = file("{0}{1}.{2}_scan.txt"
+                          .format(thumb, title, year), "w").write(hb)
+            hb_data = file("{0}{1}.{2}_scan.txt"
+                           .format(thumb, title, year), "r").readlines()
+            for lines in hb_data:
+                if ("Scanning title" in lines "size:" in lines
+                        or "autocrop:" in lines):
+                    print lines.replace('\n', '')
+            os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}\n"
                    .format(GREEN, BLUE, RED, END, str(e)))
@@ -1339,9 +1365,9 @@ def ANKOA_SYSTEM():
                        "OW {0}[2]{1} - SLOWER {0}[3]\n{1}VERYSLOW {0}[4]{1} -"
                        " PLACEBO {0}[5]{1} - NONE {0}[6] : {2}"
                        .format(GREEN, YELLOW, END))
-    preset_resp = [1, 2, 3, 4, 5]
+    preset_resp = ["1", "2", "3", "4", "5"]
     preset_values = ["", "fast", "slow", "slower", "veryslow", "placebo"]
-    if (int(preset) in preset_resp):
+    if (preset in preset_resp):
         preset = " -preset {0}".format(preset_values[int(preset)])
     else:
         preset = ""
@@ -1352,10 +1378,10 @@ def ANKOA_SYSTEM():
                       "PSNR {0}[5]{1} - SSIM {0}[6]\n{1}FASTDECODE {0}[7]{1}"
                       " - {0}[8]{1} - NONE {0}[9] : {2}"
                       .format(GREEN, YELLOW, END))
-    tuned_resp = [1, 2, 3, 4, 5, 6, 7, 8]
+    tuned_resp = ["1", "2", "3", "4", "5", "6", "7", "8"]
     tuned_values = ["", "film", "animation", "grain", "stillimage", "psnr",
                     "ssim", "fastdecode", "zerolatency"]
-    if (int(tuned) in tuned_resp):
+    if (tuned in tuned_resp):
         tune = " -tune {0}".format(tuned_values[int(tuned)])
     else:
         tune = ""
@@ -1426,9 +1452,9 @@ def ANKOA_SYSTEM():
                              "MAL {0}[2]{1} - STRICT {0}[3] : {2}"
                              .format(GREEN, YELLOW, END))
 
-        pyramid_resp = [1, 2, 3]
+        pyramid_resp = ["1", "2", "3"]
         pyramid_values = ["", "none", "normal", "strict"]
-        if (int(pyramid_) in pyramid_resp):
+        if (pyramid_ in pyramid_resp):
             pyramid = " -b-pyramid {0}".format(pyramid_values[int(pyramid_)])
         else:
             pyramid = ""
@@ -1448,9 +1474,9 @@ def ANKOA_SYSTEM():
                              "MPLE {0}[2]{1} - SMART {0}[3] : {2}"
                              .format(GREEN, YELLOW, END))
 
-        weightp_resp = [1, 2, 3]
+        weightp_resp = ["1", "2", "3"]
         weightp_values = ["", "none", "simple", "smart"]
-        if (int(weightp_) in weightp_resp):
+        if (weightp_ in weightp_resp):
             weightp = " -weightp {0}".format(weightp_values[int(weightp_)])
         else:
             weightp = ""
@@ -1480,9 +1506,9 @@ def ANKOA_SYSTEM():
                             "{1} - FAST {0}[2]{1} - SLOWER {0}[3] : {2}"
                             .format(GREEN, YELLOW, END))
 
-        b_strategy_resp = [1, 2, 3]
+        b_strategy_resp = ["1", "2", "3"]
         b_strategy_values = ["", "0", "1", "2"]
-        if (int(b_strat) in b_strategy_resp):
+        if (b_strat in b_strategy_resp):
             b_strategy = " -b_strategy {0}"\
                          .format(b_strategy_values[int(b_strat)])
         else:
@@ -1493,9 +1519,9 @@ def ANKOA_SYSTEM():
                             "SPATIAL {0}[2]\n{1}TEMPORAL {0}[3]{1} - AUTO {0}"
                             "[4] : {2}".format(GREEN, YELLOW, END))
 
-        direct_resp = [1, 2, 3, 4]
+        direct_resp = ["1", "2", "3", "4"]
         direct_values = ["", "none", "spatial", "temporal", "auto"]
-        if (int(direct_) in direct_resp):
+        if (direct_ in direct_resp):
             direct = " -direct-pred {0}".format(direct_values[int(direct_)])
         else:
             direct = ""
@@ -1506,9 +1532,9 @@ def ANKOA_SYSTEM():
                                "4]{1} - TESA {0}[5] : {2}"
                                .format(GREEN, YELLOW, END))
 
-        me_resp = [1, 2, 3, 4, 5]
+        me_resp = ["1", "2", "3", "4", "5"]
         me_values = ["", "dia", "hex", "umh", "esa", "tesa"]
-        if (int(me_method_) in me_resp):
+        if (me_method_ in me_resp):
             me_method = " -me_method {0}".format(me_values[int(me_method_)])
         else:
             me_method = ""
@@ -1535,9 +1561,9 @@ def ANKOA_SYSTEM():
                            "{0}[5]{1} - i8x8 {0}[6]{1} - i4x4 {0}[7] : {2}"
                            .format(GREEN, YELLOW, END))
 
-        parts_resp = [1, 2, 3, 4, 5, 6, 7]
+        parts_resp = ["1", "2", "3", "4", "5", "6", "7"]
         p_values = ["", "all", "p8x8", "p4x4", "none", "b8x8", "i8x8", "i4x4"]
-        if (int(parts_) in parts_resp):
+        if (parts_ in parts_resp):
             partitions = " -partitions {0}".format(p_values[int(parts_)])
         else:
             partitions = ""
@@ -1547,9 +1573,9 @@ def ANKOA_SYSTEM():
                              "{0}[2]{1} - ALL {0}[3] : {2}"
                              .format(GREEN, YELLOW, END))
 
-        trellis_resp = [1, 2, 3]
+        trellis_resp = ["1", "2", "3"]
         trellis_values = ["", "0", "1", "2"]
-        if (int(trellis_) in trellis_resp):
+        if (trellis_ in trellis_resp):
             trellis = " -trellis {0}".format(trellis_values[int(trellis_)])
         else:
             trellis = ""
