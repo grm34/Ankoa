@@ -50,32 +50,46 @@ from style import color
 
 def calcul():
     HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
+    while not HH or HH.isdigit() is False or int(HH) > 23:
+        print ("\n{0} -> {1}ERROR : {2}Please, specify valid entry !"
+               " {1}(ex: 1){3}\n".format(GREEN, BLUE, RED, END))
+        HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
+
     MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
+    while not MM or MM.isdigit() is False or int(MM) > 59:
+        print ("\n{0} -> {1}ERROR : {2}Please, specify valid entry !"
+               " {1}(ex: 15){3}\n".format(GREEN, BLUE, RED, END))
+        MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
+
     SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
+    while not SS or SS.isdigit() is False or int(SS) > 59:
+        print ("\n{0} -> {1}ERROR : {2}Please, specify valid entry !"
+               " {1}(ex: 53){3}\n".format(GREEN, BLUE, RED, END))
+        SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
+
     audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
                          .format(GREEN, END))
-    rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350 - 550 - 700 - 1.37"
-                         " - 2.05 - 2.74 - 4.37 - 6.56{0} : {2}"
+    while not audiobit or audiobit.isdigit() is False:
+        print ("\n{0} -> {1}ERROR : {2}Please, specify valid entry !"
+               " {1}(ex: 448){3}\n".format(GREEN, BLUE, RED, END))
+        audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
+                             .format(GREEN, END))
+
+    rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350Mo {0}[1]{1} - 550Mo "
+                         "{0}[2]{1} - 700Mo {0}[3]{1} - 1.37Go {0}[4]{1} -\n"
+                         "2.05Go {0}[5]{1} - 2.74Go {0}[6]{1} - 4.37Go {0}[7]"
+                         "{1} - 6.56Go{0} {0}[8] : {2}"
                          .format(GREEN, YELLOW, END))
 
-    if (rls_size == "350"):
-        calsize = "357.8"
-    elif (rls_size == "550"):
-        calsize = "562.9"
-    elif (rls_size == "700"):
-        calsize = "716.3"
-    elif (rls_size == "1.37"):
-        calsize = "1439.3"
-    elif (rls_size == "2.05"):
-        calsize = "2151"
-    elif (rls_size == "2.74"):
-        calsize = "2875.5"
-    elif (rls_size == "4.37"):
-        calsize = "4585.2"
-    elif (rls_size == "6.56"):
-        calsize = "6881.5"
+    resp = ["1", "2", "3", "4", "5", "6", "7", "8"]
+
+    values = ["", "357.8", "562.9", "716.3", "1439.3",
+              "2151", "2875.5", "4585.2", "6881.5"]
+
+    if (rls_size in resp):
+        calsize = values[int(rls_size)]
     else:
-        calsize = "1439.3"
+        calsize = values[4]
 
     info_calcul = (HH, MM, SS, audiobit, rls_size, calsize)
     return (info_calcul)

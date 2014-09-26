@@ -43,6 +43,7 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
+import re
 import os
 import sys
 import json
@@ -51,6 +52,7 @@ import urllib2
 import readline
 import optparse
 import commands
+import subprocess
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
 from django.utils.encoding import (smart_str, smart_unicode)
@@ -103,17 +105,15 @@ def ANKOA_SYSTEM():
     # Special Tag
     special = raw_input("{0}SPECIAL TAG {1}(ex: EXTENDED.CUT){0} : {2}"
                         .format(GREEN, YELLOW, END))
-    if (special == ""):
+    if not (special):
         stag = ""
     else:
         stag = ".{0}".format(special)
 
-    # Scan Source
-    type = raw_input("{0}SCAN INFOS SOURCE > \n{1}HANDBRAKE {0}[1]{1} - MEDIA"
-                     "INFO {0}[2] : {2}".format(GREEN, YELLOW, END))
+    # Scan Infos Source
     scan = [
-        "ffmpeg -i " + source,
         "HandBrakeCLI -t 0 --scan -i " + source,
+        "ffmpeg -i " + source,
         "mediainfo -f --Inform='General;%Duration/String3%' " + source,
         "mediainfo -f --Inform='General;%FileSize/String4%' " + source,
         "mediainfo -f --Inform='Video;%BitRate/String%' " + source,
@@ -129,30 +129,55 @@ def ANKOA_SYSTEM():
         "mediainfo -f --Inform='Text;%CodecID% - ' " + source,
         "mediainfo -f --Inform='Text;%Language/String% - ' " + source]
 
-    try:
+    scan_again = "y"
+    while (scan_again == "y"):
+        type = raw_input("{0}SCAN INFOS SOURCE > \n{1}HANDBRAKE {0}[1]{1} - "
+                         "FFMPEG {0}[2]{1} - MEDIAINFO {0}[3] : {2}"
+                         .format(GREEN, YELLOW, END))
+        try:
 
-        # Handbrake Scan
-        if (type == "1"):
-            hb = smart_str(commands.getoutput("{0}".format(scan[1])))
-            hb_out = file("{0}{1}.{2}_scan.txt"
-                          .format(thumb, title, year), "w").write(hb)
-            hb_data = file("{0}{1}.{2}_scan.txt"
-                           .format(thumb, title, year), "r").readlines()
-            for lines in hb_data:
-                if ("Duration:" in lines or "Stream #" in lines):
-                    print lines.replace('\n', '')
-            os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
+            # HANDBRAKE or FFMPEG -> write infos
+            if (type == "1" or type == "2"):
+                hb = smart_str(commands.getoutput("{0}"
+                                                  .format(scan[int(type)-1])))
+                hb_out = file("{0}{1}.{2}_scan.txt"
+                              .format(thumb, title, year), "w").write(hb)
+                hb_data = file("{0}{1}.{2}_scan.txt"
+                               .format(thumb, title, year), "r").readlines()
 
-        # MediaInfo Scan
-        else:
-            for x in range(2, 16):
-                os.system(scan[x])
-                x = x + 1
+                # Handbrake Scan
+                if (type == "1"):
+                    for lines in hb_data:
+                        regex = re.search(r'[+] [0-9]{1,3}, [A-Za-z]+ ',
+                                          lines)
+                        if ("+ duration:" in lines or "Stream #" in lines
+                                or "+ size:" in lines or "autocrop" in lines
+                                or regex is not None):
+                            print lines.strip().replace('\n', '')
 
-    except (OSError) as e:
-        print ("\n{0} -> {1}ERROR : {2}{4}{3}\n"
-               .format(GREEN, BLUE, RED, END, str(e)))
-        sys.exit()
+                # FFMPEG Scan
+                elif (type == "2"):
+                    for lines in hb_data:
+                        if ("Duration:" in lines or "Stream #" in lines):
+                            print lines.strip().replace('\n', '')
+
+                os.system("rm -f {0}{1}.{2}_scan.txt"
+                          .format(thumb, title, year))
+
+            # MediaInfo Scan
+            else:
+                for x in range(2, 16):
+                    os.system(scan[x])
+                    x = x + 1
+
+        except (OSError) as e:
+            print ("\n{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
+
+        # Scan again ?
+        scan_again = raw_input("{0}SCAN AGAIN {1}(y/n){0} : {2}"
+                               .format(GREEN, YELLOW, END))
 
     # Video Codec
     codec_type = raw_input("{0}VIDEO CODEC > \n{1}x264 {0}[1]{1} - x265 {0}"
@@ -179,7 +204,7 @@ def ANKOA_SYSTEM():
         # Birate Calculator
         if (calculator == "y"):
             next = "y"
-            while (next != "n"):
+            while (next == "y"):
                 HH, MM, SS, audiobit, rls_size, calsize = calcul()
                 run_calc = calc(HH, MM, SS, audiobit, rls_size, calsize)
                 try:
@@ -190,19 +215,13 @@ def ANKOA_SYSTEM():
                     sys.exit()
                 next = raw_input("{0}TRY AGAIN {1}(y/n){0} : {2}"
                                  .format(GREEN, YELLOW, END))
-            bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
-            while not bit or len(bit) < 3 or bit.isdigit() is False:
-                print ("\n{0} -> {1}ERROR : {2}Please, specify valid video "
-                       "bitrate !{3}\n".format(GREEN, BLUE, RED, END))
-                bit = raw_input("{0}VIDEO BITRATE Kbps : {1}"
-                                .format(GREEN, END))
-        else:
-            bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
-            while not bit or len(bit) < 3 or bit.isdigit() is False:
-                print ("\n{0} -> {1}ERROR : {2}Please, specify valid video "
-                       "bitrate !{3}\n".format(GREEN, BLUE, RED, END))
-                bit = raw_input("{0}VIDEO BITRATE Kbps : {1}"
-                                .format(GREEN, END))
+        bit = raw_input("{0}VIDEO BITRATE Kbps : {1}".format(GREEN, END))
+        while not bit or len(bit) < 3\
+                or bit.isdigit() is False or int(bit) < 700:
+            print ("\n{0} -> {1}ERROR : {2}Please, specify valid video "
+                   "bitrate !{3}\n".format(GREEN, BLUE, RED, END))
+            bit = raw_input("{0}VIDEO BITRATE Kbps : {1}"
+                            .format(GREEN, END))
 
     # Video Format
     format = raw_input("{0}RELEASE FORMAT > \n{1}HDTV {0}[1]{1} - PDTV {0}[2]"
@@ -216,7 +235,7 @@ def ANKOA_SYSTEM():
     else:
         form = form_values[5]
 
-    # If PDTV
+    # PDTV
     if (format == "2"):
         hr = raw_input("{0}PDTV HIGH RESOLUTION {1}(y/n){0} : {2}"
                        .format(GREEN, YELLOW, END))
@@ -238,14 +257,14 @@ def ANKOA_SYSTEM():
                       .format(GREEN, YELLOW, END))
     if (scan2 == "y"):
         try:
-            hb = smart_str(commands.getoutput("{0}".format(scan[0])))
+            hb = smart_str(commands.getoutput("{0}".format(scan[1])))
             hb_out = file("{0}{1}.{2}_scan.txt"
                           .format(thumb, title, year), "w").write(hb)
             hb_data = file("{0}{1}.{2}_scan.txt"
                            .format(thumb, title, year), "r").readlines()
             for lines in hb_data:
                 if ("Stream #" in lines):
-                    print lines.replace('\n', '')
+                    print lines.strip().replace('\n', '')
             os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}\n"
@@ -330,7 +349,7 @@ def ANKOA_SYSTEM():
                                    " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
                                    .format(GREEN, YELLOW, END))
 
-        # If Audio Codec AC3
+        # Audio Codec AC3
         if (audiocodec == "2"):
 
             # Audio Track bitrate
@@ -386,7 +405,7 @@ def ANKOA_SYSTEM():
                                    "{1} - AC3 {0}[2]{1} - DTS/COPY {0}[3] : "
                                    "{2}".format(GREEN, YELLOW, END))
 
-        # If Track 01 Codec AC3
+        # Track 01 Codec AC3
         if (audiocodec == "2"):
 
             # Audio Track 01 bitrate
@@ -440,7 +459,7 @@ def ANKOA_SYSTEM():
                                     "]{1} - AC3 {0}[2]{1} - DTS/COPY {0}[3] :"
                                     " {2}".format(GREEN, YELLOW, END))
 
-        # If Track 02 Codec AC3
+        # Track 02 Codec AC3
         if (audiocodec2 == "2"):
 
             # Audio Track 02 bitrate
@@ -474,7 +493,7 @@ def ANKOA_SYSTEM():
                             .format(GREEN, YELLOW, END))
         if (audiox_ == "y"):
 
-            # If Multi Audio Tracks
+            # Multi Audio Tracks
             if (audiotype == "4"):
 
                 # Audio Track 01 Sampling Rate
@@ -493,7 +512,7 @@ def ANKOA_SYSTEM():
                 else:
                     audiox2 = " -ar:a:1 {0}k".format(ar2)
 
-            # If Single Audio Track
+            # Single Audio Track
             else:
 
                 # Audio Track Sampling Rate
@@ -866,13 +885,12 @@ def ANKOA_SYSTEM():
                                   "{2}".format(GREEN, YELLOW, END))
 
         # Subtitles Charset Config
-        if (idcharset == "y"):              # Track 01
+        if (idcharset == "y"):
             charset = " --sub-charset '0:cp1252'"
         else:
             charset = ""
-        if (subtype == "3"):                # Track 02
-            if idcharset2 == "y":
-                charset2 = " --sub-charset '0:cp1252'"
+        if (subtype == "3" and idcharset2 == "y"):
+            charset2 = " --sub-charset '0:cp1252'"
         else:
             charset2 = ""
 
@@ -887,11 +905,11 @@ def ANKOA_SYSTEM():
                                       " : {2}".format(GREEN, YELLOW, END))
                 subdelay2 = raw_input("{1}SUBTITLES 02 DELAY {1}(ex: -200){1}"
                                       " : {1}".format(GREEN, YELLOW, END))
-                if not subdelay1:
+                if not (subdelay1):
                     sync = ""
                 else:
                     sync = "--sync 0:{0}".format(subdelay1)
-                if not subdelay2:
+                if not (subdelay2):
                     sync = ""
                 else:
                     sync2 = "--sync 0:{0} ".format(subdelay2)
@@ -900,7 +918,7 @@ def ANKOA_SYSTEM():
             else:
                 subdelay = raw_input("{0}SUBTITLES DELAY {1}(ex: -200){0} : "
                                      "{2}".format(GREEN, YELLOW, END))
-                if not subdelay:
+                if not (subdelay):
                     sync = ""
                     sync2 = ""
                 else:
@@ -986,23 +1004,22 @@ def ANKOA_SYSTEM():
     # Subtitles Extract from MKV
     def mkv_extract():
         if (subtype == "3"):
-            if (ext == "1"):
-                if (ext2 == "1"):   # EXTRACT MULTi PGS
-                    return (
-                        "cd {0} && mkvextract tracks {1} {2}:{3}1{4} && mkvex"
-                        "tract tracks {1} {5}:{3}2{6} && mv {3}1{4} {3}1.sup "
-                        "&& mv {3}2{6} {3}2.sup"
-                        .format(thumb, source, idsub,
-                                title, ext, idsub2, ext2))
+            if (ext == "1" and ext2 == "1"):   # EXTRACT MULTi PGS
+                return (
+                    "cd {0} && mkvextract tracks {1} {2}:{3}1{4} && mkvex"
+                    "tract tracks {1} {5}:{3}2{6} && mv {3}1{4} {3}1.sup "
+                    "&& mv {3}2{6} {3}2.sup"
+                    .format(thumb, source, idsub,
+                            title, ext, idsub2, ext2))
 
-            else:                   # EXTRACT MULTi SRT/ASS/VOBSUB
+            else:                           # EXTRACT MULTi SRT/ASS/VOBSUB
                 return (
                     "cd {0} && mkvextract tracks {1} {2}:{3}1{4} && mkvextrac"
                     "t tracks {1} {5}:{3}2{6}"
                     .format(thumb, source, idsub,
                             title, ext, idsub2, ext2))
         else:
-            if (ext == "1"):        # EXTRACT SINGLE PGS
+            if (ext == "1"):            # EXTRACT SINGLE PGS
                 return (
                     "cd {0} && mkvextract tracks {1} {2}:{3}{4} && mv {3}1{4}"
                     " {3}1.sup".format(thumb, source, idsub, title, ext))
@@ -1040,10 +1057,10 @@ def ANKOA_SYSTEM():
                             "{0}[2]{1} - MULTi {0}[3] : {2}"
                             .format(GREEN, YELLOW, END))
 
-        # If from SOURCE
+        # from SOURCE
         if (subsource == "1"):
 
-            # If MULTi AUDIO
+            # MULTi AUDIO
             if (audiotype == "4"):
                 if (subtype == "1"):        # FRENCH
                     forced = "--forced-track 3:no "
@@ -1057,7 +1074,7 @@ def ANKOA_SYSTEM():
                     else:
                         forced = "--forced-track 4:no "
 
-            # If SINGLE AUDIO
+            # SINGLE AUDIO
             else:
                 if (subtype == "1"):        # FRENCH
                     forced = "--forced-track 2:no "
@@ -1071,7 +1088,7 @@ def ANKOA_SYSTEM():
                     else:
                         forced = "--forced-track 3:no "
 
-        # If from FILE or ISO/IMG or M2TS or MKV
+        # from FILE or ISO/IMG or M2TS or MKV
         elif (subsource == "3" or subsource == "4"
                 or subsource == "5" or subsource == "6"):
 
@@ -1270,14 +1287,14 @@ def ANKOA_SYSTEM():
                           .format(GREEN, YELLOW, END))
     if (scan_crop == "y"):
         try:
-            hb = smart_str(commands.getoutput("{0}".format(scan[1])))
+            hb = smart_str(commands.getoutput("{0}".format(scan[0])))
             hb_out = file("{0}{1}.{2}_scan.txt"
                           .format(thumb, title, year), "w").write(hb)
             hb_data = file("{0}{1}.{2}_scan.txt"
                            .format(thumb, title, year), "r").readlines()
             for lines in hb_data:
                 if ("size:" in lines or "autocrop" in lines):
-                    print lines.replace('\n', '')
+                    print lines.strip().replace('\n', '')
             os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}\n"
