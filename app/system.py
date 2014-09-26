@@ -201,8 +201,8 @@ def ANKOA_SYSTEM():
     form_resp = [1, 2, 3, 4, 5, 6, 7]
     form_values = ["", "HDTV", "PDTV", "BDRip", "DVDRip",
                    "BRRip", "720p.BluRay", "HR.PDTV"]
-    if (format in form_resp):
-        form = form_values[format]
+    if (int(format) in form_resp):
+        form = form_values[int(format)]
     else:
         form = form_values[5]
 
@@ -513,16 +513,14 @@ def ANKOA_SYSTEM():
             config2 = "-c:a:1 copy"
 
     # Audio Languages
-    if (audiotype == "1"):
-        lang = "FRENCH"
-        audiolang = "FRENCH"
-    elif (audiotype == "2"):
-        lang = "VOSTFR"
-        audiolang = "ENGLiSH"
-    elif (audiotype == "3"):
-        lang = "VOSTFR"
-    elif (audiotype == "4"):
-        lang = "MULTi"
+    atype_resp = [1, 2, 3, 4]
+    lang_values = ["", "FRENCH", "VOSTFR", "VOSTFR", "MULTi"]
+    if (int(audiotype) in atype_resp):
+        lang = lang_values[int(audiotype)]
+        if (audiotype == "1"):
+            audiolang = lang
+        elif (audiotype == "2"):
+            audiolang = "ENGLiSH"
     else:
         lang = "NOAUDIO"
         audiolang = "NOAUDIO"
@@ -956,12 +954,12 @@ def ANKOA_SYSTEM():
         # Subtitles Format Values
         ext_resp = [1, 2, 3, 4]
         ext_values = ["", ".pgs", ".vobsub", ".ass", ".srt"]
-        if (ext in ext_resp):
-            ext = ext_values[ext]
+        if (int(ext) in ext_resp):
+            ext = ext_values[int(ext)]
         else:
             ext = ext_values[4]
-        if (ext2 in ext_resp):
-            ext2 = ext_values[ext2]
+        if (int(ext2) in ext_resp):
+            ext2 = ext_values[int(ext2)]
         else:
             ext2 = ""
 
@@ -1343,8 +1341,8 @@ def ANKOA_SYSTEM():
                        .format(GREEN, YELLOW, END))
     preset_resp = [1, 2, 3, 4, 5]
     preset_values = ["", "fast", "slow", "slower", "veryslow", "placebo"]
-    if (preset in preset_resp):
-        preset = " -preset {0}".format(preset_values[preset])
+    if (int(preset) in preset_resp):
+        preset = " -preset {0}".format(preset_values[int(preset)])
     else:
         preset = ""
 
@@ -1357,8 +1355,8 @@ def ANKOA_SYSTEM():
     tuned_resp = [1, 2, 3, 4, 5, 6, 7, 8]
     tuned_values = ["", "film", "animation", "grain", "stillimage", "psnr",
                     "ssim", "fastdecode", "zerolatency"]
-    if (tuned in tuned_resp):
-        tune = " -tune {0}".format(tuned_values[tuned])
+    if (int(tuned) in tuned_resp):
+        tune = " -tune {0}".format(tuned_values[int(tuned)])
     else:
         tune = ""
 
@@ -1430,8 +1428,8 @@ def ANKOA_SYSTEM():
 
         pyramid_resp = [1, 2, 3]
         pyramid_values = ["", "none", "normal", "strict"]
-        if (pyramid_ in pyramid_resp):
-            pyramid = " -b-pyramid {0}".format(pyramid_values[pyramid_])
+        if (int(pyramid_) in pyramid_resp):
+            pyramid = " -b-pyramid {0}".format(pyramid_values[int(pyramid_)])
         else:
             pyramid = ""
 
@@ -1452,8 +1450,8 @@ def ANKOA_SYSTEM():
 
         weightp_resp = [1, 2, 3]
         weightp_values = ["", "none", "simple", "smart"]
-        if (weightp_ in weightp_resp):
-            weightp = " -weightp {0}".format(weightp_values[weightp_])
+        if (int(weightp_) in weightp_resp):
+            weightp = " -weightp {0}".format(weightp_values[int(weightp_)])
         else:
             weightp = ""
 
@@ -1484,8 +1482,9 @@ def ANKOA_SYSTEM():
 
         b_strategy_resp = [1, 2, 3]
         b_strategy_values = ["", "0", "1", "2"]
-        if (b_strat in b_strategy_resp):
-            b_strategy = " -b_strategy {0}".format(b_strategy_values[b_strat])
+        if (int(b_strat) in b_strategy_resp):
+            b_strategy = " -b_strategy {0}"
+                         .format(b_strategy_values[int(b_strat)])
         else:
             b_strategy = ""
 
@@ -1496,8 +1495,8 @@ def ANKOA_SYSTEM():
 
         direct_resp = [1, 2, 3, 4]
         direct_values = ["", "none", "spatial", "temporal", "auto"]
-        if (direct_ in direct_resp):
-            direct = " -direct-pred {0}".format(direct_values[direct_])
+        if (int(direct_) in direct_resp):
+            direct = " -direct-pred {0}".format(direct_values[int(direct_)])
         else:
             direct = ""
 
@@ -1509,8 +1508,8 @@ def ANKOA_SYSTEM():
 
         me_resp = [1, 2, 3, 4, 5]
         me_values = ["", "dia", "hex", "umh", "esa", "tesa"]
-        if (me_method_ in me_resp):
-            me_method = " -me_method {0}".format(me_values[me_method_])
+        if (int(me_method_) in me_resp):
+            me_method = " -me_method {0}".format(me_values[int(me_method_)])
         else:
             me_method = ""
 
@@ -1538,8 +1537,8 @@ def ANKOA_SYSTEM():
 
         parts_resp = [1, 2, 3, 4, 5, 6, 7]
         p_values = ["", "all", "p8x8", "p4x4", "none", "b8x8", "i8x8", "i4x4"]
-        if (parts_ in parts_resp):
-            partitions = " -partitions {0}".format(p_values[parts_])
+        if (int(parts_) in parts_resp):
+            partitions = " -partitions {0}".format(p_values[int(parts_)])
         else:
             partitions = ""
 
@@ -1550,8 +1549,8 @@ def ANKOA_SYSTEM():
 
         trellis_resp = [1, 2, 3]
         trellis_values = ["", "0", "1", "2"]
-        if (trellis_ in trellis_resp):
-            trellis = " -trellis {0}".format(trellis_values[trellis_])
+        if (int(trellis_) in trellis_resp):
+            trellis = " -trellis {0}".format(trellis_values[int(trellis_)])
         else:
             trellis = ""
 
@@ -1778,36 +1777,18 @@ def ANKOA_SYSTEM():
                       .format(GREEN, YELLOW, END))
 
     tsize = tsize.lower()
-    if (tsize == "350"):
-        pieces = "18"
-        prezsize = "350Mo"
-    elif (tsize == "550"):
-        pieces = "18"
-        prezsize = "550Mo"
-    elif (tsize == "700"):
-        pieces = "19"
-        prezsize = "700Mo"
-    elif (tsize == "1.37"):
-        pieces = "20"
-        prezsize = "1.37Go"
-    elif (tsize == "2.05"):
-        pieces = "20"
-        prezsize = "2.05Go"
-    elif (tsize == "2.74"):
-        pieces = "21"
-        prezsize = "2.74Go"
-    elif (tsize == "4.37"):
-        pieces = "22"
-        prezsize = "4.37Go"
-    elif (tsize == "6.56"):
-        pieces = "22"
-        prezsize = "6.56Go"
-    elif (tsize == "hd"):
-        pieces = "22"
-        prezsize = "..Go"
+    tsize_resp = ["350", "550", "700", "1.37", "2.05",
+                  "2.74", "4.37", "6.56", "sd", "hd"]
+    pieces_val = ["18", "18", "19", "20", "20", "21", "22", "22", "19", "22"]
+    prezsize_val = ["350Mo", "550Mo", "700Mo", "1.37Go", "2.05Go",
+                    "2.74Go", "4.37Go", "6.56Go", "..Mo", "..Go"]
+
+    if (tsize in tsize_resp):
+        pieces = pieces_val[tsize_resp.index(tsize)]
+        prezsize = prezsize_val[tsize_resp.index(tsize)]
     else:
         pieces = "20"
-        prezsize = "..Go"
+        prezsize = "..Mo"
 
     # Print FFMPEG Command
     pprint = raw_input("{0}PRINT FFMPEG FINAL COMMAND {1}(y/n){0} : {2}"
