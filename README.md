@@ -133,9 +133,9 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     bitrate.py             36          43        0         9        88
     settings.py            10          55        0         5        70
     style.py               14          66        5         6        91
-    system.py            1325         219       41       221      1806
+    system.py            1349         219       43       221      1806
     nfogen.sh              15          41        1         4        61
 
-    [Total] :            2229         771       95       407      3502
+    [Total] :            2253         771       97       407      3528
 
 ***
