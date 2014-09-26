@@ -1276,7 +1276,7 @@ def ANKOA_SYSTEM():
             hb_data = file("{0}{1}.{2}_scan.txt"
                            .format(thumb, title, year), "r").readlines()
             for lines in hb_data:
-                if ("Scanning title" in lines "size:" in lines
+                if ("Scanning title" in lines or "size:" in lines
                         or "autocrop:" in lines):
                     print lines.replace('\n', '')
             os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
