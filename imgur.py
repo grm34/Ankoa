@@ -45,10 +45,11 @@
 
 import os
 import sys
-import optparse
+import socket
 import urllib
-import urllib2
 import base64
+import urllib2
+import optparse
 import BeautifulSoup
 from urllib2 import (urlopen, URLError, HTTPError)
 sys.path.append("app/")
@@ -76,7 +77,7 @@ def main():
             key = {'key': '02b62fd8f1d5e78321e62bb42ced459e', 'image': img}
             data = urllib.urlencode(key)
             req = urllib2.Request(url, data)
-            resp = BeautifulSoup.BeautifulSoup(urlopen(req))
+            resp = BeautifulSoup.BeautifulSoup(urlopen(req, None, 5.0))
             thumb_link = str(resp.find('original')).replace('<original>', '')\
                                                    .replace('</original>', '')
             if (len(args) == 2 and args[1] == "add"):
@@ -94,6 +95,10 @@ def main():
         except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
             print ("\n{0} Thumbnails Upload Error > {1}{2}\n{3}"
                    .format(RED, BLUE, str(e), END))
+            except socket.timeout:
+                print ("\n{0} Thumbnails Upload Error > {1} TIMEOUT !{2}\n"
+                       .format(RED, BLUE, END))
+                sys.exit()
     else:
         print ("\n{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
                " again !{3}\n".format(GREEN, BLUE, RED, END))
