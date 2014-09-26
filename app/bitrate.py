@@ -54,8 +54,8 @@ def calcul():
     SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
     audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
                          .format(GREEN, END))
-    rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350 - 550 - 700 - 1.37 - "
-                         "2.05 - 2.74 - 4.37 - 6.56{0} : {2}"
+    rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350 - 550 - 700 - 1.37"
+                         " - 2.05 - 2.74 - 4.37 - 6.56{0} : {2}"
                          .format(GREEN, YELLOW, END))
 
     if (rls_size == "350"):
