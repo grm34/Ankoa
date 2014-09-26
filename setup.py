@@ -64,6 +64,17 @@ def main():
         parser.print_help()
         parser.exit(1)
 
+    # VERIFICATION
+    if os.path.exists("app/") is False\
+            and os.path.isfile("app/base.nfo") is False\
+            and os.path.isfile("app/settings.py") is False\
+            and os.path.isfile("nfogen.sh") is False:
+
+        print ("\n{0} AnkoA {1}-> {2}Setup error, files missing,"
+               " fix it with a fresh install !\n{3}"
+               .format(BLUE, RED, GREEN, END))
+        sys.exit()
+
     # INSTALL
     if (sys.argv[1] == "install"):
 
@@ -77,9 +88,9 @@ def main():
 
         readline.parse_and_bind("tab: complete")
         readline.set_completer(completer)
-
-        # Install form
         banner()
+
+        # Specify Source Path
         source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torrent"
                            "s/){0} : {2}".format(GREEN, YELLOW, END))
         while not source or os.path.exists(source) is False:
@@ -87,6 +98,8 @@ def main():
                    " again !{3}\n".format(GREEN, BLUE, RED, END))
             source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torre"
                                "nts/){0} : {2}".format(GREEN, YELLOW, END))
+
+        # Specify Destination Path
         result = raw_input("{0}ENTER DESTINATION PATH {1}(ex: /home/user/en"
                            "codes/){0} : {2}".format(GREEN, YELLOW, END))
         while not result or os.path.exists(result) is False:
@@ -96,6 +109,8 @@ def main():
                                "encodes/){0} : {2}"
                                .format(GREEN, YELLOW, END))
         readline.parse_and_bind("tab: ")
+
+        # Specify Team Name
         team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0} :"
                          " {2}".format(GREEN, YELLOW, END))
         while not team:
@@ -103,6 +118,8 @@ def main():
                    "!{3}\n".format(GREEN, BLUE, RED, END))
             team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0}"
                              " : {2}".format(GREEN, YELLOW, END))
+
+        # Specify Tracker URL announce
         tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tk.com"
                        ":80/announce){0} : {2}".format(GREEN, YELLOW, END))
         while not tk:
@@ -111,6 +128,8 @@ def main():
             tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tk.c"
                            "om:80/announce){0} : {2}"
                            .format(GREEN, YELLOW, END))
+
+        # Specify TMDB API KEY
         api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https://w"
                         "ww.themoviedb.org/documentation/api){0} : {2}"
                         .format(GREEN, YELLOW, END))
@@ -121,55 +140,47 @@ def main():
                             "/www.themoviedb.org/documentation/api){0} : {2}"
                             .format(GREEN, YELLOW, END))
 
-        if (source != "" or result != "" or team != "" or
-                tk != "" or api != ""):
+        # AUTHORIZE & copy NFO
+        try:
+            os.system("chmod +x * && chmod +x app/*")
+            os.system("cp app/base.nfo app/nfo_base.nfo")
+        except OSError as e:
+            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+                   .format(GREEN, BLUE, RED, END, str(e)))
+            sys.exit()
 
-            # AUTHORIZE
-            try:
-                os.system("chmod +x * && chmod +x app/*")
-                os.system("cp app/base.nfo app/nfo_base.nfo")
-            except OSError as e:
-                print ("{0} -> {1}ERROR : {2}{4}{3}\n"
-                       .format(GREEN, BLUE, RED, END, str(e)))
-                sys.exit()
+        # SAVE personal settings
+        temp = sys.stdout
+        sys.stdout = open('app/save.txt', 'w')
+        print ("{0}\n{1}\n{2}\n{3}\n{4}".format(source, result,
+                                                team, tk, api))
+        sys.stdout.close()
+        sys.stdout = temp
 
-            # SAVE personal settings
-            temp = sys.stdout
-            sys.stdout = open('app/save.txt', 'w')
-            print ("{0}\n{1}\n{2}\n{3}\n{4}".format(source, result,
-                                                    team, tk, api))
-            sys.stdout.close()
-            sys.stdout = temp
+        # WRITE personal settings
+        f = file('app/settings.py', 'r')
+        chaine = f.read()
+        f.close()
+        data = chaine.replace("XXX001", source.strip())\
+                     .replace("XXX002", result.strip())\
+                     .replace("XXX003", team.strip().replace(' ', '.'))\
+                     .replace("XXX004", tk.strip())\
+                     .replace("XXX005", api.strip())
+        f = file('app/settings.py', 'w')
+        f.write(data)
+        f.close
 
-            # WRITE personal settings
-            f = file('app/settings.py', 'r')
-            chaine = f.read()
-            f.close()
-            data = chaine.replace("XXX001", source.strip())\
-                         .replace("XXX002", result.strip())\
-                         .replace("XXX003", team.strip().replace(' ', '.'))\
-                         .replace("XXX004", tk.strip())\
-                         .replace("XXX005", api.strip())
-            f = file('app/settings.py', 'w')
-            f.write(data)
-            f.close
+        # WRITE nfogen settings
+        ff = file('nfogen.sh', 'r')
+        chaine = ff.read()
+        ff.close()
+        data = chaine.replace("XXX002", result.strip())
+        ff = file('nfogen.sh', 'w')
+        ff.write(data)
+        ff.close
 
-            # WRITE nfogen settings
-            ff = file('nfogen.sh', 'r')
-            chaine = ff.read()
-            ff.close()
-            data = chaine.replace("XXX002", result.strip())
-            ff = file('nfogen.sh', 'w')
-            ff.write(data)
-            ff.close
-
-            print ("\n{0} AnkoA {1}-> {2}Installation successful !\n{3}"
-                   .format(BLUE, RED, GREEN, END))
-
-        else:
-            print ("\n{0} AnkoA {1}-> {2}Invalid settings,"
-                   " please try again !\n{3}"
-                   .format(BLUE, GREEN, RED, END))
+        print ("\n{0} AnkoA {1}-> {2}Installation successful !\n{3}"
+               .format(BLUE, RED, GREEN, END))
 
     # UPDATE
     if (sys.argv[1] == "update"):
@@ -214,7 +225,7 @@ def main():
 
         except (IOError, IndexError):
             print ("\n{0} AnkoA {1}-> {2}Update error, fix it"
-                   " with a clean install !\n{3}"
+                   " with a fresh install !\n{3}"
                    .format(BLUE, GREEN, RED, END))
 
 if (__name__ == "__main__"):

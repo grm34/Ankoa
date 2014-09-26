@@ -127,7 +127,7 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     genprez.py            284          62        7        35       388
     imgur.py               48          45        0         9       102
     make.py                37          46        0        10        93
-    setup.py              140          56        0        25       221
+    setup.py              142          61        0        29       232
     thumbnails.py         181          45       18        35       279
     bitrate.py             36          43        0         9        88
     settings.py            10          55        0         5        70
@@ -135,6 +135,6 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     system.py            1344         219       41       220      1824
     nfogen.sh              15          41        1         4        61
 
-    [Total] :            2240         766       95       402      3504
+    [Total] :            2243         771       95       406      3515
 
 ***
