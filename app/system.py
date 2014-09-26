@@ -1483,7 +1483,7 @@ def ANKOA_SYSTEM():
         b_strategy_resp = [1, 2, 3]
         b_strategy_values = ["", "0", "1", "2"]
         if (int(b_strat) in b_strategy_resp):
-            b_strategy = " -b_strategy {0}"
+            b_strategy = " -b_strategy {0}"\
                          .format(b_strategy_values[int(b_strat)])
         else:
             b_strategy = ""
