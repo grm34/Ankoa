@@ -145,7 +145,7 @@ def ANKOA_SYSTEM():
                 hb_data = file("{0}{1}.{2}_scan.txt"
                                .format(thumb, title, year), "r").readlines()
 
-                # Handbrake Scan
+                # Run Handbrake Scan
                 if (type == "1"):
                     for lines in hb_data:
                         regex = re.search(r'[+] [0-9]{1,3}, [A-Za-z]+ ',
@@ -155,7 +155,7 @@ def ANKOA_SYSTEM():
                                 or regex is not None):
                             print lines.strip().replace('\n', '')
 
-                # FFMPEG Scan
+                # Run FFMPEG Scan
                 elif (type == "2"):
                     for lines in hb_data:
                         if ("Duration:" in lines or "Stream #" in lines):
@@ -164,7 +164,7 @@ def ANKOA_SYSTEM():
                 os.system("rm -f {0}{1}.{2}_scan.txt"
                           .format(thumb, title, year))
 
-            # MediaInfo Scan
+            # Run MediaInfo Scan
             else:
                 for x in range(2, 16):
                     os.system(scan[x])
@@ -1815,7 +1815,7 @@ def ANKOA_SYSTEM():
 
     # Release Desired Size
     tsize = raw_input("{0}RELEASE SIZE > \n{1}SD - 350 - 550 - 700 - 1.37"
-                      " - 2.05 - 2.74 - 4.37 - 6.56 - HD{0} : {2}"
+                      " -\n2.05 - 2.74 - 4.37 - 6.56 - HD{0} : {2}"
                       .format(GREEN, YELLOW, END))
 
     tsize = tsize.lower()
