@@ -65,6 +65,9 @@ def main():
         name, pprint
     ) = ANKOA_SYSTEM()
 
+    if (pprint == "y"):
+        print ffmpeg()
+
     # FFMPEG CLI
     def ffmpeg():
         if (encode_type == "2"):    # CRF
@@ -105,15 +108,12 @@ def main():
 
     run_ankoa_tools = [ankoa_tools(), "", "", "", "", "", "", "", "",
                        "", "", "", "", "", "", "", "", "", "", ""]
-
     n = 1
-    if (pprint == "y"):
-        print ffmpeg()
 
+    # QUEUE PROCESS
     again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
                       .format(GREEN, YELLOW, END))
 
-    # QUEUE PROCESS
     while (again == "y"):
         next()
         (
