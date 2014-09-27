@@ -99,8 +99,6 @@ def main():
             .format(thumb, title, year, stag, mark, audiolang, prezquality,
                     titlesub, subforced, nfosource, nfoimdb, name))
 
-    print ankoa_tools()
-
     # ANKOA QUEUE
     run_ffmpeg = [ffmpeg(), "", "", "", "", "", "", "", "",
                   "", "", "", "", "", "", "", "", "", "", ""]
