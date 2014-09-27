@@ -31,7 +31,7 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
 `./imgur.py thumbnails.png`
 
 * **Genprez :**
-`./genprez.py LANGUAGE QUALITY CODECS SUBS SIZE ID_IMDB`
+`./genprez.py LANGUAGE FORMAT CODECS SUBS SIZE ID_IMDB`
 
 * **NFO generator :**
 `./nfogen.sh source.video SOURCE SUBS SUBFORCED URL`
