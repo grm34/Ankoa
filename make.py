@@ -167,11 +167,11 @@ def main():
             os.system(auto_tools())
         else:
             print ("{0} -> {1}ERROR : {2}Bad source selection, please try "
-                   "again !{3}".format(GREEN, BLUE, RED, END))
+                   "again !{3}".format(GREEN, RED, BLUE, END))
 
     except OSError as e:
         print ("{0} -> {1}ERROR : {2}{4}{3}"
-               .format(GREEN, BLUE, RED, END, str(e)))
+               .format(GREEN, RED, BLUE, END, str(e)))
         sys.exit()
 
 if (__name__ == "__main__"):

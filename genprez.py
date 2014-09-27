@@ -373,7 +373,7 @@ def main():
     if (title_TMDB not in data_TMDB and title_IMDB not in data_IMDB
             and title_OMDB not in data_OMDB and title_API not in data_API):
         print ("\n{0} -> {1}Genprez ERROR : {2}Movie not found, please try "
-               "again !\n{3}".format(GREEN, BLUE, RED, END))
+               "again !\n{3}".format(GREEN, RED, BLUE, END))
     else:
         # WRITE
         temp = sys.stdout

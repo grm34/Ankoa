@@ -144,7 +144,7 @@ def main():
             i = i + 1
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}"
-                   .format(GREEN, BLUE, RED, END, str(e)))
+                   .format(GREEN, RED, BLUE, END, str(e)))
             sys.exit()
 
     print ("{0} ->{1} ENCODE(s) DONE, CONGRATULATIONS !\n{0} ->{1} NFO, THU"

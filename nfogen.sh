@@ -57,5 +57,5 @@ if [ -f "${FINAL}" ]; then
     php -e app/nfo.php "${FINAL}" "${FILE_NAME}" "${SOURCE}" "${SOURCESRT}" "${IMDB}" "${FORCED}" >> XXX002$FILE_NAME.nfo
     echo -e "${RED} -> ${GREEN}NFO CREATED, CONGRATULATIONS !${END}"
 else
-    echo -e "${GREEN} -> ${RED}NFO Error : bad source !${END}"
+    echo -e "${GREEN} -> ${RED}NFO Error : ${GREEN}bad source !${END}"
 fi

@@ -101,7 +101,7 @@ def main():
             sys.exit()
     else:
         print ("{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
-               " again !{3}".format(GREEN, BLUE, RED, END))
+               " again !{3}".format(GREEN, RED, BLUE, END))
 
 if (__name__ == "__main__"):
     main()

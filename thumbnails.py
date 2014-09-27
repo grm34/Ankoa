@@ -78,7 +78,7 @@ def snapshot(path, nb_lgn, nb_col):
                       ' -vo png:z=0 {1}'.format(str(i), path))
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}\n"
-                   .format(GREEN, BLUE, RED, END, str(e)))
+                   .format(GREEN, RED, BLUE, END, str(e)))
             sys.exit()
         try:
             shutil.move('00000004.png', os.path.expanduser(thumb) +
@@ -240,7 +240,7 @@ def img_infos(infos, duree, path):
             os.system(resize)
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}"
-                   .format(GREEN, BLUE, RED, END, str(e)))
+                   .format(GREEN, RED, BLUE, END, str(e)))
             sys.exit()
 
 
@@ -273,7 +273,7 @@ def main(argv):
             shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
     else:
         print ("{0} -> {1}ERROR : {2}Bad source selection, please try"
-               " again !{3}".format(GREEN, BLUE, RED, END))
+               " again !{3}".format(GREEN, RED, BLUE, END))
 
 if (__name__ == "__main__"):
     main(sys.argv[1:])
