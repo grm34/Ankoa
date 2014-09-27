@@ -51,27 +51,27 @@ from style import color
 def calcul():
     HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
     while not HH or HH.isdigit() is False or int(HH) > 23:
-        print ("\n{0} -> {1}ERROR : {2}Please, specify valid entry !"
-               " {1}(ex: 1){3}\n".format(GREEN, BLUE, RED, END))
+        print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
+               " {1}(ex: 1){3}".format(GREEN, BLUE, RED, END))
         HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
 
     MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
     while not MM or MM.isdigit() is False or int(MM) > 59:
-        print ("\n{0} -> {1}ERROR : {2}Please, specify valid entry !"
-               " {1}(ex: 15){3}\n".format(GREEN, BLUE, RED, END))
+        print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
+               " {1}(ex: 15){3}".format(GREEN, BLUE, RED, END))
         MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
 
     SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
     while not SS or SS.isdigit() is False or int(SS) > 59:
-        print ("\n{0} -> {1}ERROR : {2}Please, specify valid entry !"
-               " {1}(ex: 53){3}\n".format(GREEN, BLUE, RED, END))
+        print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
+               " {1}(ex: 53){3}".format(GREEN, BLUE, RED, END))
         SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
 
     audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
                          .format(GREEN, END))
     while not audiobit or audiobit.isdigit() is False:
-        print ("\n{0} -> {1}ERROR : {2}Please, specify valid entry !"
-               " {1}(ex: 448){3}\n".format(GREEN, BLUE, RED, END))
+        print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
+               " {1}(ex: 448){3}".format(GREEN, BLUE, RED, END))
         audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
                              .format(GREEN, END))
 

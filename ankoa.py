@@ -45,6 +45,7 @@
 
 import os
 import sys
+import subprocess
 sys.path.append("app/")
 from system import ANKOA_SYSTEM
 from style import (banner, next, color)
@@ -54,14 +55,14 @@ from style import (banner, next, color)
 
 def main():
 
-    # ANKOA SYSTEM
+    # RUN ANKOA
     banner()
     (
         source, thumb, team, announce, title, year, stag, string, codec,
         encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
         audiolang, audio_config, sub_config, sub_remux, reso, param, pass1,
-        mark, nfoimdb, nfosource, titlesub, subforced, prezquality, prezsize,
-        pieces, name, pprint
+        mark, nfoimdb, nfosource, titlesub, subforced, prezquality,
+        name, pprint
     ) = ANKOA_SYSTEM()
 
     # FFMPEG CLI
@@ -71,7 +72,7 @@ def main():
                 "cd {0} && ffmpeg -i {1} -metadata title='{2}.{3}' -metadata "
                 "proudly.presented.by='{4}' -map 0:{5}{6}{7} -metadata:s:v:0 "
                 "title= -metadata:s:v:0 language= -f {8}{9} -c:v:0 {10} -crf "
-                "{11} -level {12}{13}{14}{15} -passlogfile {2}.log "
+                "{11} -level {12}{13}{14}{15} -passlogfile {2}.{3}.log "
                 "{2}.{3}{16}{17}{18}"
                 .format(thumb, source, title, year, team, idvideo, interlace,
                         fps, string, reso, codec, crf, level, param,
@@ -85,47 +86,27 @@ def main():
                 "data title='{11}.{12}' -metadata proudly.presented.by='{15}'"
                 " -map 0:{2}{16}{4} -metadata:s:v:0 title= -metadata:s:v:0 la"
                 "nguage= -f {5}{6} -c:v:0 {7} -b:v:0 {8}k -level {9}{17}{18}"
-                "{19} -passlogfile {11}.log {11}.{12}{13}{14}{20}"
+                "{19} -passlogfile {11}.{12}.log {11}.{12}{13}{14}{20}"
                 .format(thumb, source, idvideo, interlace2, fps, string, reso,
                         codec, bit, level, pass1, title, year, stag, mark,
                         team, interlace, param, audio_config, sub_config,
                         sub_remux))
 
     # ANKOA TOOLS
-    def data():
-        if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
-            prezz = "&& ./genprez.py {0} {1} {2} {3} {4} && mv {5}{6}*.txt "\
-                    "{5}{7}.{8}{9}{10}txt && ./imgur.py {5}{7}.{8}{9}{10}pn"\
-                    "g add ".format(audiolang, prezquality, titlesub,
-                                    prezsize, nfoimdb, thumb, name, title,
-                                    year, stag, mark[:-3])
-
-            zipp = "cd {0} && zip -r {1}.zip -m {1}.{2}{3}*.torrent {1}.{2}"\
-                   "{3}*.nfo {1}.{2}{3}*.txt {1}*.log {1}.{2}{3}*.png"\
-                   .format(thumb, title, year, stag)
-
-        else:
-            prezz = "&& ./imgur.py {0}{1}.{2}{3}{4}.png "\
-                    .format(thumb, title, year, stag, mark[:-3])
-
-            zipp = "cd {0} && zip -r {1}.zip -m {1}.{2}{3}*.torrent {1}."\
-                   "{2}{3}*.nfo {1}*.log {1}.{2}{3}*.png"\
-                   .format(thumb, title, year, stag)
-
+    def ankoa_tools():
         return (
-            "./thumbnails.py {0}{1}.{2}{3}{4} 5 2 {5}&& ./nfogen.sh {0}{1}."
-            "{2}{3}{4} {6} {7} {8} http://www.imdb.com/title/tt{9} && rm -f"
-            " {0}{1}*.mbtree && cd {0} && mktorrent -a {10} -p -t 8 -l {11}"
-            " {1}.{2}{3}{4} && {12}"
-            .format(thumb, title, year, stag, mark, prezz, nfosource,
-                    titlesub, subforced, nfoimdb, announce, pieces, zipp))
+            "./make.py {0}{1}.{2}{3}{4} {1} {2} {5} {6} {7} {8} {9} {10} {11}"
+            .format(thumb, title, year, stag, mark, audiolang, prezquality,
+                    titlesub, subforced, nfosource, nfoimdb, name))
 
-    # PROCESS
+    print ankoa_tools()
+
+    # ANKOA QUEUE
     run_ffmpeg = [ffmpeg(), "", "", "", "", "", "", "", "",
                   "", "", "", "", "", "", "", "", "", "", ""]
 
-    run_data = [data(), "", "", "", "", "", "", "", "",
-                "", "", "", "", "", "", "", "", "", "", ""]
+    run_ankoa_tools = [ankoa_tools(), "", "", "", "", "", "", "", "",
+                       "", "", "", "", "", "", "", "", "", "", ""]
 
     n = 1
     if (pprint == "y"):
@@ -134,40 +115,40 @@ def main():
     again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
                       .format(GREEN, YELLOW, END))
 
-    # NEXT
-    while (again != "n"):
+    # QUEUE PROCESS
+    while (again == "y"):
         next()
         (
             source, thumb, team, announce, title, year, stag, string, codec,
             encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
-            audiolang, audio_config, sub_config, sub_remux, reso, param,
-            pass1, mark, nfoimdb, nfosource, titlesub, subforced, prezquality,
-            prezsize, pieces, name, pprint, pending
+            audiolang, audio_config, sub_config, sub_remux, reso, param, pass1,
+            mark, nfoimdb, nfosource, titlesub, subforced, prezquality,
+            name, pprint
         ) = ANKOA_SYSTEM()
 
         run_ffmpeg[n] = ffmpeg()
-        run_data[n] = data()
-        n = n + 1
+        run_ankoa_tools[n] = ankoa_tools()
 
+        n = n + 1
         if (n != 20):
             again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
                               .format(GREEN, YELLOW, END))
         else:
             break
 
-    # RUN
+    # RUN ANKOA PROCESS
     for i in range(n):
         try:
             os.system(run_ffmpeg[i])
-            os.system(run_data[i])
+            os.system(run_ankoa_tools[i])
             i = i + 1
         except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+            print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, BLUE, RED, END, str(e)))
             sys.exit()
 
-    print ("{0}\n ->{1} ENCODE(s) DONE, CONGRATULATIONS !\n{0} ->{1} NFO, THU"
-           "MBNAILS, (PREZ) & TORRENT CREATED !\n{2}".format(RED, GREEN, END))
+    print ("{0} ->{1} ENCODE(s) DONE, CONGRATULATIONS !\n{0} ->{1} NFO, THU"
+           "MBNAILS, (PREZ) & TORRENT CREATED !{2}".format(RED, GREEN, END))
 
     sys.exit()
 

@@ -70,8 +70,8 @@ def main():
             and os.path.isfile("app/settings.py") is False\
             and os.path.isfile("nfogen.sh") is False:
 
-        print ("\n{0} AnkoA {1}-> {2}Setup error, files missing,"
-               " fix it with a fresh install !\n{3}"
+        print ("{0} AnkoA {1}-> {2}Setup error, files missing,"
+               " fix it with a fresh install !{3}"
                .format(BLUE, RED, GREEN, END))
         sys.exit()
 
@@ -94,8 +94,8 @@ def main():
         source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torrent"
                            "s/){0} : {2}".format(GREEN, YELLOW, END))
         while not source or os.path.exists(source) is False:
-            print ("\n{0} -> {1}ERROR : {2}Bad SOURCE PATH, please try"
-                   " again !{3}\n".format(GREEN, BLUE, RED, END))
+            print ("{0} -> {1}ERROR : {2}Bad SOURCE PATH, please try"
+                   " again !{3}".format(GREEN, BLUE, RED, END))
             source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torre"
                                "nts/){0} : {2}".format(GREEN, YELLOW, END))
 
@@ -103,8 +103,8 @@ def main():
         result = raw_input("{0}ENTER DESTINATION PATH {1}(ex: /home/user/en"
                            "codes/){0} : {2}".format(GREEN, YELLOW, END))
         while not result or os.path.exists(result) is False:
-            print ("\n{0} -> {1}ERROR : {2}Bad DESTINATION PATH, please try"
-                   " again !{3}\n".format(GREEN, BLUE, RED, END))
+            print ("{0} -> {1}ERROR : {2}Bad DESTINATION PATH, please try"
+                   " again !{3}".format(GREEN, BLUE, RED, END))
             result = raw_input("{0}ENTER DESTINATION PATH {1}(ex: /home/user/"
                                "encodes/){0} : {2}"
                                .format(GREEN, YELLOW, END))
@@ -114,8 +114,8 @@ def main():
         team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0} :"
                          " {2}".format(GREEN, YELLOW, END))
         while not team:
-            print ("\n{0} -> {1}ERROR : {2}Please, specify team name "
-                   "!{3}\n".format(GREEN, BLUE, RED, END))
+            print ("{0} -> {1}ERROR : {2}Please, specify team name "
+                   "!{3}".format(GREEN, BLUE, RED, END))
             team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0}"
                              " : {2}".format(GREEN, YELLOW, END))
 
@@ -123,8 +123,8 @@ def main():
         tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tk.com"
                        ":80/announce){0} : {2}".format(GREEN, YELLOW, END))
         while not tk:
-            print ("\n{0} -> {1}ERROR : {2}Please, specify tracker url announ"
-                   "ce !{3}\n".format(GREEN, BLUE, RED, END))
+            print ("{0} -> {1}ERROR : {2}Please, specify tracker url announ"
+                   "ce !{3}".format(GREEN, BLUE, RED, END))
             tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tk.c"
                            "om:80/announce){0} : {2}"
                            .format(GREEN, YELLOW, END))
@@ -134,8 +134,8 @@ def main():
                         "ww.themoviedb.org/documentation/api){0} : {2}"
                         .format(GREEN, YELLOW, END))
         while not api:
-            print ("\n{0} -> {1}ERROR : {2}Please, specify TMDB API KEY"
-                   " !{3}\n".format(GREEN, BLUE, RED, END))
+            print ("{0} -> {1}ERROR : {2}Please, specify TMDB API KEY"
+                   " !{3}".format(GREEN, BLUE, RED, END))
             api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https:/"
                             "/www.themoviedb.org/documentation/api){0} : {2}"
                             .format(GREEN, YELLOW, END))
@@ -145,7 +145,7 @@ def main():
             os.system("chmod +x * && chmod +x app/*")
             os.system("cp app/base.nfo app/nfo_base.nfo")
         except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+            print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, BLUE, RED, END, str(e)))
             sys.exit()
 
@@ -179,7 +179,7 @@ def main():
         ff.write(data)
         ff.close
 
-        print ("\n{0} AnkoA {1}-> {2}Installation successful !\n{3}"
+        print ("{0} AnkoA {1}-> {2}Installation successful !{3}"
                .format(BLUE, RED, GREEN, END))
 
     # UPDATE
@@ -189,7 +189,7 @@ def main():
         try:
             os.system("chmod +x * && chmod +x app/*")
         except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+            print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, BLUE, RED, END, str(e)))
             sys.exit()
 
@@ -220,12 +220,12 @@ def main():
             ff.write(data)
             ff.close
 
-            print ("\n{0} AnkoA {1}-> {2}Update successful !\n{3}"
+            print ("{0} AnkoA {1}-> {2}Update successful !{3}"
                    .format(BLUE, RED, GREEN, END))
 
         except (IOError, IndexError):
-            print ("\n{0} AnkoA {1}-> {2}Update error, fix it"
-                   " with a fresh install !\n{3}"
+            print ("{0} AnkoA {1}-> {2}Update error, fix it"
+                   " with a fresh install !{3}"
                    .format(BLUE, GREEN, RED, END))
 
 if (__name__ == "__main__"):

@@ -105,7 +105,7 @@ def snapshot(path, nb_lgn, nb_col):
                        'rtemp/'+str(i).zfill(5)+'.png')
 
         except (IOError, IndexError) as e:
-            print ("\n{0} ->{1} BAD THUMBS : {1}str(e){2}{3}\n"
+            print ("{0} ->{1} BAD THUMBS : {1}str(e){2}{3}"
                    .format(GREEN, RED, BLUE, str(e), END))
             sys.exit()
 
@@ -239,7 +239,7 @@ def img_infos(infos, duree, path):
         try:
             os.system(resize)
         except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
+            print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, BLUE, RED, END, str(e)))
             sys.exit()
 
@@ -265,15 +265,15 @@ def main(argv):
             img_infos(info, longueur, path)
 
         except (IOError, IndexError) as e:
-            print ("\n{0} ->{1} BAD THUMBS : {1}str(e){2}{3}\n"
+            print ("{0} ->{1} BAD THUMBS : {1}str(e){2}{3}"
                    .format(GREEN, RED, BLUE, str(e), END))
             sys.exit()
 
         if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
             shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
     else:
-        print ("\n{0} -> {1}ERROR : {2}Bad source selection, please try"
-               " again !{3}\n".format(GREEN, BLUE, RED, END))
+        print ("{0} -> {1}ERROR : {2}Bad source selection, please try"
+               " again !{3}".format(GREEN, BLUE, RED, END))
 
 if (__name__ == "__main__"):
     main(sys.argv[1:])

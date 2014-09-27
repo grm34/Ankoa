@@ -63,7 +63,7 @@ from style import color
 def main():
 
     # HELP
-    usage = "./genprez.py LANGUAGE QUALITY CODECS SUBS SIZE ID_IMDB"
+    usage = "./genprez.py LANGUAGE FORMAT CODECS SUBS SIZE ID_IMDB"
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 6):
@@ -381,7 +381,7 @@ def main():
         print smart_str(prez)
         sys.stdout.close()
         sys.stdout = temp
-        print ("\n{0} -> {1}PREZ CREATED, CONGRATULATIONS !{2}\n"
+        print ("{0} -> {1}PREZ CREATED, CONGRATULATIONS !{2}"
                .format(RED, GREEN, END))
 
 if (__name__ == "__main__"):

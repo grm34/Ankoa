@@ -93,15 +93,15 @@ def main():
                        .format(GREEN, BLUE, thumb_link, END))
 
         except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
-            print ("\n{0} Thumbnails Upload Error > {1}{2}\n{3}"
+            print ("{0} Thumbnails Upload Error > {1}{2}{3}"
                    .format(RED, BLUE, str(e), END))
         except socket.timeout:
-            print ("\n{0} Thumbnails Upload Error > {1} TIMEOUT !{2}\n"
+            print ("{0} Thumbnails Upload Error > {1} TIMEOUT !{2}"
                    .format(RED, BLUE, END))
             sys.exit()
     else:
-        print ("\n{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
-               " again !{3}\n".format(GREEN, BLUE, RED, END))
+        print ("{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
+               " again !{3}".format(GREEN, BLUE, RED, END))
 
 if (__name__ == "__main__"):
     main()

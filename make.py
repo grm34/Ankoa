@@ -43,9 +43,13 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
+import re
 import os
 import sys
 import optparse
+import commands
+import subprocess
+from django.utils.encoding import (smart_str, smart_unicode)
 sys.path.append("app/")
 from style import (banner, next, color)
 from settings import option
@@ -60,34 +64,115 @@ def main():
     usage = "./make.py SOURCE.mkv SOURCE SUBS SUBFORCED URL"
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
-    if(len(args) != 5):
+    if (len(args) != 5 and len(args) != 11):
         parser.print_help()
         parser.exit(1)
 
-    # VALUES
     source = sys.argv[1]
-    rls_source = sys.argv[2]
-    sub = sys.argv[3]
-    forced = sys.argv[4]
-    url = sys.argv[5]
 
-    # RUN
-    process = "./thumbnails.py {0} 5 2 && ./nfogen.sh {0} {1} {2} {3}"\
-              " {4} && cd {5} && mktorrent -a {6} -p -t 8 -l 22 {0}"\
-              .format(source, rls_source, sub, forced, url, thumb, announce)
+    # MANUAL TOOLS VALUES
+    if (len(args) == 5):
+        rls_source = sys.argv[2]
+        sub = sys.argv[3]
+        forced = sys.argv[4]
+        url = sys.argv[5]
 
-    if os.path.isfile(sys.argv[1]) is True:
-        try:
-            os.system(process)
-            print ("\n{0} -> {1}NFO, THUMBNAILS & TORRENT CREATED !\n{2}"
-                   .format(RED, GREEN, END))
-        except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
-                   .format(GREEN, BLUE, RED, END, str(e)))
-            sys.exit()
+    # AUTO TOOLS VALUES
     else:
-        print ("{0}\n -> {1}ERROR : {2}Bad source selection, please try again"
-               " !\n{3}".format(GREEN, BLUE, RED, END))
+        title = sys.argv[2]
+        year = sys.argv[3]
+        audiolang = sys.argv[4]
+        prezquality = "{0} {1}".format(sys.argv[5], sys.argv[6])
+        titlesub = sys.argv[7]
+        subforced = sys.argv[8]
+        nfosource = sys.argv[9]
+        nfoimdb = sys.argv[10]
+        name = sys.argv[11]
+
+    # Release Size & torrent pieces
+    def check_size():
+        try:
+            scan_s = "mediainfo -f --Inform='General;%FileSize/String4%'"\
+                     " {0}".format(source)
+            rls_size = smart_str(commands.getoutput("{0}".format(scan_s)))
+            prezsize = rls_size.strip().replace(' ', '')
+            regex = re.sub("\\D", '.', prezsize).split('.')[0]
+            if ("gib" in prezsize.lower()):
+                if (int(regex) < 2.5):
+                    pieces = "20"
+                elif (int(regex) > 2.5 and int(regex) < 3.5):
+                    pieces = "21"
+                else:
+                    pieces = "22"
+            elif ("mib" in prezsize.lower()):
+                if (int(regex) < 400):
+                    pieces = "18"
+                elif (int(regex) > 400 and int(regex) < 650):
+                    pieces = "19"
+                else:
+                    pieces = "20"
+            else:
+                pieces = "20"
+
+        except OSError:
+            prezsize = "Mo"
+            pieces = "20"
+
+        return (prezsize, pieces)
+
+    # AUTO TOOLS PROCESS
+    def auto_tools():
+        (prezsize, pieces) = check_size()
+        if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
+            prezz = "&& ./genprez.py {0} {1} {2} {3} {4} && mv {5}{6}"\
+                    "*.txt {7}.txt && ./imgur.py {7}.png add "\
+                    .format(audiolang, prezquality, titlesub, prezsize,
+                            nfoimdb, thumb, name, source[:-4])
+
+            zipp = "cd {0} && zip -r {3}.zip -m {3}*.torrent "\
+                   "{3}.nfo {3}.txt {1}.{2}*.log {3}.png"\
+                   .format(thumb, title, year, source.split('/')[-1][:-4])
+
+        else:
+            prezz = "&& ./imgur.py {0}.png ".format(source[:-4])
+
+            zipp = "cd {0} && zip -r {3}.zip -m {3}*.torrent "\
+                   "{3}.nfo {1}.{2}*.log {3}.png"\
+                   .format(thumb, title, year, source.split('/')[-1][:-4])
+
+        return (
+            "./thumbnails.py {3} 5 2 {4}&& ./nfogen.sh {3} {5} {6} {7} http:"
+            "//www.imdb.com/title/tt{8} && rm -f {0}{1}.{2}*.mbtree && cd {0}"
+            " && mktorrent -a {9} -p -t 8 -l {10} {3} && {11}"
+            .format(thumb, title, year, source, prezz, nfosource,
+                    titlesub, subforced, nfoimdb, announce, pieces, zipp))
+
+    # MANUAL TOOLS PROCESS
+    def manual_tools():
+        return(
+            "./thumbnails.py {0} 5 2 && ./nfogen.sh {0} {1} {2} {3}"
+            " {4} && cd {5} && mktorrent -a {6} -p -t 8 -l 22 {0}"
+            .format(source, rls_source, sub, forced, url, thumb, announce))
+
+    # FINALLY
+    try:
+        # Run manual tools
+        if (os.path.isfile(sys.argv[1]) is True and len(args) == 5):
+                os.system(manual_tools())
+                print ("{0} -> {1}NFO, THUMBNAILS & TORRENT CREATED !{2}"
+                       .format(RED, GREEN, END))
+
+        # Run auto tools
+        elif (os.path.isfile(sys.argv[1]) is True and len(args) == 11):
+            os.system(auto_tools())
+        else:
+            print ("{0} -> {1}ERROR : {2}Bad source selection, please try "
+                   "again !{3}".format(GREEN, BLUE, RED, END))
+
+    except OSError as e:
+        print ("{0} -> {1}ERROR : {2}{4}{3}"
+               .format(GREEN, BLUE, RED, END, str(e)))
+        sys.exit()
 
 if (__name__ == "__main__"):
     main()
