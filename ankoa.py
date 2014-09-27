@@ -65,9 +65,6 @@ def main():
         name, pprint
     ) = ANKOA_SYSTEM()
 
-    if (pprint == "y"):
-        print ffmpeg()
-
     # FFMPEG CLI
     def ffmpeg():
         if (encode_type == "2"):    # CRF
@@ -101,6 +98,10 @@ def main():
             "./make.py {0}{1}.{2}{3}{4} {1} {2} {5} {6} {7} {8} {9} {10} {11}"
             .format(thumb, title, year, stag, mark, audiolang, prezquality,
                     titlesub, subforced, nfosource, nfoimdb, name))
+
+    # User command line
+    if (pprint == "y"):
+        print ffmpeg()
 
     # ANKOA QUEUE
     run_ffmpeg = [ffmpeg(), "", "", "", "", "", "", "", "",
@@ -140,6 +141,7 @@ def main():
             os.system(run_ffmpeg[i])
             os.system(run_ankoa_tools[i])
             i = i + 1
+
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, RED, BLUE, END, str(e)))
