@@ -232,8 +232,8 @@ def ANKOA_SYSTEM():
                                  .format(GREEN, YELLOW, END))
         bit = raw_input("{0}VIDEO BITRATE Kbps {1}(min 700){0} : {2}"
                         .format(GREEN, YELLOW, END))
-        while not bit or len(bit) < 3\
-                or bit.isdigit() is False or int(bit) < 700:
+        while not bit or len(bit) < 3 or bit.isdigit() is False\
+                or int(bit) < 700 or int(bit) > 20000:
             print ("{0} -> {1}ERROR : {2}Please, specify valid video "
                    "bitrate !{3}".format(GREEN, RED, BLUE, END))
             bit = raw_input("{0}VIDEO BITRATE Kbps {1}(min 700){0} : {2}"
@@ -1386,7 +1386,8 @@ def ANKOA_SYSTEM():
     # Video Format Profile
     level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
                       .format(GREEN, YELLOW, END))
-    while not level or len(level) != 3:
+    level_regex = re.search(r"^[1-5]{1}[.][1-2]{1}$", level)
+    while not level or len(level) != 3 or level_regex is False:
         print ("{0} -> {1}ERROR : {2}Bad FORMAT PROFILE entry, please "
                "try again !{3}".format(GREEN, RED, BLUE, END))
         level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
