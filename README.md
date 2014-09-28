@@ -11,7 +11,7 @@ AnkoA v3.2.2
     Bitrate calculator, autocrop, deinterlace, muxing,
     extract subtitles, thumbnails generator, nfo generator,
     prez generator, auto upload thumbnails, auto make .torrent,
-    advanced x264/x264 parameters (expert mode), tracks delay (...) 
+    advanced x264/x265 parameters (expert mode), tracks delay (...) 
 
 ## How to install AnkoA ?
 
