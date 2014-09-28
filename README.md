@@ -3,7 +3,7 @@ AnkoA v3.2.2
 
 **FFMPEG Command Line Easy Encoding Tools ...** [**Video Demo**](https://www.youtube.com/watch?v=UNKVh-DJT6w&feature=youtu.be)
 
-![AnkoA](http://i.imgur.com/BlG3BNs.png)
+![AnkoA](http://i.imgur.com/OTDzzJG.png)
 
 ## Description :
 
