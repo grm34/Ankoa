@@ -45,22 +45,23 @@
 
 import os
 import sys
+import optparse
 import subprocess
 sys.path.append("app/")
 from system import ANKOA_SYSTEM
-from style import (banner, next, color)
+from style import (banner, next, color, help)
 
+(v, version) = help()
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
 
 def main():
 
     # HELP
-    usage = "./ankoa.py\n\nVERSION : AnkoA v3.2.2\n"
-            "https://github.com/grm34/AnkoA"
+    usage = "{0}./ankoa.py{1}\n{2}".format(GREEN, END, version)
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
-    if (len(args) != 6):
+    if (len(args) != 0):
         parser.print_help()
         parser.exit(1)
 

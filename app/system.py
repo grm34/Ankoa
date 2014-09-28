@@ -1227,14 +1227,14 @@ def ANKOA_SYSTEM():
 
         # Resolution WIDTH
         W = raw_input("{0}RESOLUTION WIDTH : {1}".format(GREEN, END))
-        while not W or len(W) > 5 or W.isdigit is False:
+        while not W or len(W) < 3 or len(W) > 4 or W.isdigit() is False:
             print ("{0} -> {1}ERROR : {2}Bad WIDTH entry, please try"
                    " again !{3}".format(GREEN, RED, BLUE, END))
             W = raw_input("{0}RESOLUTION WIDTH : {1}".format(GREEN, END))
 
         # Resolution HEIGHT
         H = raw_input("{0}RESOLUTION HEIGHT : {1}".format(GREEN, END))
-        while not H or len(H) > 5 or H.isdigit is False:
+        while not H or len(H) < 3 or len(H) > 4 or H.isdigit() is False:
             print ("{0} -> {1}ERROR : {2}Bad HEIGHT entry, please try"
                    " again !{3}".format(GREEN, RED, BLUE, END))
             H = raw_input("{0}RESOLUTION HEIGHT : {1}".format(GREEN, END))
@@ -1336,7 +1336,8 @@ def ANKOA_SYSTEM():
         # CROP Width
         w_crop = raw_input("{0}SOURCE CROP WIDTH {1}(ex: 1920){0} : {2}"
                            .format(GREEN, YELLOW, END))
-        while not w_crop or len(w_crop) > 5 or w_crop.isdigit is False:
+        while not w_crop or len(w_crop) < 3 or len(w_crop) > 5\
+                or w_crop.isdigit() is False:
             print ("{0} -> {1}ERROR : {2}Bad CROP WIDTH entry, please try"
                    " again !{3}".format(GREEN, RED, BLUE, END))
             w_crop = raw_input("{0}SOURCE CROP WIDTH {1}(ex: 1920){0} : {2}"
@@ -1345,7 +1346,8 @@ def ANKOA_SYSTEM():
         # CROP Height
         h_crop = raw_input("{0}SOURCE CROP HEIGHT {1}(ex: 800){0} : {2}"
                            .format(GREEN, YELLOW, END))
-        while not h_crop or len(h_crop) > 5 or h_crop.isdigit is False:
+        while not h_crop or len(h_crop) < 3 or len(h_crop) > 5\
+                or h_crop.isdigit() is False:
             print ("{0} -> {1}ERROR : {2}Bad CROP HEIGHT entry, please try"
                    " again !{3}".format(GREEN, RED, BLUE, END))
             h_crop = raw_input("{0}SOURCE CROP HEIGHT {1}(ex: 800){0} : {2}"
@@ -1354,7 +1356,7 @@ def ANKOA_SYSTEM():
         # CROP Pixels LEFT/RIGHT
         x_crop = raw_input("{0}PIXELS CROP LEFT/RIGHT {1}(ex: 0){0} : {2}"
                            .format(GREEN, YELLOW, END))
-        while not x_crop or len(x_crop) > 4 or x_crop.isdigit is False:
+        while not x_crop or len(x_crop) > 4 or x_crop.isdigit() is False:
             print ("{0} -> {1}ERROR : {2}Bad CROP LEFT/RIGHT entry, please "
                    "try again !{3}".format(GREEN, RED, BLUE, END))
             x_crop = raw_input("{0}PIXELS CROP LEFT/RIGHT {1}(ex: 0){0} : "
@@ -1363,7 +1365,7 @@ def ANKOA_SYSTEM():
         # CROP Pixels TOP/BOTTOM
         y_crop = raw_input("{0}PIXELS CROP TOP/BOTTOM {1}(ex: 140){0} : {2}"
                            .format(GREEN, YELLOW, END))
-        while not y_crop or len(y_crop) > 4 or y_crop.isdigit is False:
+        while not y_crop or len(y_crop) > 4 or y_crop.isdigit() is False:
             print ("{0} -> {1}ERROR : {2}Bad CROP TOP/BOTTOM entry, please "
                    "try again !{3}".format(GREEN, RED, BLUE, END))
             y_crop = raw_input("{0}PIXELS CROP TOP/BOTTOM {1}(ex: 140){0} : "

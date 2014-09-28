@@ -55,28 +55,41 @@ def color():
 
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
-def version():
-    v = "AnkoA v3.2.2"
-    version = "Version:{0} {3}{1}\n".format(RED, END, v)
-    copying = "Copying:{0} CeCILL-C License{1}\n".format(YELLOW, END)
-    author = "Author:{0} grm34 {1}(FRIPOUILLEJACK)\n".format(YELLOW, END)
-    email = "Email:{0} fripouillejack@gmail.com{1}\n".format(YELLOW, END)
-    git_url = "Link:{0} https://github.com/grm34/AnkoA{1}\n".format(BLUE, END)
-    git_info = "Infos:{0} FFMPEG Easy Encoding Tools{1}\n".format(YELLOW, END)
-    opts = \
-        "MEMENTO :\n\n"\
-        "SOURCE..............: release source     →  1080p.THENiGHTMAREiNHD"\
-        "SUBS................: subtitles source   →  FULL.FRENCH.Z1"\
-        "SUBFORCED...........: forced subtitles   →  FRENCH.FORCED or N/A"\
-        "LANGUAGE............: release language   →  ENGLiSH"\
-        "FORMAT..............: release format     →  720p.BluRay"\
-        "CODECS..............: release codecs     →  AC3.x264"\
-        "SiZE................: release size       →  1.37Go"\
-        "iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')"\
-        "URL.................: release infos url  →  http://www.imdb.com/title/tt0315733"
 
-    values = (v, version, copying, author, email, git_url, git_info, opts)
+def help():
+    v = "AnkoA v3.2.2"
+    help = "\n{0}Version.....:{2}   {5}\n"\
+           "{0}Copying.....:{1}   CeCILL-C License\n"\
+           "{0}Author......:{1}   grm34 (FRIPOUILLEJACK)\n"\
+           "{0}Email.......:{1}   fripouillejack@gmail.com\n"\
+           "{0}Link........:{3}   https://github.com/grm34/AnkoA\n"\
+           "{0}Infos.......:{4}   FFMPEG Easy Encoding Tools\n\n"\
+           "{2} MEMENTO :\n\n"\
+           "{4}   SOURCE..............:  {1}release source     {3}ex:{1}  10"\
+           "80p.THENiGHTMAREiNHD\n"\
+           "{4}   SUBS................:  {1}subtitles source   {3}ex:{1}  FU"\
+           "LL.FRENCH.Z1\n"\
+           "{4}   SUBFORCED...........:  {1}forced subtitles   {3}ex:{1}  FR"\
+           "ENCH.FORCED or N/A\n"\
+           "{4}   LANGUAGE............:  {1}release language   {3}ex:{1}  EN"\
+           "GLiSH\n"\
+           "{4}   FORMAT..............:  {1}release format     {3}ex:{1}  72"\
+           "0p.BluRay\n"\
+           "{4}   CODECS..............:  {1}release codecs     {3}ex:{1}  AC"\
+           "3.x264\n"\
+           "{4}   SiZE................:  {1}release size       {3}ex:{1}  1."\
+           "37Go\n"\
+           "{4}   iD_iMDB.............:  {1}release iMDB iD    {3}ex:{1}  11"\
+           "21931 (without 'tt')\n"\
+           "{4}   URL.................:  {1}release infos url  {3}ex:{1}  ht"\
+           "tp://www.imdb.com/title/tt0315733"\
+           .format(BLUE, END, RED, YELLOW, GREEN, v)
+
+    values = (v, help)
     return values
+
+(v, version) = help()
+
 
 def banner():
     print(
