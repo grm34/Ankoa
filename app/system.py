@@ -160,7 +160,7 @@ def ANKOA_SYSTEM():
             # Run HANDBRAKE Scan
             if (type == "1"):
                 for lines in hb_data:
-                    b_regex = r"[+] [0-9]{1,3}, [A-Za-z]+ "
+                    b_regex = r"[+]\s[0-9]{1,3},\s.+?\s[(].+?[)]"
                     hb_regex = re.compile(b_regex, flags=0).search(lines)
                     if ("+ duration:" in lines or "Stream #" in lines
                             or "+ size:" in lines or "autocrop" in lines
