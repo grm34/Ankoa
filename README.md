@@ -77,7 +77,7 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
 * [How to crop with AnkoA](https://github.com/grm34/AnkoA/wiki/How-to-crop-with-AnkoA)
 * [How to use subtitles with AnkoA](https://github.com/grm34/AnkoA/wiki/How-to-use-subtitles-with-AnkoA)
 * [AnkoA changelog](https://github.com/grm34/AnkoA/wiki/Changelog)
-* [Video demonstration](https://www.youtube.com/watch?v=RvEIvgnXdBg&feature=youtu.be)
+* [Video demonstration](https://www.youtube.com/watch?v=R_4gfRlgkak&feature=youtu.be)
 * [NFO example](https://github.com/grm34/AnkoA/wiki/NFO-Example)
 
 ***
