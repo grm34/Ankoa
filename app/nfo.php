@@ -70,13 +70,14 @@ function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ 
 
     // VIDEO INFOS
     if(isset( $media['Video'] )){ $tags['V_R'] = preg_replace('`([^0-9])`i', '', $media['Video']['width'] ) . " x " . preg_replace('`([^0-9])`i', '', $media['Video']['height'] );}
+    else{ $tags['V_R'] = '...x...' ;}
     $tags['V_A'] = isset( $media['Video']['display_aspect_ratio'] ) ? $media['Video']['display_aspect_ratio'] : 'N/A';
     $tags['V_L'] = isset( $media['General']['duration'] ) ? $media['General']['duration'] : 'N/A';
     $tags['SIZE'] = isset( $media['General']['file_size'] ) ? $media['General']['file_size'] : 'N/A';
     if(isset( $media['Video']['writing_library'])){$tags['V_C'] = (preg_match('/(\w+\s\w+\s\w+)/i', $media['Video']['writing_library'], $matches))? $matches[0] : 'x264' ;} else{$tags['V_C'] = "x264" ;}
     $tags['V_F'] = isset( $media['Video']['frame_rate'] ) ? $media['Video']['frame_rate'] : 'N/A';
     $tags['V_FP'] = isset( $media['Video']['format_profile'] ) ? $media['Video']['format_profile'] : 'N/A';
-    $tags['V_B'] = isset( $media['Video']['bit_rate'] ) ? $media['Video']['bit_rate'] : ( isset( $media['Video']['nominal_bit_rate'] ) ? $media['Video']['nominal_bit_rate'] : $media['General']['overall_bit_rate']);
+    $tags['V_B'] = isset( $media['Video']['bit_rate'] ) ? $media['Video']['bit_rate'] : ( isset( $media['Video']['nominal_bit_rate'] ) ? $media['Video']['nominal_bit_rate'] : isset($media['General']['overall_bit_rate'] ) ? $media['General']['overall_bit_rate'] : 'N/A' );
 
     // AUDIO 1 INFOS
     $tags['A_L'] = isset( $media['Audio']['title'] ) ? $media['Audio']['title'] : ( isset( $media['Audio #1']['title'] ) ? $media['Audio #1']['title'] : 'ENGLiSH' );

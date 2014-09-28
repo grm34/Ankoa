@@ -11,7 +11,7 @@ AnkoA v3.2.2
     Bitrate calculator, autocrop, deinterlace, muxing,
     extract subtitles, thumbnails generator, nfo generator,
     prez generator, auto upload thumbnails, auto make .torrent,
-    advanced x264/x265 parameters (expert mode), tracks delay (...) 
+    advanced x264/x265 parameters (expert mode), tracks delay (...)
 
 ## How to install AnkoA ?
 
@@ -50,8 +50,8 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
     SiZE................: release size       →  1.37Go
     iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')
     URL.................: release infos url  →  http://www.imdb.com/title/tt0315733
-    
-#### Command line help : 
+
+#### Command line help :
 `(-h or --help)`
 
 ![](http://i.imgur.com/QVURs1G.png)
@@ -128,7 +128,7 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
 
     Filename:         Source:    Comment:    Both:    Blank:    Total:
 
-    nfo.php                32          39       21        20       112
+    nfo.php                33          39       21        22       115
     ankoa.py               91          51        2        22       166
     genprez.py            286          63        7        36       392
     imgur.py               55          48        0        11       114
@@ -141,6 +141,6 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     system.py            1361         235       42       230      1868
     nfogen.sh              15          41        1         4        61
 
-    [Total] :            2368         818       96       445      3727
+    [Total] :            2369         818       96       447      3730
 
 ***

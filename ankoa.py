@@ -92,11 +92,11 @@ def main():
             return (
                 "cd {0} && ffmpeg -i {1} -pass 1 -map 0:{2}{3}{4} -f {5}{6} -"
                 "c:v:0 {7} -b:v:0 {8}k -level {9}{10} -an -sn -passlogfile "
-                "{11}.log {11}.{12}{13}{14} && ffmpeg -y -i {1} -pass 2 -meta"
-                "data title='{11}.{12}' -metadata proudly.presented.by='{15}'"
-                " -map 0:{2}{16}{4} -metadata:s:v:0 title= -metadata:s:v:0 la"
-                "nguage= -f {5}{6} -c:v:0 {7} -b:v:0 {8}k -level {9}{17}{18}"
-                "{19} -passlogfile {11}.{12}.log {11}.{12}{13}{14}{20}"
+                "{11}.{12}.log {11}.{12}{13}{14} && ffmpeg -y -i {1} -pass 2 "
+                "-metadata title='{11}.{12}' -metadata proudly.presented.by='"
+                "{15}' -map 0:{2}{16}{4} -metadata:s:v:0 title= -metadata:s:v"
+                ":0 language= -f {5}{6} -c:v:0 {7} -b:v:0 {8}k -level {9}{17}"
+                "{18}{19} -passlogfile {11}.{12}.log {11}.{12}{13}{14}{20}"
                 .format(thumb, source, idvideo, interlace2, fps, string, reso,
                         codec, bit, level, pass1, title, year, stag, mark,
                         team, interlace, param, audio_config, sub_config,
