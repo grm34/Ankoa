@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -49,9 +49,9 @@ import socket
 import urllib2
 import optparse
 from json import loads
-from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
-from django.utils.encoding import (smart_str, smart_unicode)
 from pprint import pprint
+from django.utils.encoding import (smart_str, smart_unicode)
+from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
 sys.path.append("app/")
 from settings import option
 from style import (color, help)
@@ -372,12 +372,14 @@ def main():
             "\n\n{0}\n\n{1}\n\n{2}\n\n{3}\n\n{4}[/center]"\
             .format(prezQualite, prezFormat, prezLang, prezSub, prezSize)
 
+    # VERIFICATION
     if (title_TMDB not in data_TMDB and title_IMDB not in data_IMDB
             and title_OMDB not in data_OMDB and title_API not in data_API):
         print ("\n{0} -> {1}Genprez ERROR : {2}Movie not found, please try "
                "again !\n{3}".format(GREEN, RED, BLUE, END))
+
+    # if ok -> WRITE
     else:
-        # WRITE
         temp = sys.stdout
         sys.stdout = open('{0}{1}_prez.txt'.format(thumb, name), 'w')
         print smart_str(prez)

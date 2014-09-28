@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -49,24 +49,29 @@ from style import color
 
 
 def calcul():
+
+    # Hours
     HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
     while not HH or HH.isdigit() is False or int(HH) > 23:
         print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
                " {1}(ex: 1){3}".format(GREEN, RED, BLUE, END))
         HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
 
+    # Minutes
     MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
     while not MM or MM.isdigit() is False or int(MM) > 59:
         print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
                " {1}(ex: 15){3}".format(GREEN, RED, BLUE, END))
         MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
 
+    # Seconds
     SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
     while not SS or SS.isdigit() is False or int(SS) > 59:
         print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
                " {1}(ex: 53){3}".format(GREEN, RED, BLUE, END))
         SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
 
+    # Audio bitrate
     audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
                          .format(GREEN, END))
     while not audiobit or audiobit.isdigit() is False:
@@ -75,6 +80,7 @@ def calcul():
         audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
                              .format(GREEN, END))
 
+    # Release desired size
     rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350Mo {0}[1]{1} - 550Mo "
                          "{0}[2]{1} - 700Mo {0}[3]{1} - 1.37Go {0}[4]{1} -\n"
                          "2.05Go {0}[5]{1} - 2.74Go {0}[6]{1} - 4.37Go {0}[7]"
@@ -83,9 +89,11 @@ def calcul():
 
     resp = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
+    # Size Values
     values = ["", "357.8", "562.9", "716.3", "1439.3",
               "2151", "2875.5", "4585.2", "6881.5"]
 
+    # Process
     if (rls_size in resp):
         calsize = values[int(rls_size)]
     else:
@@ -95,6 +103,7 @@ def calcul():
     return (info_calcul)
 
 
+# wcalc calcul formule
 def calc(HH, MM, SS, audiobit, rls_size, calsize):
     return (
         "wcalc [{" + calsize + "-[{" + audiobit + "/8}/1024*[{" + HH +

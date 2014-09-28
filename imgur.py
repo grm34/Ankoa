@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -82,6 +82,8 @@ def main():
             resp = BeautifulSoup.BeautifulSoup(urlopen(req, None, 5.0))
             thumb_link = str(resp.find('original')).replace('<original>', '')\
                                                    .replace('</original>', '')
+
+            # WRITE LINK on PREZ
             if (len(args) == 2 and args[1] == "add"):
                 f = file("{0}txt".format(sys.argv[1][:-3]), 'r')
                 chaine = f.read()
@@ -94,6 +96,7 @@ def main():
                 print ("\n{0} Thumbnails url > {1}{2}\n{3}"
                        .format(GREEN, BLUE, thumb_link, END))
 
+        # Upload Error
         except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
             print ("{0} Thumbnails Upload Error > {1}{2}{3}"
                    .format(RED, BLUE, str(e), END))
@@ -101,6 +104,8 @@ def main():
             print ("{0} Thumbnails Upload Error > {1} TIMEOUT !{2}"
                    .format(RED, BLUE, END))
             sys.exit()
+
+    # Thumbnails not found
     else:
         print ("{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
                " again !{3}".format(GREEN, RED, BLUE, END))

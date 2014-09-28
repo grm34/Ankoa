@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -46,13 +46,13 @@
 import re
 import os
 import sys
-import optparse
 import commands
+import optparse
 import subprocess
 from django.utils.encoding import (smart_str, smart_unicode)
 sys.path.append("app/")
-from style import (banner, next, color, help)
 from settings import option
+from style import (banner, next, color, help)
 
 (v, version) = help()
 (BLUE, RED, YELLOW, GREEN, END) = color()
@@ -125,6 +125,8 @@ def main():
     # AUTO TOOLS PROCESS
     def auto_tools():
         (prezsize, pieces) = check_size()
+
+        # Tools whith prez
         if (len(nfoimdb) == 7 and nfoimdb.isdigit()):
             prezz = "&& ./genprez.py {0} {1} {2} {3} {4} && mv {5}{6}"\
                     "*.txt {7}.txt && ./imgur.py {7}.png add "\
@@ -135,6 +137,7 @@ def main():
                    "{3}.nfo {3}.txt {1}.{2}*.log {3}.png"\
                    .format(thumb, title, year, source.split('/')[-1][:-4])
 
+        # Tools without prez
         else:
             prezz = "&& ./imgur.py {0}.png ".format(source[:-4])
 
@@ -142,6 +145,7 @@ def main():
                    "{3}.nfo {1}.{2}*.log {3}.png"\
                    .format(thumb, title, year, source.split('/')[-1][:-4])
 
+        # Return Tools
         return (
             "./thumbnails.py {3} 5 2 {4}&& ./nfogen.sh {3} {5} {6} {7} http:"
             "//www.imdb.com/title/tt{8} && rm -f {0}{1}.{2}*.mbtree && cd {0}"
@@ -167,10 +171,13 @@ def main():
         # Run auto tools
         elif (os.path.isfile(sys.argv[1]) is True and len(args) == 11):
             os.system(auto_tools())
+
+        # Source not found
         else:
             print ("{0} -> {1}ERROR : {2}Bad source selection, please try "
                    "again !{3}".format(GREEN, RED, BLUE, END))
 
+    # make Error
     except OSError as e:
         print ("{0} -> {1}ERROR : {2}{4}{3}"
                .format(GREEN, RED, BLUE, END, str(e)))

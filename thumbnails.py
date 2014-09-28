@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -43,16 +43,16 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
+import re
 import os
 import sys
-import shutil
+import time
 import glob
 import Image
+import shutil
+import optparse
 import ImageDraw
 import ImageFont
-import re
-import time
-import optparse
 sys.path.append("app/")
 from settings import option
 from style import (color, help)
@@ -266,6 +266,7 @@ def main(argv):
             index_th(info, argv[2], argv[1])
             img_infos(info, longueur, path)
 
+        # Thubnails Error
         except (IOError, IndexError) as e:
             print ("{0} ->{1} BAD THUMBS : {1}str(e){2}{3}"
                    .format(GREEN, RED, BLUE, str(e), END))
@@ -273,6 +274,8 @@ def main(argv):
 
         if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
             shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
+
+    # Source not found
     else:
         print ("{0} -> {1}ERROR : {2}Bad source selection, please try"
                " again !{3}".format(GREEN, RED, BLUE, END))

@@ -40,6 +40,7 @@
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL-C license and that you accept its terms.
 
+
 function get_media_info( $video ){
     $media_infos = array( ); $content = shell_exec( 'mediainfo "' . $video . '"' ); $xx = explode( "\n\n", $content );
 
@@ -54,6 +55,7 @@ function get_media_info( $video ){
         }
     }return $media_infos;
 }
+
 
 function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ $media = get_media_info( $video );
 

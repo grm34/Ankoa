@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -56,12 +56,12 @@ import subprocess
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
 from django.utils.encoding import (smart_str, smart_unicode)
-from style import color
-from settings import option
 from bitrate import (calcul, calc)
+from settings import option
+from style import color
 
-(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 (BLUE, RED, YELLOW, GREEN, END) = color()
+(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
 def ANKOA_SYSTEM():
@@ -111,7 +111,7 @@ def ANKOA_SYSTEM():
     else:
         stag = ".{0}".format(special.strip().replace(' ', '.'))
 
-    # Scan Infos Source
+    # Scan commands
     scan = [
         "HandBrakeCLI -t 0 --scan -i " + source,
         "ffmpeg -i " + source,
@@ -130,6 +130,7 @@ def ANKOA_SYSTEM():
         "mediainfo -f --Inform='Text;%CodecID% - ' " + source,
         "mediainfo -f --Inform='Text;%Language/String% - ' " + source]
 
+    # Scan Process
     scan_again = "y"
     while (scan_again == "y"):
         type = raw_input("{0}SCAN INFOS SOURCE > \n{1}HANDBRAKE {0}[1]{1} - "
@@ -180,6 +181,7 @@ def ANKOA_SYSTEM():
 
             os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
 
+        # Scan Error
         except (OSError) as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, RED, BLUE, END, str(e)))
@@ -199,9 +201,11 @@ def ANKOA_SYSTEM():
         codec = "libx264"
         xcod = "x264"
 
-    # Encode Type
+    # CRF / 2PASS ?
     encode_type = raw_input("{0}ENCODING MODE > \n{1}DUALPASS {0}[1]{1} - CRF"
                             " {0}[2] : {2}".format(GREEN, YELLOW, END))
+
+    # FFMPEG CRF
     if (encode_type == "2"):
         bit = ""
         crf = raw_input("{0}CRF LEVEL {1}(0 to 51){0} : {2}"
@@ -211,6 +215,7 @@ def ANKOA_SYSTEM():
                    "{3}".format(GREEN, RED, BLUE, END))
             crf = raw_input("{0}CRF LEVEL {1}(0 to 51){0} : {2}"
                             .format(GREEN, YELLOW, END))
+    # FFMPEG 2PASS
     else:
         crf = ""
         calculator = raw_input("{0}BITRATE CALCULATOR {1}(y/n){0} : {2}"
@@ -282,6 +287,8 @@ def ANKOA_SYSTEM():
                 if ("Stream #" in lines):
                     print lines.strip().replace('\n', '')
             os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
+
+        # Scan Error
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, RED, BLUE, END, str(e)))
@@ -807,6 +814,7 @@ def ANKOA_SYSTEM():
             idsub2 = ""
             titlesub2 = ""
 
+        # RETURN Subtitles Infos From Source
         infos_subs_in = (idsub, titlesub, idsub2, titlesub2)
         return (infos_subs_in)
 
@@ -944,6 +952,7 @@ def ANKOA_SYSTEM():
             sync = ""
             sync2 = ""
 
+        # RETURN Subtitles Infos From Location
         infos_subs_out = (idsub, titlesub, idsub2, titlesub2,
                           charset, charset2, sync, sync2)
         return (infos_subs_out)
@@ -983,7 +992,7 @@ def ANKOA_SYSTEM():
                 "mkv && mkvextract tracks {3}.mkv 0:{3}.pgs && mv {3}.pgs {3}"
                 ".sup && rm -f {3}.mkv".format(thumb, source, idsub, title))
 
-    # Subtitles Format - Extract from MKV
+    # Subtitles Format (from MKV)
     def mkv_format():
 
         # MULTi SUBS (from mkv)
@@ -1014,6 +1023,7 @@ def ANKOA_SYSTEM():
         else:
             ext2 = ""
 
+        # RETURN Subtitles Format (from MKV )
         subext = (ext, ext2)
         return (subext)
 
@@ -1312,6 +1322,8 @@ def ANKOA_SYSTEM():
                 if ("size:" in lines or "autocrop" in lines):
                     print lines.strip().replace('\n', '')
             os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
+
+        # Scan Error
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, RED, BLUE, END, str(e)))
@@ -1323,6 +1335,8 @@ def ANKOA_SYSTEM():
     if (ask_screen == "y"):
         try:
             os.system("./thumbnails.py {0} 5 2".format(source))
+
+        # Screenshots Error
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, RED, BLUE, END, str(e)))
@@ -1374,6 +1388,8 @@ def ANKOA_SYSTEM():
         # CROP Values
         crop = " -filter:v crop={0}:{1}:{2}:{3}"\
                .format(w_crop, h_crop, x_crop, y_crop)
+
+    # while no crop
     else:
         crop = ""
 
@@ -1830,6 +1846,8 @@ def ANKOA_SYSTEM():
                       .replace(";", "").replace(",", "")
         else:
             name = "unknown"
+
+    # while no prez
     else:
         nfoimdb = "empty"
         name = "unknown"

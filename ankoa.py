@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -77,7 +77,7 @@ def main():
 
     # FFMPEG CLI
     def ffmpeg():
-        if (encode_type == "2"):    # CRF
+        if (encode_type == "2"):    # CRF method
             return (
                 "cd {0} && ffmpeg -i {1} -metadata title='{2}.{3}' -metadata "
                 "proudly.presented.by='{4}' -map 0:{5}{6}{7} -metadata:s:v:0 "
@@ -88,7 +88,7 @@ def main():
                         fps, string, reso, codec, crf, level, param,
                         audio_config, sub_config, stag, mark, sub_remux))
 
-        else:                       # 2PASS
+        else:                       # 2PASS method
             return (
                 "cd {0} && ffmpeg -i {1} -pass 1 -map 0:{2}{3}{4} -f {5}{6} -"
                 "c:v:0 {7} -b:v:0 {8}k -level {9}{10} -an -sn -passlogfile "

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -72,6 +72,7 @@ def main():
             and os.path.isfile("app/settings.py") is False\
             and os.path.isfile("nfogen.sh") is False:
 
+        # Files not found
         print ("{0} AnkoA {1}-> {2}Setup error, files missing,"
                " fix it with a fresh install !{3}"
                .format(BLUE, RED, GREEN, END))
@@ -142,60 +143,58 @@ def main():
                             "/www.themoviedb.org/documentation/api){0} : {2}"
                             .format(GREEN, YELLOW, END))
 
-        # AUTHORIZE & copy NFO
         try:
+
+            # Authorize & copy NFO
             os.system("chmod +x * && chmod +x app/*")
             os.system("cp app/base.nfo app/nfo_base.nfo")
+
+            # SAVE personal settings
+            temp = sys.stdout
+            sys.stdout = open('app/save.txt', 'w')
+            print ("{0}\n{1}\n{2}\n{3}\n{4}".format(source, result,
+                                                    team, tk, api))
+            sys.stdout.close()
+            sys.stdout = temp
+
+            # WRITE personal settings
+            f = file('app/settings.py', 'r')
+            chaine = f.read()
+            f.close()
+            data = chaine.replace("XXX001", source.strip())\
+                         .replace("XXX002", result.strip())\
+                         .replace("XXX003", team.strip().replace(' ', '.'))\
+                         .replace("XXX004", tk.strip())\
+                         .replace("XXX005", api.strip())
+            f = file('app/settings.py', 'w')
+            f.write(data)
+            f.close
+
+            # WRITE nfogen settings
+            ff = file('nfogen.sh', 'r')
+            chaine = ff.read()
+            ff.close()
+            data = chaine.replace("XXX002", result.strip())
+            ff = file('nfogen.sh', 'w')
+            ff.write(data)
+            ff.close
+
+            # Install successful
+            print ("{0} AnkoA {1}-> {2}Installation successful !{3}"
+                   .format(BLUE, RED, GREEN, END))
+
+        # Install Error
         except OSError as e:
             print ("{0} -> {1}ERROR : {2}{4}{3}"
                    .format(GREEN, RED, BLUE, END, str(e)))
             sys.exit()
-
-        # SAVE personal settings
-        temp = sys.stdout
-        sys.stdout = open('app/save.txt', 'w')
-        print ("{0}\n{1}\n{2}\n{3}\n{4}".format(source, result,
-                                                team, tk, api))
-        sys.stdout.close()
-        sys.stdout = temp
-
-        # WRITE personal settings
-        f = file('app/settings.py', 'r')
-        chaine = f.read()
-        f.close()
-        data = chaine.replace("XXX001", source.strip())\
-                     .replace("XXX002", result.strip())\
-                     .replace("XXX003", team.strip().replace(' ', '.'))\
-                     .replace("XXX004", tk.strip())\
-                     .replace("XXX005", api.strip())
-        f = file('app/settings.py', 'w')
-        f.write(data)
-        f.close
-
-        # WRITE nfogen settings
-        ff = file('nfogen.sh', 'r')
-        chaine = ff.read()
-        ff.close()
-        data = chaine.replace("XXX002", result.strip())
-        ff = file('nfogen.sh', 'w')
-        ff.write(data)
-        ff.close
-
-        print ("{0} AnkoA {1}-> {2}Installation successful !{3}"
-               .format(BLUE, RED, GREEN, END))
 
     # UPDATE
     if (sys.argv[1] == "update"):
 
-        # AUTHORIZE
         try:
             os.system("chmod +x * && chmod +x app/*")
-        except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}"
-                   .format(GREEN, RED, BLUE, END, str(e)))
-            sys.exit()
 
-        try:
             # READ personal settings
             with open('app/save.txt') as save:
                 opts = save.read().split("\n")
@@ -222,13 +221,16 @@ def main():
             ff.write(data)
             ff.close
 
+            # Update successful
             print ("{0} AnkoA {1}-> {2}Update successful !{3}"
                    .format(BLUE, RED, GREEN, END))
 
+        # Setup Error
         except (IOError, IndexError):
             print ("{0} AnkoA {1}-> {2}Update error, fix it"
                    " with a fresh install !{3}"
                    .format(BLUE, GREEN, RED, END))
+            sys.exit()
 
 if (__name__ == "__main__"):
     main()
