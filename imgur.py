@@ -53,15 +53,17 @@ import optparse
 import BeautifulSoup
 from urllib2 import (urlopen, URLError, HTTPError)
 sys.path.append("app/")
-from style import color
+from style import (color, help)
 
+(v, version) = help()
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
 
 def main():
 
     # HELP
-    usage = "./imgur.py /path/to/image.png"
+    usage = "{0}./imgur.py /path/to/image.png"\
+            "{1}\n{2}".format(GREEN, END, version)
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) < 1 or len(args) > 2):

@@ -55,10 +55,11 @@ import time
 import optparse
 sys.path.append("app/")
 from settings import option
-from style import color
+from style import (color, help)
 
-(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
+(v, version) = help()
 (BLUE, RED, YELLOW, GREEN, END) = color()
+(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
 def snapshot(path, nb_lgn, nb_col):
@@ -247,7 +248,8 @@ def img_infos(infos, duree, path):
 def main(argv):
 
     # HELP
-    usage = "./thumbnails.py source.video 5 2"
+    usage = "./thumbnails.py source.video 5 2"\
+            "{1}\n{2}".format(GREEN, END, version)
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 3):

@@ -55,6 +55,15 @@ from style import (banner, next, color)
 
 def main():
 
+    # HELP
+    usage = "./ankoa.py\n\nVERSION : AnkoA v3.2.2\n"
+            "https://github.com/grm34/AnkoA"
+    parser = optparse.OptionParser(usage=usage)
+    (options, args) = parser.parse_args()
+    if (len(args) != 6):
+        parser.print_help()
+        parser.exit(1)
+
     # RUN ANKOA
     banner()
     (

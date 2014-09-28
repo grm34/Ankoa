@@ -48,15 +48,17 @@ import sys
 import optparse
 import readline
 sys.path.append("app/")
-from style import (banner, color)
+from style import (banner, color, help)
 
+(v, version) = help()
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
 
 def main():
 
     # HELP
-    usage = "python setup.py [install] | [update]"
+    usage = "python setup.py [{3}install{0}] | [{3}update{0}]"\
+            "{1}\n{2}".format(GREEN, END, version, YELLOW)
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if ((len(args) != 1) and

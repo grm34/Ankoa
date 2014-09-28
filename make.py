@@ -51,17 +51,19 @@ import commands
 import subprocess
 from django.utils.encoding import (smart_str, smart_unicode)
 sys.path.append("app/")
-from style import (banner, next, color)
+from style import (banner, next, color, help)
 from settings import option
 
-(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
+(v, version) = help()
 (BLUE, RED, YELLOW, GREEN, END) = color()
+(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
 def main():
 
     # HELP
-    usage = "./make.py SOURCE.mkv SOURCE SUBS SUBFORCED URL"
+    usage = "{0}./make.py SOURCE.mkv SOURCE SUBS SUBFORCED URL"\
+            "{1}\n{2}".format(GREEN, END, version)
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 5 and len(args) != 11):

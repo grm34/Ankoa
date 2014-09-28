@@ -55,6 +55,28 @@ def color():
 
 (BLUE, RED, YELLOW, GREEN, END) = color()
 
+def version():
+    v = "AnkoA v3.2.2"
+    version = "Version:{0} {3}{1}\n".format(RED, END, v)
+    copying = "Copying:{0} CeCILL-C License{1}\n".format(YELLOW, END)
+    author = "Author:{0} grm34 {1}(FRIPOUILLEJACK)\n".format(YELLOW, END)
+    email = "Email:{0} fripouillejack@gmail.com{1}\n".format(YELLOW, END)
+    git_url = "Link:{0} https://github.com/grm34/AnkoA{1}\n".format(BLUE, END)
+    git_info = "Infos:{0} FFMPEG Easy Encoding Tools{1}\n".format(YELLOW, END)
+    opts = \
+        "MEMENTO :\n\n"\
+        "SOURCE..............: release source     →  1080p.THENiGHTMAREiNHD"\
+        "SUBS................: subtitles source   →  FULL.FRENCH.Z1"\
+        "SUBFORCED...........: forced subtitles   →  FRENCH.FORCED or N/A"\
+        "LANGUAGE............: release language   →  ENGLiSH"\
+        "FORMAT..............: release format     →  720p.BluRay"\
+        "CODECS..............: release codecs     →  AC3.x264"\
+        "SiZE................: release size       →  1.37Go"\
+        "iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')"\
+        "URL.................: release infos url  →  http://www.imdb.com/title/tt0315733"
+
+    values = (v, version, copying, author, email, git_url, git_info, opts)
+    return values
 
 def banner():
     print(
@@ -69,8 +91,8 @@ def banner():
     """#####       #####""" + RED + """
     ¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦
     #######################################################################
-    #########################  """ + YELLOW + """[ AnKoA 3.2.2 ]""" + RED +
-    """  ###########################
+    #########################  """ + YELLOW + """[ """ + v + """ ]""" + RED +
+    """  ##########################
     #######################################################################
     ######### """ + GREEN +
     """-> USE TAB OR TAB+TAB FOR SOURCES AUTOCOMPLETION <-""" + RED +

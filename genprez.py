@@ -54,16 +54,18 @@ from django.utils.encoding import (smart_str, smart_unicode)
 from pprint import pprint
 sys.path.append("app/")
 from settings import option
-from style import color
+from style import (color, help)
 
-(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
+(v, version) = help()
 (BLUE, RED, YELLOW, GREEN, END) = color()
+(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
 def main():
 
     # HELP
-    usage = "./genprez.py LANGUAGE FORMAT CODECS SUBS SIZE ID_IMDB"
+    usage = "{0}./genprez.py LANGUAGE FORMAT CODECS SUBS SIZE ID_IMDB"\
+            "{1}\n{2}".format(GREEN, END, version)
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 6):
