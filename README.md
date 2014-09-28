@@ -7,11 +7,11 @@ AnkoA v3.2.2
 
 ## Description :
 
-* FFMPEG easy encoding
-* Thumbnails Generator
-* NFO Generator
-* Genprez Upload
-* Auto make .torrent
+    Encode your favorites videos simply & quickly
+    Bitrate calculator, autocrop, deinterlace, muxing,
+    extract subtitles, thumbnails generator, nfo generator,
+    prez generator, auto upload thumbnails, auto make .torrent,
+    advanced x264/x264 parameters (expert mode), tracks delay (...) 
 
 ## How to install AnkoA ?
 
