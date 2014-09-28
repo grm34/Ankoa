@@ -160,11 +160,11 @@ def ANKOA_SYSTEM():
             # Run HANDBRAKE Scan
             if (type == "1"):
                 for lines in hb_data:
-                    regex = re.search(r'[+] [0-9]{1,3}, [A-Za-z]+ ',
-                                      lines)
+                    b_regex = r"[+] [0-9]{1,3}, [A-Za-z]+ "
+                    hb_regex = re.compile(b_regex, flags=0).search(lines)
                     if ("+ duration:" in lines or "Stream #" in lines
                             or "+ size:" in lines or "autocrop" in lines
-                            or regex is not None):
+                            or hb_regex is not None):
                         print lines.strip().replace('\n', '')
 
             # Run FFMPEG Scan
@@ -1404,12 +1404,14 @@ def ANKOA_SYSTEM():
     # Video Format Profile
     level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
                       .format(GREEN, YELLOW, END))
-    level_regex = re.search(r"^[1-5]{1}[.][1-2]{1}$", level)
-    while not level or len(level) != 3 or level_regex is False:
+    l_regex = r"^[1-5]{1}[.][1-2]{1}$"
+    level_regex = re.compile(l_regex, flags=0).search(level)
+    while not level or len(level) != 3 or level_regex is None:
         print ("{0} -> {1}ERROR : {2}Bad FORMAT PROFILE entry, please "
                "try again !{3}".format(GREEN, RED, BLUE, END))
         level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
                           .format(GREEN, YELLOW, END))
+        level_regex = re.compile(l_regex, flags=0).search(level)
 
     # Preset x264/x265
     preset = raw_input("{0}CUSTOM PRESET X264/X265 > \n{1}FAST {0}[1]{1} - SL"
