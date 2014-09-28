@@ -57,7 +57,7 @@ from style import (banner, color, help)
 def main():
 
     # HELP
-    usage = "python setup.py [{3}install{0}] | [{3}update{0}]"\
+    usage = "{0}python setup.py [{3}install{0}] | [{3}update{0}]"\
             "{1}\n{2}".format(GREEN, END, version, YELLOW)
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()

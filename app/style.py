@@ -58,7 +58,7 @@ def color():
 
 def help():
     v = "AnkoA v3.2.2"
-    help = "\n{0}Version.....:{2}   {5}\n"\
+    help = "{0}\nVersion.....:{2}   {5}\n"\
            "{0}Copying.....:{1}   CeCILL-C License\n"\
            "{0}Author......:{1}   grm34 (FRIPOUILLEJACK)\n"\
            "{0}Email.......:{1}   fripouillejack@gmail.com\n"\
