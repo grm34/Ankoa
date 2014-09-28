@@ -50,6 +50,11 @@ Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
     SiZE................: release size       →  1.37Go
     iD_iMDB.............: release iMDB iD    →  1121931 (without 'tt')
     URL.................: release infos url  →  http://www.imdb.com/title/tt0315733
+    
+#### Command line help : 
+`(-h or --help)`
+
+![](http://i.imgur.com/QVURs1G.png)
 
 ## Version :
 
