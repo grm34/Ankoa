@@ -305,12 +305,12 @@ def setup_bad_team():
 
 
 def setup_bad_tk():
-    print ("{0} -> {1}ERROR : {2}Please, specify tracker url announ"
+    print ("{0} -> {1}ERROR : {2}Please, specify valid tracker url announ"
            "ce !{3}".format(GREEN, RED, BLUE, END))
 
 
 def setup_bad_api():
-    print ("{0} -> {1}ERROR : {2}Please, specify TMDB API KEY"
+    print ("{0} -> {1}ERROR : {2}Please, specify valid TMDB API KEY"
            " !{3}".format(GREEN, RED, BLUE, END))
 
 

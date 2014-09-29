@@ -43,18 +43,22 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
+import re
 import os
 import sys
 import optparse
 import readline
+from django.utils.encoding import (smart_str, smart_unicode)
 sys.path.append("app/")
-from style import (banner)
+from style import banner
 from events import (setup_help, setup_success, setup_error, update_success,
                     update_error, setup_bad_source, setup_bad_dest,
                     setup_bad_team, setup_bad_tk, setup_bad_api, global_error)
 from inputs import (ask_source_path, ask_dest_path, ask_user_team,
                     ask_tk_announce, ask_tmdb_key)
+from settings import bad_chars
 
+deleted = bad_chars()
 
 def main():
 
@@ -111,17 +115,34 @@ def main():
             setup_bad_team()
             team = ask_user_team()
 
+        # Clean # Team Name
+        for d_char in deleted:
+            if d_char in team.strip():
+                team = smart_str(team).strip().replace(' ', '.')\
+                                              .replace(d_char, '')
+            else:
+                team = smart_str(team).strip().replace(' ', '.')
+
         # Specify Tracker URL announce
         tk = ask_tk_announce()
-        while not tk:
+        url_regex = (r"^^http(s)?://([a-zA-Z0-9-]+.)?([a-zA-Z0-9-]+.)?"
+                     "[a-zA-Z0-9-]+..[a-zA-Z]{2,4}(:[0-9]+)?(/[a-zA-Z0-9-]"
+                     "*/?|/[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,4})?$")
+        tk_regex = re.compile(url_regex, flags=0).search(tk.strip())
+        while not tk or tk_regex is None:
             setup_bad_tk()
             tk = ask_tk_announce()
+            tk_regex = re.compile(url_regex, flags=0).search(tk.strip())
+        tk = tk.strip()
 
         # Specify TMDB API KEY
         api = ask_tmdb_key()
-        while not api:
+        key_regex = r"^[a-zA-Z0-9_]*$"
+        api_regex = re.compile(key_regex, flags=0).search(api.strip())
+        while not api or api_regex is None:
             setup_bad_api()
             api = ask_tmdb_key()
+        api = api.strip()
 
         try:
 

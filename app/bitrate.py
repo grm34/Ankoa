@@ -70,7 +70,8 @@ def calcul():
 
     # Audio bitrate
     audiobit = ask_desired_audio_bitrate()
-    while not audiobit or audiobit.isdigit() is False:
+    while not audiobit or audiobit.isdigit() is False\
+            or int(audiobit) > 3000:
         bitrate_entry_error()
         audiobit = ask_desired_audio_bitrate()
 

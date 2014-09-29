@@ -61,7 +61,7 @@ from bitrate import (calcul, calc)
 from inputs import *
 from events import *
 
-(replaced, deleted) = bad_chars()
+deleted = bad_chars()
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
@@ -92,17 +92,12 @@ def ANKOA_SYSTEM():
         title = ask_title()
 
     # Clean Title
-    for r_char in replaced:
-        if r_char in title.strip():
-            title = smart_str(title).strip().replace(r_char, '.')
-        else:
-            title = smart_str(title).strip()
-
     for d_char in deleted:
         if d_char in title.strip():
-            title = smart_str(title).strip().replace(d_char, '')
+            title = smart_str(title).strip().replace(' ', '.')\
+                                            .replace(d_char, '')
         else:
-            title = smart_str(title).strip()
+            title = smart_str(title).strip().replace(' ', '.')
 
     # Release Year
     year = ask_year()
@@ -118,17 +113,12 @@ def ANKOA_SYSTEM():
     else:
 
         # Clean Special Tag
-        for r_char in replaced:
-            if r_char in special.strip():
-                special = smart_str(special).strip().replace(r_char, '.')
-            else:
-                special = smart_str(special).strip()
-
         for d_char in deleted:
             if d_char in special.strip():
-                special = smart_str(special).strip().replace(d_char, '')
+                special = smart_str(special).strip().replace(' ', '.')\
+                                                    .replace(d_char, '')
             else:
-                special = smart_str(special).strip()
+                special = smart_str(special).strip().replace(' ', '.')
 
         stag = ".{0}".format(special)
 
@@ -351,19 +341,13 @@ def ANKOA_SYSTEM():
                 audiolang = ask_audiolang00()
 
             # Clean Audio Track Title
-            for r_char in replaced:
-                if r_char in audiolang.strip():
-                    audiolang = smart_str(audiolang).strip()\
-                                                    .replace(r_char, '.')
-                else:
-                    audiolang = smart_str(audiolang).strip()
-
             for d_char in deleted:
                 if d_char in audiolang.strip():
                     audiolang = smart_str(audiolang).strip()\
+                                                    .replace(' ', '.')\
                                                     .replace(d_char, '')
                 else:
-                    audiolang = smart_str(audiolang).strip()
+                    audiolang = smart_str(audiolang).strip().replace(' ', '.')
 
         # Audio Track Codec
         audiocodec = ask_audio_codec00()
@@ -406,19 +390,13 @@ def ANKOA_SYSTEM():
             audiolang = ask_audiolang01()
 
             # Clean Audio Track 01 Title
-            for r_char in replaced:
-                if r_char in audiolang.strip():
-                    audiolang = smart_str(audiolang).strip()\
-                                                    .replace(r_char, '.')
-                else:
-                    audiolang = smart_str(audiolang).strip()
-
             for d_char in deleted:
                 if d_char in audiolang.strip():
                     audiolang = smart_str(audiolang).strip()\
+                                                    .replace(' ', '.')\
                                                     .replace(d_char, '')
                 else:
-                    audiolang = smart_str(audiolang).strip()
+                    audiolang = smart_str(audiolang).strip().replace(' ', '.')
 
         # Audio Track 01 Codec
         audiocodec = ask_audio_codec01()
@@ -458,19 +436,13 @@ def ANKOA_SYSTEM():
             audiolang2 = ask_audiolang02()
 
             # Clean Audio Track 01 Title
-            for r_char in replaced:
-                if r_char in audiolang2.strip():
-                    audiolang2 = smart_str(audiolang2).strip()\
-                                                      .replace(r_char, '.')
-                else:
-                    audiolang2 = smart_str(audiolang2).strip()
-
             for d_char in deleted:
                 if d_char in audiolang2.strip():
                     audiolang2 = smart_str(audiolang2).strip()\
+                                                      .replace(' ', '.')\
                                                       .replace(d_char, '')
                 else:
-                    audiolang2 = smart_str(audiolang2).strip()
+                    audiolang2 = smart_str(audiolang2).strip().replace(' ', '.')
 
         # Audio Track 02 Codec
         audiocodec2 = ask_audio_codec02()
@@ -702,17 +674,12 @@ def ANKOA_SYSTEM():
             titlesub = ask_title_subs01()
 
         # Clean Subs Track 01 Title
-        for r_char in replaced:
-            if r_char in titlesub.strip():
-                titlesub = smart_str(titlesub).strip().replace(r_char, '.')
-            else:
-                titlesub = smart_str(titlesub).strip()
-
         for d_char in deleted:
             if d_char in titlesub.strip():
-                titlesub = smart_str(titlesub).strip().replace(d_char, '')
+                titlesub = smart_str(titlesub).strip().replace(' ', '.')\
+                                                      .replace(d_char, '')
             else:
-                titlesub = smart_str(titlesub).strip()
+                titlesub = smart_str(titlesub).strip().replace(' ', '.')
 
         # Subs Track 02 Title
         titlesub2 = ask_title_subs02()
@@ -721,17 +688,12 @@ def ANKOA_SYSTEM():
             titlesub2 = ask_title_subs02()
 
         # Clean Subs Track 02 Title
-        for r_char in replaced:
-            if r_char in titlesub2.strip():
-                titlesub2 = smart_str(titlesub2).strip().replace(r_char, '.')
-            else:
-                titlesub2 = smart_str(titlesub2).strip()
-
         for d_char in deleted:
             if d_char in titlesub2.strip():
-                titlesub2 = smart_str(titlesub2).strip().replace(d_char, '')
+                titlesub2 = smart_str(titlesub2).strip().replace(' ', '.')\
+                                                        .replace(d_char, '')
             else:
-                titlesub2 = smart_str(titlesub2).strip()
+                titlesub2 = smart_str(titlesub2).strip().replace(' ', '.')
 
     # Subtitles Infos From Source
     def infos_subs_in():
@@ -1605,18 +1567,13 @@ def ANKOA_SYSTEM():
         bad_nfosource()
         nfosource = ask_rls_source()
 
-    # Clean RELEASE SOURCE
-    for r_char in replaced:
-        if r_char in nfosource.strip():
-            nfosource = smart_str(nfosource).strip().replace(r_char, '.')
-        else:
-            nfosource = smart_str(nfosource).strip()
-
+    # Clean NFOSOURCE
     for d_char in deleted:
         if d_char in nfosource.strip():
-            nfosource = smart_str(nfosource).strip().replace(d_char, '')
+            nfosource = smart_str(nfosource).strip().replace(' ', '.')\
+                                                    .replace(d_char, '')
         else:
-            nfosource = smart_str(nfosource).strip()
+            nfosource = smart_str(nfosource).strip().replace(' ', '.')
 
     # Release IMDB ID
     nfoimdb = ask_rls_imdb()

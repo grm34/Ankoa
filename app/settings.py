@@ -74,11 +74,9 @@ def option():
 
 def bad_chars():
 
-    replaced = [' ', '-', "'", ':', '_']
-
     deleted = ['!', '?', ',', ';', '%', '^', '$', '(', ')', '[', ']',
                '{', '}', '+', '=', '*', '&', '²', '#', '"', '|', '`',
-               '@', '<', '>', 'µ', '£', '¨', '°', '~', '¤', '§']
+               '@', '<', '>', 'µ', '£', '¨', '°', '~', '§', "'", ':']
 
-    bad_values = (smart_str(replaced), smart_str(deleted))
+    bad_values = (smart_str(deleted))
     return bad_values
