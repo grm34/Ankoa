@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -51,19 +51,16 @@ import optparse
 import subprocess
 from django.utils.encoding import (smart_str, smart_unicode)
 sys.path.append("app/")
+from events import (make_help, global_error, bad_source, make_success)
 from settings import option
-from style import (banner, next, color, help)
 
-(v, version) = help()
-(BLUE, RED, YELLOW, GREEN, END) = color()
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
 def main():
 
     # HELP
-    usage = "{0}./make.py SOURCE.mkv SOURCE SUBS SUBFORCED URL"\
-            "{1}\n{2}".format(GREEN, END, version)
+    usage = make_help()
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 5 and len(args) != 11):
@@ -165,8 +162,7 @@ def main():
         # Run manual tools
         if (os.path.isfile(sys.argv[1]) is True and len(args) == 5):
                 os.system(manual_tools())
-                print ("{0} -> {1}NFO, THUMBNAILS & TORRENT CREATED !{2}"
-                       .format(RED, GREEN, END))
+                make_success()
 
         # Run auto tools
         elif (os.path.isfile(sys.argv[1]) is True and len(args) == 11):
@@ -174,13 +170,11 @@ def main():
 
         # Source not found
         else:
-            print ("{0} -> {1}ERROR : {2}Bad source selection, please try "
-                   "again !{3}".format(GREEN, RED, BLUE, END))
+            bad_source()
 
     # make Error
     except OSError as e:
-        print ("{0} -> {1}ERROR : {2}{4}{3}"
-               .format(GREEN, RED, BLUE, END, str(e)))
+        global_error()
         sys.exit()
 
 if (__name__ == "__main__"):

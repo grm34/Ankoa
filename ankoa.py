@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -49,16 +49,15 @@ import optparse
 import subprocess
 sys.path.append("app/")
 from system import ANKOA_SYSTEM
-from style import (banner, next, color, help)
-
-(v, version) = help()
-(BLUE, RED, YELLOW, GREEN, END) = color()
+from style import (banner, next)
+from events import (ankoa_help, global_error, ankoa_success)
+from inputs import ask_next_encode
 
 
 def main():
 
     # HELP
-    usage = "{0}./ankoa.py{1}\n{2}".format(GREEN, END, version)
+    usage = ankoa_help()
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 0):
@@ -109,6 +108,8 @@ def main():
             .format(thumb, title, year, stag, mark, audiolang, prezquality,
                     titlesub, subforced, nfosource, nfoimdb, name))
 
+    print ankoa_tools()
+
     # User command line
     if (pprint == "y"):
         print ffmpeg()
@@ -122,9 +123,7 @@ def main():
     n = 1
 
     # QUEUE PROCESS
-    again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
-                      .format(GREEN, YELLOW, END))
-
+    again = ask_next_encode()
     while (again == "y"):
         next()
         (
@@ -140,8 +139,7 @@ def main():
 
         n = n + 1
         if (n != 20):
-            again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
-                              .format(GREEN, YELLOW, END))
+            again = ask_next_encode()
         else:
             break
 
@@ -153,13 +151,10 @@ def main():
             i = i + 1
 
         except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}"
-                   .format(GREEN, RED, BLUE, END, str(e)))
+            global_error()
             sys.exit()
 
-    print ("{0} ->{1} ENCODE(s) DONE, CONGRATULATIONS !\n{0} ->{1} NFO, THU"
-           "MBNAILS, (PREZ) & TORRENT CREATED !{2}".format(RED, GREEN, END))
-
+    ankoa_success()
     sys.exit()
 
 if (__name__ == "__main__"):

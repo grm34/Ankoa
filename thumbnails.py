@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -55,10 +55,8 @@ import ImageDraw
 import ImageFont
 sys.path.append("app/")
 from settings import option
-from style import (color, help)
+from events import (thumbnails_help, global_error, bad_source, bad_thumbs)
 
-(v, version) = help()
-(BLUE, RED, YELLOW, GREEN, END) = color()
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
@@ -78,8 +76,7 @@ def snapshot(path, nb_lgn, nb_col):
             os.system('mplayer -nosound -ss {0} -frames 4 -vf scale'
                       ' -vo png:z=0 {1}'.format(str(i), path))
         except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}\n"
-                   .format(GREEN, RED, BLUE, END, str(e)))
+            global_error()
             sys.exit()
         try:
             shutil.move('00000004.png', os.path.expanduser(thumb) +
@@ -106,8 +103,7 @@ def snapshot(path, nb_lgn, nb_col):
                        'rtemp/'+str(i).zfill(5)+'.png')
 
         except (IOError, IndexError) as e:
-            print ("{0} ->{1} BAD THUMBS : {1}str(e){2}{3}"
-                   .format(GREEN, RED, BLUE, str(e), END))
+            bad_thumbs()
             sys.exit()
 
     for i in range(1, 4):
@@ -240,16 +236,14 @@ def img_infos(infos, duree, path):
         try:
             os.system(resize)
         except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}"
-                   .format(GREEN, RED, BLUE, END, str(e)))
+            global_error()
             sys.exit()
 
 
 def main(argv):
 
     # HELP
-    usage = "./thumbnails.py source.video 5 2"\
-            "{1}\n{2}".format(GREEN, END, version)
+    usage = thumbnails_help()
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 3):
@@ -268,8 +262,7 @@ def main(argv):
 
         # Thubnails Error
         except (IOError, IndexError) as e:
-            print ("{0} ->{1} BAD THUMBS : {1}str(e){2}{3}"
-                   .format(GREEN, RED, BLUE, str(e), END))
+            bad_thumbs()
             sys.exit()
 
         if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
@@ -277,8 +270,7 @@ def main(argv):
 
     # Source not found
     else:
-        print ("{0} -> {1}ERROR : {2}Bad source selection, please try"
-               " again !{3}".format(GREEN, RED, BLUE, END))
+        bad_source()
 
 if (__name__ == "__main__"):
     main(sys.argv[1:])

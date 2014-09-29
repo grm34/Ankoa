@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -55,6 +55,8 @@ iNFOS:
 
 """
 
+from django.utils.encoding import (smart_str, smart_unicode)
+
 
 def option():
 
@@ -68,3 +70,15 @@ def option():
 
     values = (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb)
     return (values)
+
+
+def bad_chars():
+
+    replaced = [' ', '-', "'", ':', '_']
+
+    deleted = ['!', '?', ',', ';', '%', '^', '$', '(', ')', '[', ']',
+               '{', '}', '+', '=', '*', '&', '²', '#', '"', '|', '`',
+               '@', '<', '>', 'µ', '£', '¨', '°', '~', '¤', '§']
+
+    bad_values = (smart_str(replaced), smart_str(deleted))
+    return bad_values

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -53,19 +53,16 @@ from pprint import pprint
 from django.utils.encoding import (smart_str, smart_unicode)
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
 sys.path.append("app/")
+from events import (genprez_help, genprez_success, genprez_error)
 from settings import option
-from style import (color, help)
 
-(v, version) = help()
-(BLUE, RED, YELLOW, GREEN, END) = color()
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
 def main():
 
     # HELP
-    usage = "{0}./genprez.py LANGUAGE FORMAT CODECS SUBS SIZE ID_IMDB"\
-            "{1}\n{2}".format(GREEN, END, version)
+    usage = genprez_help()
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) != 6):
@@ -375,8 +372,7 @@ def main():
     # VERIFICATION
     if (title_TMDB not in data_TMDB and title_IMDB not in data_IMDB
             and title_OMDB not in data_OMDB and title_API not in data_API):
-        print ("\n{0} -> {1}Genprez ERROR : {2}Movie not found, please try "
-               "again !\n{3}".format(GREEN, RED, BLUE, END))
+        genprez_error()
 
     # if ok -> WRITE
     else:
@@ -385,8 +381,7 @@ def main():
         print smart_str(prez)
         sys.stdout.close()
         sys.stdout = temp
-        print ("{0} -> {1}PREZ CREATED, CONGRATULATIONS !{2}"
-               .format(RED, GREEN, END))
+        genprez_success()
 
 if (__name__ == "__main__"):
     main()

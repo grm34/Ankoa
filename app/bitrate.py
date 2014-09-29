@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -43,50 +43,39 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
-from style import color
-
-(BLUE, RED, YELLOW, GREEN, END) = color()
+from inputs import (ask_HH, ask_MM, ask_SS, ask_desired_audio_bitrate,
+                    ask_desired_size)
+from events import bitrate_entry_error
 
 
 def calcul():
 
     # Hours
-    HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
+    HH = ask_HH()
     while not HH or HH.isdigit() is False or int(HH) > 23:
-        print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
-               " {1}(ex: 1){3}".format(GREEN, RED, BLUE, END))
-        HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
+        bitrate_entry_error()
+        HH = ask_HH()
 
     # Minutes
-    MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
+    MM = ask_MM()
     while not MM or MM.isdigit() is False or int(MM) > 59:
-        print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
-               " {1}(ex: 15){3}".format(GREEN, RED, BLUE, END))
-        MM = raw_input("{0}CALCULATOR MINUTES : {1}".format(GREEN, END))
+        bitrate_entry_error()
+        MM = ask_MM()
 
     # Seconds
-    SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
+    SS = ask_SS()
     while not SS or SS.isdigit() is False or int(SS) > 59:
-        print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
-               " {1}(ex: 53){3}".format(GREEN, RED, BLUE, END))
-        SS = raw_input("{0}CALCULATOR SECONDS : {1}".format(GREEN, END))
+        bitrate_entry_error()
+        SS = ask_SS()
 
     # Audio bitrate
-    audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
-                         .format(GREEN, END))
+    audiobit = ask_desired_audio_bitrate()
     while not audiobit or audiobit.isdigit() is False:
-        print ("{0} -> {1}ERROR : {2}Please, specify valid entry !"
-               " {1}(ex: 448){3}".format(GREEN, RED, BLUE, END))
-        audiobit = raw_input("{0}CALCULATOR AUDIO BITRATE : {1}"
-                             .format(GREEN, END))
+        bitrate_entry_error()
+        audiobit = ask_desired_audio_bitrate()
 
     # Release desired size
-    rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350Mo {0}[1]{1} - 550Mo "
-                         "{0}[2]{1} - 700Mo {0}[3]{1} - 1.37Go {0}[4]{1} -\n"
-                         "2.05Go {0}[5]{1} - 2.74Go {0}[6]{1} - 4.37Go {0}[7]"
-                         "{1} - 6.56Go{0} {0}[8] : {2}"
-                         .format(GREEN, YELLOW, END))
-
+    rls_size = ask_desired_size()
     resp = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
     # Size Values
@@ -103,7 +92,7 @@ def calcul():
     return (info_calcul)
 
 
-# wcalc calcul formule
+# RUN CALCUL
 def calc(HH, MM, SS, audiobit, rls_size, calsize):
     return (
         "wcalc [{" + calsize + "-[{" + audiobit + "/8}/1024*[{" + HH +

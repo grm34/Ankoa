@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -53,17 +53,14 @@ import optparse
 import BeautifulSoup
 from urllib2 import (urlopen, URLError, HTTPError)
 sys.path.append("app/")
-from style import (color, help)
-
-(v, version) = help()
-(BLUE, RED, YELLOW, GREEN, END) = color()
+from events import (imgur_help, imgur_print_url, imgur_upload_error,
+                    imgur_timeout_error, imgur_source_error)
 
 
 def main():
 
     # HELP
-    usage = "{0}./imgur.py /path/to/image.png"\
-            "{1}\n{2}".format(GREEN, END, version)
+    usage = imgur_help()
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if (len(args) < 1 or len(args) > 2):
@@ -85,30 +82,26 @@ def main():
 
             # WRITE LINK on PREZ
             if (len(args) == 2 and args[1] == "add"):
-                f = file("{0}txt".format(sys.argv[1][:-3]), 'r')
+                f = file("{0}.txt".format(sys.argv[1][:-4]), 'r')
                 chaine = f.read()
                 f.close()
                 data = chaine.replace("thumbnails_link", thumb_link)
-                f = file("{0}txt".format(sys.argv[1][:-3]), 'w')
+                f = file("{0}.txt".format(sys.argv[1][:-4]), 'w')
                 f.write(data)
                 f.close
             else:
-                print ("\n{0} Thumbnails url > {1}{2}\n{3}"
-                       .format(GREEN, BLUE, thumb_link, END))
+                imgur_print_url()
 
         # Upload Error
         except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
-            print ("{0} Thumbnails Upload Error > {1}{2}{3}"
-                   .format(RED, BLUE, str(e), END))
+            imgur_upload_error()
         except socket.timeout:
-            print ("{0} Thumbnails Upload Error > {1} TIMEOUT !{2}"
-                   .format(RED, BLUE, END))
+            imgur_timeout_error()
             sys.exit()
 
     # Thumbnails not found
     else:
-        print ("{0} -> {1}ERROR : {2}Bad thumbnails selection, please try"
-               " again !{3}".format(GREEN, RED, BLUE, END))
+        imgur_source_error()
 
 if (__name__ == "__main__"):
     main()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -48,17 +48,18 @@ import sys
 import optparse
 import readline
 sys.path.append("app/")
-from style import (banner, color, help)
-
-(v, version) = help()
-(BLUE, RED, YELLOW, GREEN, END) = color()
+from style import (banner)
+from events import (setup_help, setup_success, setup_error, update_success,
+                    update_error, setup_bad_source, setup_bad_dest,
+                    setup_bad_team, setup_bad_tk, setup_bad_api, global_error)
+from inputs import (ask_source_path, ask_dest_path, ask_user_team,
+                    ask_tk_announce, ask_tmdb_key)
 
 
 def main():
 
     # HELP
-    usage = "{0}python setup.py [{3}install{0}] | [{3}update{0}]"\
-            "{1}\n{2}".format(GREEN, END, version, YELLOW)
+    usage = setup_help()
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if ((len(args) != 1) and
@@ -73,9 +74,7 @@ def main():
             and os.path.isfile("nfogen.sh") is False:
 
         # Files not found
-        print ("{0} AnkoA {1}-> {2}Setup error, files missing,"
-               " fix it with a fresh install !{3}"
-               .format(BLUE, RED, GREEN, END))
+        setup_error()
         sys.exit()
 
     # INSTALL
@@ -94,54 +93,35 @@ def main():
         banner()
 
         # Specify Source Path
-        source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torrent"
-                           "s/){0} : {2}".format(GREEN, YELLOW, END))
+        source = ask_source_path()
         while not source or os.path.exists(source) is False:
-            print ("{0} -> {1}ERROR : {2}Bad SOURCE PATH, please try"
-                   " again !{3}".format(GREEN, RED, BLUE, END))
-            source = raw_input("{0}ENTER SOURCE PATH {1}(ex: /home/user/torre"
-                               "nts/){0} : {2}".format(GREEN, YELLOW, END))
+            setup_bad_source()
+            source = ask_source_path()
 
         # Specify Destination Path
-        result = raw_input("{0}ENTER DESTINATION PATH {1}(ex: /home/user/en"
-                           "codes/){0} : {2}".format(GREEN, YELLOW, END))
+        result = ask_dest_path()
         while not result or os.path.exists(result) is False:
-            print ("{0} -> {1}ERROR : {2}Bad DESTINATION PATH, please try"
-                   " again !{3}".format(GREEN, RED, BLUE, END))
-            result = raw_input("{0}ENTER DESTINATION PATH {1}(ex: /home/user/"
-                               "encodes/){0} : {2}"
-                               .format(GREEN, YELLOW, END))
+            setup_bad_dest()
+            result = ask_dest_path()
         readline.parse_and_bind("tab: ")
 
         # Specify Team Name
-        team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0} :"
-                         " {2}".format(GREEN, YELLOW, END))
+        team = ask_user_team()
         while not team:
-            print ("{0} -> {1}ERROR : {2}Please, specify team name "
-                   "!{3}".format(GREEN, RED, BLUE, END))
-            team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0}"
-                             " : {2}".format(GREEN, YELLOW, END))
+            setup_bad_team()
+            team = ask_user_team()
 
         # Specify Tracker URL announce
-        tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tk.com"
-                       ":80/announce){0} : {2}".format(GREEN, YELLOW, END))
+        tk = ask_tk_announce()
         while not tk:
-            print ("{0} -> {1}ERROR : {2}Please, specify tracker url announ"
-                   "ce !{3}".format(GREEN, RED, BLUE, END))
-            tk = raw_input("{0}ENTER URL TRACKER ANNOUNCE {1}(ex: http://tk.c"
-                           "om:80/announce){0} : {2}"
-                           .format(GREEN, YELLOW, END))
+            setup_bad_tk()
+            tk = ask_tk_announce()
 
         # Specify TMDB API KEY
-        api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https://w"
-                        "ww.themoviedb.org/documentation/api){0} : {2}"
-                        .format(GREEN, YELLOW, END))
+        api = ask_tmdb_key()
         while not api:
-            print ("{0} -> {1}ERROR : {2}Please, specify TMDB API KEY"
-                   " !{3}".format(GREEN, RED, BLUE, END))
-            api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: https:/"
-                            "/www.themoviedb.org/documentation/api){0} : {2}"
-                            .format(GREEN, YELLOW, END))
+            setup_bad_api()
+            api = ask_tmdb_key()
 
         try:
 
@@ -180,13 +160,11 @@ def main():
             ff.close
 
             # Install successful
-            print ("{0} AnkoA {1}-> {2}Installation successful !{3}"
-                   .format(BLUE, RED, GREEN, END))
+            setup_success()
 
         # Install Error
         except OSError as e:
-            print ("{0} -> {1}ERROR : {2}{4}{3}"
-                   .format(GREEN, RED, BLUE, END, str(e)))
+            global_error()
             sys.exit()
 
     # UPDATE
@@ -222,14 +200,11 @@ def main():
             ff.close
 
             # Update successful
-            print ("{0} AnkoA {1}-> {2}Update successful !{3}"
-                   .format(BLUE, RED, GREEN, END))
+            update_success()
 
         # Setup Error
         except (IOError, IndexError):
-            print ("{0} AnkoA {1}-> {2}Update error, fix it"
-                   " with a fresh install !{3}"
-                   .format(BLUE, GREEN, RED, END))
+            update_error()
             sys.exit()
 
 if (__name__ == "__main__"):
