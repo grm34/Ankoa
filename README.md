@@ -129,18 +129,20 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     Filename:         Source:    Comment:    Both:    Blank:    Total:
 
     nfo.php                33          39       21        22       115
-    ankoa.py               91          51        2        22       166
-    genprez.py            286          63        7        36       392
-    imgur.py               55          48        0        11       114
-    make.py               106          57        0        24       187
-    setup.py              140          65        0        30       236
-    thumbnails.py         183          47       18        36       284
-    bitrate.py             44          51        0        16       111
-    settings.py            10          55        0         5        70
-    style.py               45          66        5        10       126
-    system.py            1361         235       42       230      1868
+    ankoa.py               88          51        2        20       161
+    genprez.py            281          63        7        36       387
+    imgur.py               49          48        0        10       107
+    make.py               100          57        0        24       181
+    setup.py              116          65        0        30       211
+    thumbnails.py         175          47       18        36       276
+    bitrate.py             35          51        0        14       100
+    events.py             166          53        0       107       326
+    inputs.py             529          47        0       253       829
+    settings.py            17          55        1        11        84
+    style.py               46          66        5        10       127
+    system.py            1196         241       42       242      1721
     nfogen.sh              15          41        1         4        61
 
-    [Total] :            2369         818       96       447      3730
+    [Total] :            2846         924       97       819      4686
 
 ***
