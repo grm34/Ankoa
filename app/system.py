@@ -1353,7 +1353,7 @@ def ANKOA_SYSTEM():
         bf = ask_max_bframes()
         while not (bf) or bf.isdigit() is False or int(bf) > 16:
             expert_mode_error()
-            bf = ask_max_bframes(
+            bf = ask_max_bframes()
         bf = " -bf {0}".format(bf)
 
         # Pyramidal

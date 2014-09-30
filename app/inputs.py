@@ -271,9 +271,9 @@ def ask_audio_channels02():
 
 
 def ask_modif_sampling_rate():
-    audiox_ = raw_input("{0}CHANGE SAMPLING RATE {1}(y/n){0} : {2}"
-                        .format(GREEN, YELLOW, END))
-    return audiox_
+    audiox = raw_input("{0}CHANGE SAMPLING RATE {1}(y/n){0} : {2}"
+                       .format(GREEN, YELLOW, END))
+    return audiox
 
 
 def ask_audio_sampling_rate00():
@@ -553,71 +553,71 @@ def ask_expert_mode():
 
 
 def ask_threads():
-    threads_ = raw_input("{0}PROCESSOR THREADS {1}(ex: 8){0} : {2}"
-                         .format(GREEN, YELLOW, END))
-    return threads_
+    threads = raw_input("{0}PROCESSOR THREADS {1}(ex: 8){0} : {2}"
+                        .format(GREEN, YELLOW, END))
+    return threads
 
 
 def ask_threads_type():
-    thread_type_ = raw_input("{0}THREAD TYPE > \n{1}SLICE {0}[1]{1} - FRA"
-                             "ME {0}[2] : {2}".format(GREEN, YELLOW, END))
-    return thread_type_
+    thread_type = raw_input("{0}THREAD TYPE > \n{1}SLICE {0}[1]{1} - FRA"
+                            "ME {0}[2] : {2}".format(GREEN, YELLOW, END))
+    return thread_type
 
 
 def ask_fastfirstpass():
-    fastfirstpass_ = raw_input("{0}FAST FIRST PASS {1}(y/n){0} : {2}"
-                               .format(GREEN, YELLOW, END))
-    return fastfirstpass_
+    fastfirstpass = raw_input("{0}FAST FIRST PASS {1}(y/n){0} : {2}"
+                              .format(GREEN, YELLOW, END))
+    return fastfirstpass
 
 
 def ask_refs():
-    refs_ = raw_input("{0}REFERENCE FRAMES {1}(max: 16){0} : {2}"
-                      .format(GREEN, YELLOW, END))
-    return refs_
+    refs = raw_input("{0}REFERENCE FRAMES {1}(max: 16){0} : {2}"
+                     .format(GREEN, YELLOW, END))
+    return refs
 
 
 def ask_mixed_refs():
-    mixed_ = raw_input("{0}MIXED REFERENCES {1}(y/n){0} : {2}"
-                       .format(GREEN, YELLOW, END))
-    return mixed_
+    mixed = raw_input("{0}MIXED REFERENCES {1}(y/n){0} : {2}"
+                      .format(GREEN, YELLOW, END))
+    return mixed
 
 
 def ask_max_bframes():
-    bf_ = raw_input("{0}MAXIMUM B-FRAMES {1}(max: 16){0} : {2}"
-                    .format(GREEN, YELLOW, END))
-    return bf_
+    bf = raw_input("{0}MAXIMUM B-FRAMES {1}(max: 16){0} : {2}"
+                   .format(GREEN, YELLOW, END))
+    return bf
 
 
 def ask_pyramidal():
-    pyramid_ = raw_input("{0}PYRAMIDAL METHOD > \n{1}NONE {0}[1]{1} - NOR"
-                         "MAL {0}[2]{1} - STRICT {0}[3] : {2}"
-                         .format(GREEN, YELLOW, END))
-    return pyramid_
+    pyramid = raw_input("{0}PYRAMIDAL METHOD > \n{1}NONE {0}[1]{1} - NOR"
+                        "MAL {0}[2]{1} - STRICT {0}[3] : {2}"
+                        .format(GREEN, YELLOW, END))
+    return pyramid
 
 
 def ask_weight_bframes():
-    weightb_ = raw_input("{0}WEIGHTED B-FRAMES {1}(y/n){0} : {2}"
-                         .format(GREEN, YELLOW, END))
-    return weightb_
+    weightb = raw_input("{0}WEIGHTED B-FRAMES {1}(y/n){0} : {2}"
+                        .format(GREEN, YELLOW, END))
+    return weightb
 
 
 def ask_weight_pframes():
-    weightp_ = raw_input("{0}WEIGHTED P-FRAMES > \n{1}NONE {0}[1]{1} - SI"
-                         "MPLE {0}[2]{1} - SMART {0}[3] : {2}"
-                         .format(GREEN, YELLOW, END))
-    return weightp_
+    weightp = raw_input("{0}WEIGHTED P-FRAMES > \n{1}NONE {0}[1]{1} - SI"
+                        "MPLE {0}[2]{1} - SMART {0}[3] : {2}"
+                        .format(GREEN, YELLOW, END))
+    return weightp
 
 
 def ask_8x8_transform():
-    dct_ = raw_input("{0}ENABLE 8x8 TRANSFORM {1}(y/n){0} : {2}"
-                     .format(GREEN, YELLOW, END))
-    return dct_
+    dct = raw_input("{0}ENABLE 8x8 TRANSFORM {1}(y/n){0} : {2}"
+                    .format(GREEN, YELLOW, END))
+    return dct
 
 
 def ask_cabac():
-    cabac_ = raw_input("{0}ENABLE CABAC {1}(y/n){0} : {2}"
-                       .format(GREEN, YELLOW, END))
-    return cabac_
+    cabac = raw_input("{0}ENABLE CABAC {1}(y/n){0} : {2}"
+                      .format(GREEN, YELLOW, END))
+    return cabac
 
 
 def ask_bstrategy():
@@ -628,64 +628,64 @@ def ask_bstrategy():
 
 
 def ask_direct_mode():
-    direct_ = raw_input("{0}ADAPTIVE DIRECT MODE > \n{1}NONE {0}[1]{1} - "
-                        "SPATIAL {0}[2]\n{1}TEMPORAL {0}[3]{1} - AUTO {0}"
-                        "[4] : {2}".format(GREEN, YELLOW, END))
-    return direct_
+    direct = raw_input("{0}ADAPTIVE DIRECT MODE > \n{1}NONE {0}[1]{1} - "
+                       "SPATIAL {0}[2]\n{1}TEMPORAL {0}[3]{1} - AUTO {0}"
+                       "[4] : {2}".format(GREEN, YELLOW, END))
+    return direct
 
 
 def ask_me_method():
-    me_method_ = raw_input("{0}MOTION ESTIMATION METHOD > \n{1}DIA {0}[1]"
-                           "{1} - HEX {0}[2]\n{1}UMH {0}[3]{1} - ESA {0}["
-                           "4]{1} - TESA {0}[5] : {2}"
-                           .format(GREEN, YELLOW, END))
-    return me_method_
+    me_method = raw_input("{0}MOTION ESTIMATION METHOD > \n{1}DIA {0}[1]"
+                          "{1} - HEX {0}[2]\n{1}UMH {0}[3]{1} - ESA {0}["
+                          "4]{1} - TESA {0}[5] : {2}"
+                          .format(GREEN, YELLOW, END))
+    return me_method
 
 
 def ask_subpixel():
-    subq_ = raw_input("{0}SUBPIXEL MOTION ESTIMATION {1}(max: 11){0} : {2}"
-                      .format(GREEN, YELLOW, END))
-    return subq_
+    subq = raw_input("{0}SUBPIXEL MOTION ESTIMATION {1}(max: 11){0} : {2}"
+                     .format(GREEN, YELLOW, END))
+    return subq
 
 
 def ask_motion_range():
-    me_range_ = raw_input("{0}MOTION ESTIMATION RANGE {1}(max: 64){0} : "
-                          "{2}".format(GREEN, YELLOW, END))
-    return me_range_
+    me_range = raw_input("{0}MOTION ESTIMATION RANGE {1}(max: 64){0} : "
+                         "{2}".format(GREEN, YELLOW, END))
+    return me_range
 
 
 def ask_partitions():
-    parts_ = raw_input("{0}PARTITIONS TYPE > \n{1}ALL {0}[1]{1} - p8x8 "
-                       "{0}[2]{1} - p4x4 {0}[3]\n{1}NONE {0}[4]{1} - b8x8"
-                       "{0}[5]{1} - i8x8 {0}[6]{1} - i4x4 {0}[7] : {2}"
-                       .format(GREEN, YELLOW, END))
-    return parts_
+    parts = raw_input("{0}PARTITIONS TYPE > \n{1}ALL {0}[1]{1} - p8x8 "
+                      "{0}[2]{1} - p4x4 {0}[3]\n{1}NONE {0}[4]{1} - b8x8"
+                      "{0}[5]{1} - i8x8 {0}[6]{1} - i4x4 {0}[7] : {2}"
+                      .format(GREEN, YELLOW, END))
+    return parts
 
 
 def ask_trellis():
-    trellis_ = raw_input("{0}TRELLIS MODE > \n{1}OFF {0}[1]{1} - DEFAULT "
-                         "{0}[2]{1} - ALL {0}[3] : {2}"
-                         .format(GREEN, YELLOW, END))
-    return trellis_
+    trellis = raw_input("{0}TRELLIS MODE > \n{1}OFF {0}[1]{1} - DEFAULT "
+                        "{0}[2]{1} - ALL {0}[3] : {2}"
+                        .format(GREEN, YELLOW, END))
+    return trellis
 
 
 def ask_aq_mode():
     aq_mod = raw_input("{0}QUANTIZATION MODE > \n{1}NONE {0}[1]{1} - VARIANCE "
-                         "{0}[2]{1}\nAUTO-VARIANCE (new) {0}[3] : {2}"
-                         .format(GREEN, YELLOW, END))
+                       "{0}[2]{1}\nAUTO-VARIANCE (new) {0}[3] : {2}"
+                       .format(GREEN, YELLOW, END))
     return aq_mod
 
 
 def ask_aq_strength():
-    aq_ = raw_input("{0}QUANTIZATION STRENGTH {1}(ex: 1.5){0} : {2}"
-                    .format(GREEN, YELLOW, END))
-    return aq_
+    aq = raw_input("{0}QUANTIZATION STRENGTH {1}(ex: 1.5){0} : {2}"
+                   .format(GREEN, YELLOW, END))
+    return aq
 
 
 def ask_psy_optimization():
-    psy_ = raw_input("{0}PSYCHOVISUAL OPTIMIZATION {1}(y/n){0} : {2}"
-                     .format(GREEN, YELLOW, END))
-    return psy_
+    psy = raw_input("{0}PSYCHOVISUAL OPTIMIZATION {1}(y/n){0} : {2}"
+                    .format(GREEN, YELLOW, END))
+    return psy
 
 
 def ask_rate_distortion():
@@ -701,51 +701,51 @@ def ask_psy_rd():
 
 
 def ask_deblock():
-    deblock_ = raw_input("{0}DEBLOCKING {1}(ex: -1:-1){0} : {2}"
-                         .format(GREEN, YELLOW, END))
-    return deblock_
+    deblock = raw_input("{0}DEBLOCKING {1}(ex: -1:-1){0} : {2}"
+                        .format(GREEN, YELLOW, END))
+    return deblock
 
 
 def ask_lookahead():
-    lookahead_ = raw_input("{0}FRAMES LOOKAHEAD {1}(ex: 60){0} : {2}"
-                           .format(GREEN, YELLOW, END))
-    return lookahead_
+    lookahead = raw_input("{0}FRAMES LOOKAHEAD {1}(ex: 60){0} : {2}"
+                          .format(GREEN, YELLOW, END))
+    return lookahead
 
 
 def ask_bluray_compatibility():
-    bluray_ = raw_input("{0}BLURAY COMPATIBILITY {1}(y/n){0} : {2}"
-                        .format(GREEN, YELLOW, END))
-    return bluray_
+    bluray = raw_input("{0}BLURAY COMPATIBILITY {1}(y/n){0} : {2}"
+                       .format(GREEN, YELLOW, END))
+    return bluray
 
 
 def ask_fast_skip():
-    fastpskip_ = raw_input("{0}FAST SKIP on P-FRAMES {1}(y/n){0} : {2}"
-                           .format(GREEN, YELLOW, END))
-    return fastpskip_
+    fastpskip = raw_input("{0}FAST SKIP on P-FRAMES {1}(y/n){0} : {2}"
+                          .format(GREEN, YELLOW, END))
+    return fastpskip
 
 
 def ask_keyframe_interval():
-    g_ = raw_input("{0}KEYFRAME INTERVAL {1}(ex: 250){0} : {2}"
-                   .format(GREEN, YELLOW, END))
-    return g_
+    g = raw_input("{0}KEYFRAME INTERVAL {1}(ex: 250){0} : {2}"
+                  .format(GREEN, YELLOW, END))
+    return g
 
 
 def ask_key_min_interval():
-    keyint_min_ = raw_input("{0}MINIMAL KEY INTERVAL {1}(ex: 25){0} : {2}"
-                            .format(GREEN, YELLOW, END))
-    return keyint_min_
+    keyint_min = raw_input("{0}MINIMAL KEY INTERVAL {1}(ex: 25){0} : {2}"
+                           .format(GREEN, YELLOW, END))
+    return keyint_min
 
 
 def ask_scenecut():
-    scenecut_ = raw_input("{0}SCENECUT DETECTION {1}(ex: 40){0} : {2}"
-                          .format(GREEN, YELLOW, END))
-    return scenecut_
+    scenecut = raw_input("{0}SCENECUT DETECTION {1}(ex: 40){0} : {2}"
+                         .format(GREEN, YELLOW, END))
+    return scenecut
 
 
 def ask_chroma_motion():
-    cmp_ = raw_input("{0}CHROMA MOTION ESTIMATION {1}(y/n){0} : {2}"
-                     .format(GREEN, YELLOW, END))
-    return cmp_
+    cmp = raw_input("{0}CHROMA MOTION ESTIMATION {1}(y/n){0} : {2}"
+                    .format(GREEN, YELLOW, END))
+    return cmp
 
 
 def ask_rls_source():
