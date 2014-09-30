@@ -1307,13 +1307,12 @@ def ANKOA_SYSTEM():
 
         # Threads ( max: 32 / default: 0)
         threads = ask_threads()
-        while threads_isdigit() is False or int(threads) > 32:
+        while not threads or threads.isdigit() is False or int(threads) > 32:
             expert_mode_error()
             threads = ask_threads()
         threads = " -threads {0}".format(threads)
-        if not (threads_):
-            threads = " -threads 0"
 
+        # Threads Type
         thread_type = ask_threads_type()
         if (thread_type == "1"):
             thread_type = " -thread_type slice"
@@ -1336,10 +1335,10 @@ def ANKOA_SYSTEM():
 
         # Refs Frames ( max: 16 )
         refs = ask_refs()
-        if not (refs) or refs_isdigit() is False or int(refs) > 16:
-            refs = ""
-        else:
-            refs = " -refs {0}".format(refs)
+        while not (refs) or refs.isdigit() is False or int(refs) > 16:
+            expert_mode_error()
+            refs = ask_refs()
+        refs = " -refs {0}".format(refs)
 
         # Mixed Refs
         mixed = ask_mixed_refs()
@@ -1352,10 +1351,10 @@ def ANKOA_SYSTEM():
 
         # MAX B-Frames ( max: 16 )
         bf = ask_max_bframes()
-        if not (bf) or bf_isdigit() is False or int(bf) > 16:
-            bf = ""
-        else:
-            bf = " -bf {0}".format(bf)
+        while not (bf) or bf.isdigit() is False or int(bf) > 16:
+            expert_mode_error()
+            bf = ask_max_bframes(
+        bf = " -bf {0}".format(bf)
 
         # Pyramidal
         pyramid = ask_pyramidal()
@@ -1431,14 +1430,15 @@ def ANKOA_SYSTEM():
 
         # Subpixel ( max: 11 )
         subq = ask_subpixel()
-        if not (subq) or subq_isdigit() is False or int(subq) > 11:
-            subq = ""
-        else:
-            subq = " -subq {0}".format(subq_)
+        while not (subq) or subq.isdigit() is False or int(subq) > 11:
+            expert_mode_error()
+            subq = ask_subpixel()
+        subq = " -subq {0}".format(subq)
 
         # Estimation Range ( max: 64 )
         me_range = ask_motion_range()
-        if not (me_range) or me_range_isdigit() is False or int(me_range) > 64:
+        while not (me_range) or me_range.isdigit() is False\
+                or int(me_range) > 64:
             me_range = ""
         else:
             me_range = " -me_range {0}".format(me_range)
@@ -1471,7 +1471,7 @@ def ANKOA_SYSTEM():
         # Quantization Strength ( max 2.9 )
         aq = ask_aq_strength()
         aq_regex = r"^[0-2]{1}[.][0-9]{1}$"
-        aq_mod_regex = re.compile(aq_regex, flags=0).search(aq_)
+        aq_mod_regex = re.compile(aq_regex, flags=0).search(aq)
         if not (aq) or aq_mod_regex is None:
             aq = ""
         else:
@@ -1511,7 +1511,7 @@ def ANKOA_SYSTEM():
 
         # Frames Lookahead
         lookahead = ask_lookahead()
-        if not (lookahead_):
+        if not (lookahead):
             lookahead = ""
         else:
             lookahead = " -rc-lookahead {0}".format(lookahead)
