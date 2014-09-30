@@ -115,7 +115,7 @@ def ask_try_again():
 
 
 def ask_video_bitrate():
-    bit = raw_input("{0}VIDEO BITRATE Kbps {1}(min 700){0} : {2}"
+    bit = raw_input("{0}VIDEO BITRATE Kbps {1}(min 750){0} : {2}"
                     .format(GREEN, YELLOW, END))
     return bit
 

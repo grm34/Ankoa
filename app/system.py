@@ -472,8 +472,8 @@ def ANKOA_SYSTEM():
     # Change Audio Sampling Rate ( min: 16k / max: 192k )
     if (audiotype == "1" or audiotype == "2"
             or audiotype == "3" or audiotype == "4"):
-        audiox_ = ask_modif_sampling_rate()
-        if (audiox_ == "y"):
+        audiox = ask_modif_sampling_rate()
+        if (audiox == "y"):
             sampling_val = ['16', '32', '44', '48', '96', '192']
 
             # Multi Audio Tracks
@@ -1306,18 +1306,18 @@ def ANKOA_SYSTEM():
     if (x264 == "y"):
 
         # Threads ( max: 32 / default: 0)
-        threads_ = ask_threads()
-        while threads_isdigit() is False or int(threads_) > 32:
+        threads = ask_threads()
+        while threads_isdigit() is False or int(threads) > 32:
             expert_mode_error()
-            threads_ = ask_threads()
-        threads = " -threads {0}".format(threads_)
+            threads = ask_threads()
+        threads = " -threads {0}".format(threads)
         if not (threads_):
             threads = " -threads 0"
 
-        thread_type_ = ask_threads_type()
-        if (thread_type_ == "1"):
+        thread_type = ask_threads_type()
+        if (thread_type == "1"):
             thread_type = " -thread_type slice"
-        elif (thread_type_ == "2"):
+        elif (thread_type == "2"):
             thread_type = " -thread_type frame"
         else:
             thread_type = ""
@@ -1326,80 +1326,78 @@ def ANKOA_SYSTEM():
         if (encode_type == "2"):
             fastfirstpass = ""
         else:
-            fastfirstpass_ = ask_fastfirstpass()
-            if (fastfirstpass_ == "y"):
+            fastfirstpass = ask_fastfirstpass()
+            if (fastfirstpass == "y"):
                 fastfirstpass = " -fastfirstpass 1"
-            elif (fastfirstpass_ == "n"):
+            elif (fastfirstpass == "n"):
                 fastfirstpass = " -fastfirstpass 0"
             else:
                 fastfirstpass = ""
 
         # Refs Frames ( max: 16 )
-        refs_ = ask_refs()
-        if not (refs_) or refs_isdigit() is False or int(refs_) > 16:
-            refs = ""
-        if not (refs_) or refs_isdigit() is False or int(refs_) > 16:
+        refs = ask_refs()
+        if not (refs) or refs_isdigit() is False or int(refs) > 16:
             refs = ""
         else:
-            refs = " -refs {0}".format(refs_)
+            refs = " -refs {0}".format(refs)
 
         # Mixed Refs
-        mixed_ = ask_mixed_refs()
-        if (mixed_ == "n"):
+        mixed = ask_mixed_refs()
+        if (mixed == "n"):
             mixed = " -mixed-refs 0"
-        elif (mixed_ == "y"):
+        elif (mixed == "y"):
             mixed = " -mixed-refs 1"
         else:
             mixed = ""
 
         # MAX B-Frames ( max: 16 )
-        bf_ = ask_max_bframes()
-        if not (bf_) or bf_isdigit() is False or int(bf_) > 16:
+        bf = ask_max_bframes()
+        if not (bf) or bf_isdigit() is False or int(bf) > 16:
             bf = ""
         else:
-            bf = " -bf {0}".format(bf_)
+            bf = " -bf {0}".format(bf)
 
         # Pyramidal
-        pyramid_ = ask_pyramidal()
+        pyramid = ask_pyramidal()
         pyramid_resp = ["1", "2", "3"]
         pyramid_values = ["", "none", "normal", "strict"]
-        if (pyramid_ in pyramid_resp):
-            pyramid = " -b-pyramid {0}".format(pyramid_values[int(pyramid_)])
+        if (pyramid in pyramid_resp):
+            pyramid = " -b-pyramid {0}".format(pyramid_values[int(pyramid)])
         else:
             pyramid = ""
 
         # Weight B-Frames
-        weightb_ = ask_weight_bframes()
-        if (weightb_ == "n"):
+        weightb = ask_weight_bframes()
+        if (weightb == "n"):
             weightb = " -weightb 0"
-        elif (weightb_ == "y"):
+        elif (weightb == "y"):
             weightb = " -weightb 1"
         else:
             weightb = ""
 
         # Weight P-Frames
-        weightp_ = ask_weight_pframes()
+        weightp = ask_weight_pframes()
         weightp_resp = ["1", "2", "3"]
         weightp_values = ["", "none", "simple", "smart"]
-        if (weightp_ in weightp_resp):
-            weightp = " -weightp {0}".format(weightp_values[int(weightp_)])
+        if (weightp in weightp_resp):
+            weightp = " -weightp {0}".format(weightp_values[int(weightp)])
         else:
             weightp = ""
 
         # 8x8 Transform
-        dct_ = ask_8x8_transform()
-        if (dct_ == "n"):
+        dct = ask_8x8_transform()
+        if (dct == "n"):
             dct = " -8x8dct 0"
-        elif (dct_ == "y"):
+        elif (dct == "y"):
             dct = " -8x8dct 1"
         else:
             dct = ""
 
         # Cabac
-        cabac_ = ask_cabac()
-        if (cabac_ == "n"):
+        cabac = ask_cabac()
+        if (cabac == "n"):
             cabac = " -coder vlc"
-        elif (cabac_ == "y"):
+        elif (cabac == "y"):
             cabac = " -coder ac"
         else:
             cabac = ""
@@ -1414,51 +1412,51 @@ def ANKOA_SYSTEM():
             b_strategy = ""
 
         # Direct Mode
-        direct_ = ask_direct_mode()
+        direct = ask_direct_mode()
         direct_resp = ["1", "2", "3", "4"]
         direct_values = ["", "none", "spatial", "temporal", "auto"]
-        if (direct_ in direct_resp):
-            direct = " -direct-pred {0}".format(direct_values[int(direct_)])
+        if (direct in direct_resp):
+            direct = " -direct-pred {0}".format(direct_values[int(direct)])
         else:
             direct = ""
 
         # Motion Estimation
-        me_method_ = ask_me_method()
+        me_method = ask_me_method()
         me_resp = ["1", "2", "3", "4", "5"]
         me_values = ["", "dia", "hex", "umh", "esa", "tesa"]
         if (me_method_ in me_resp):
-            me_method = " -me_method {0}".format(me_values[int(me_method_)])
+            me_method = " -me_method {0}".format(me_values[int(me_method)])
         else:
             me_method = ""
 
         # Subpixel ( max: 11 )
-        subq_ = ask_subpixel()
-        if not (subq_) or subq_isdigit() is False or int(subq_) > 11:
+        subq = ask_subpixel()
+        if not (subq) or subq_isdigit() is False or int(subq) > 11:
             subq = ""
         else:
             subq = " -subq {0}".format(subq_)
 
         # Estimation Range ( max: 64 )
-        me_range_ = ask_motion_range()
-        if not (me_range_) or me_range_isdigit() is False or int(me_range_) > 64:
+        me_range = ask_motion_range()
+        if not (me_range) or me_range_isdigit() is False or int(me_range) > 64:
             me_range = ""
         else:
-            me_range = " -me_range {0}".format(me_range_)
+            me_range = " -me_range {0}".format(me_range)
 
         # Partitions
-        parts_ = ask_partitions()
+        parts = ask_partitions()
         parts_resp = ["1", "2", "3", "4", "5", "6", "7"]
         p_values = ["", "all", "p8x8", "p4x4", "none", "b8x8", "i8x8", "i4x4"]
-        if (parts_ in parts_resp):
-            partitions = " -partitions {0}".format(p_values[int(parts_)])
+        if (parts in parts_resp):
+            partitions = " -partitions {0}".format(p_values[int(parts)])
         else:
             partitions = ""
 
         # Trellis Mode
-        trellis_ = ask_trellis()
+        trellis = ask_trellis()
         trellis_resp = ["1", "2", "3"]
-        if (trellis_ in trellis_resp):
-            trellis = " -trellis {0}".format(trellis_resp.index(trellis_))
+        if (trellis in trellis_resp):
+            trellis = " -trellis {0}".format(trellis_resp.index(trellis))
         else:
             trellis = ""
 
@@ -1471,19 +1469,19 @@ def ANKOA_SYSTEM():
             aq_mode = ""
 
         # Quantization Strength ( max 2.9 )
-        aq_ = ask_aq_strength()
+        aq = ask_aq_strength()
         aq_regex = r"^[0-2]{1}[.][0-9]{1}$"
         aq_mod_regex = re.compile(aq_regex, flags=0).search(aq_)
-        if not (aq_) or aq_mod_regex is None:
+        if not (aq) or aq_mod_regex is None:
             aq = ""
         else:
-            aq = " -aq-strength {0}".format(aq_)
+            aq = " -aq-strength {0}".format(aq)
 
         # Psychovisual Optimization
-        psy_ = ask_psy_optimization()
-        if (psy_) == "n":
+        psy = ask_psy_optimization()
+        if (psy) == "n":
             psy = " -psy 0"
-        elif (psy_) == "y":
+        elif (psy) == "y":
             psy = " -psy 1"
         else:
             psy = ""
@@ -1505,63 +1503,63 @@ def ANKOA_SYSTEM():
                 psyrd = " -psy-rd {0}:{1}".format(psy1, psy2)
 
         # Deblock
-        deblock_ = ask_deblock()
-        if not (deblock_):
+        deblock = ask_deblock()
+        if not (deblock):
             deblock = ""
         else:
-            deblock = " -deblock {0}".format(deblock_)
+            deblock = " -deblock {0}".format(deblock)
 
         # Frames Lookahead
-        lookahead_ = ask_lookahead()
+        lookahead = ask_lookahead()
         if not (lookahead_):
             lookahead = ""
         else:
-            lookahead = " -rc-lookahead {0}".format(lookahead_)
+            lookahead = " -rc-lookahead {0}".format(lookahead)
 
         # BluRay Compatibility
-        bluray_ = ask_bluray_compatibility()
-        if (bluray_ == "y"):
+        bluray = ask_bluray_compatibility()
+        if (bluray == "y"):
             bluray = " -bluray-compat 1"
-        elif (bluray_ == "n"):
+        elif (bluray == "n"):
             bluray = " -bluray-compat 0"
         else:
             bluray = ""
 
         # Fast Skip
-        fastpskip_ = ask_fast_skip()
-        if (fastpskip_ == "y"):
+        fastpskip = ask_fast_skip()
+        if (fastpskip == "y"):
             fastpskip = " -fast-pskip 1"
-        elif (fastpskip_ == "n"):
+        elif (fastpskip == "n"):
             fastpskip = " -fast-pskip 0"
         else:
             fastpskip = ""
 
         # Keyframe Interval
-        g_ = ask_keyframe_interval()
-        if not (g_):
+        g = ask_keyframe_interval()
+        if not (g):
             g = ""
         else:
-            g = " -g {0}".format(g_)
+            g = " -g {0}".format(g)
 
         # Minimal Key Interval
-        keyint_min_ = ask_key_min_interval()
-        if not (keyint_min_):
+        keyint_min = ask_key_min_interval()
+        if not (keyint_min):
             keyint_min = ""
         else:
-            keyint_min = " -keyint_min {0}".format(keyint_min_)
+            keyint_min = " -keyint_min {0}".format(keyint_min)
 
         # Scene Cut
-        scenecut_ = ask_scenecut()
-        if not (scenecut_):
+        scenecut = ask_scenecut()
+        if not (scenecut):
             scenecut = ""
         else:
-            scenecut = " -sc_threshold {0}".format(scenecut_)
+            scenecut = " -sc_threshold {0}".format(scenecut)
 
         # Chroma Motion
-        cmp_ = ask_chroma_motion()
-        if (cmp_ == "n"):
+        cmp = ask_chroma_motion()
+        if (cmp == "n"):
             cmp = " -cmp sad"
-        elif (cmp_ == "y"):
+        elif (cmp == "y"):
             cmp = " -cmp chroma"
         else:
             cmp = ""
