@@ -571,7 +571,7 @@ def ask_fastfirstpass():
 
 
 def ask_refs():
-    refs_ = raw_input("{0}REFERENCE FRAMES {1}(ex: 8){0} : {2}"
+    refs_ = raw_input("{0}REFERENCE FRAMES {1}(max: 16){0} : {2}"
                       .format(GREEN, YELLOW, END))
     return refs_
 
@@ -583,7 +583,7 @@ def ask_mixed_refs():
 
 
 def ask_max_bframes():
-    bf_ = raw_input("{0}MAXIMUM B-FRAMES {1}(ex: 16){0} : {2}"
+    bf_ = raw_input("{0}MAXIMUM B-FRAMES {1}(max: 16){0} : {2}"
                     .format(GREEN, YELLOW, END))
     return bf_
 
@@ -643,13 +643,13 @@ def ask_me_method():
 
 
 def ask_subpixel():
-    subq_ = raw_input("{0}SUBPIXEL MOTION ESTIMATION {1}(ex: 11){0} : {2}"
+    subq_ = raw_input("{0}SUBPIXEL MOTION ESTIMATION {1}(max: 11){0} : {2}"
                       .format(GREEN, YELLOW, END))
     return subq_
 
 
 def ask_motion_range():
-    me_range_ = raw_input("{0}MOTION ESTIMATION RANGE {1}(ex: 16){0} : "
+    me_range_ = raw_input("{0}MOTION ESTIMATION RANGE {1}(max: 64){0} : "
                           "{2}".format(GREEN, YELLOW, END))
     return me_range_
 
@@ -669,8 +669,15 @@ def ask_trellis():
     return trellis_
 
 
-def ask_quantization():
-    aq_ = raw_input("{0}ADAPTIVE QUANTIZATION {1}(ex: 1.5){0} : {2}"
+def ask_aq_mode():
+    aq_mod = raw_input("{0}QUANTIZATION MODE > \n{1}NONE {0}[1]{1} - VARIANCE "
+                         "{0}[2]{1}\nAUTO-VARIANCE (new) {0}[3] : {2}"
+                         .format(GREEN, YELLOW, END))
+    return aq_mod
+
+
+def ask_aq_strength():
+    aq_ = raw_input("{0}QUANTIZATION STRENGTH {1}(ex: 1.5){0} : {2}"
                     .format(GREEN, YELLOW, END))
     return aq_
 

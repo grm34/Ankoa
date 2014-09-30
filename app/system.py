@@ -99,10 +99,10 @@ def ANKOA_SYSTEM():
         else:
             title = smart_str(title).strip().replace(' ', '.')
 
-    # Release Year
+    # Release Year ( min: 1895 [1st movie] / max: 2080 ? )
     year = ask_year()
-    while not year or len(year) != 4 or year.isdigit() is False\
-            or int(year) < 1895 or int(year) > 2099:
+    while not year or year.isdigit() is False\
+            or int(year) < 1895 or int(year) > 2080:
         bad_year()
         year = ask_year()
 
@@ -236,9 +236,10 @@ def ANKOA_SYSTEM():
                     sys.exit()
                 next = ask_try_again()
 
+        # Video bitrate ( min: 750Kbps / max: 100Mbps )
         bit = ask_video_bitrate()
-        while not bit or len(bit) < 3 or bit.isdigit() is False\
-                or int(bit) < 700 or int(bit) > 20000:
+        while not bit or bit.isdigit() is False\
+                or int(bit) < 750 or int(bit) > 100000:
             bad_video_bitrate()
             bit = ask_video_bitrate()
 
@@ -252,13 +253,13 @@ def ANKOA_SYSTEM():
     else:
         form = form_values[5]
 
-    # PDTV
+    # HR.PDTV ?
     if (format == "2"):
         hr = ask_HR_PDTV()
         if (hr == "y"):
             format = "7"
 
-    # Video Container
+    # Video Container ( mp4 or mkv )
     rlstype = ask_rls_container()
     if (rlstype == "1"):
         string = "mp4"
@@ -307,7 +308,7 @@ def ANKOA_SYSTEM():
     else:
         fps = ""
 
-    # Deinterlace Video
+    # Deinterlace Video ( yadif filter )
     deinterlace = ask_deinterlace()
     if (deinterlace == "y"):
         interlace = " -filter:v yadif=deint=0 "
@@ -340,14 +341,14 @@ def ANKOA_SYSTEM():
                 bad_audio_title()
                 audiolang = ask_audiolang00()
 
-            # Clean Audio Track Title
-            for d_char in deleted:
-                if d_char in audiolang.strip():
-                    audiolang = smart_str(audiolang).strip()\
-                                                    .replace(' ', '.')\
-                                                    .replace(d_char, '')
-                else:
-                    audiolang = smart_str(audiolang).strip().replace(' ', '.')
+        # Clean Audio Track Title
+        for d_char in deleted:
+            if d_char in audiolang.strip():
+                audiolang = smart_str(audiolang).strip()\
+                                                .replace(' ', '.')\
+                                                .replace(d_char, '')
+            else:
+                audiolang = smart_str(audiolang).strip().replace(' ', '.')
 
         # Audio Track Codec
         audiocodec = ask_audio_codec00()
@@ -358,18 +359,17 @@ def ANKOA_SYSTEM():
         # Audio Codec AC3
         if (audiocodec == "2"):
 
-            # Audio Track bitrate
+            # Audio Track bitrate ( min: 96Kbps / max: 3000Kbps )
             abitrate = ask_audio_bitrate00()
-            while not abitrate or len(abitrate) < 2\
-                    or abitrate.isdigit() is False\
+            while not abitrate or abitrate.isdigit() is False\
                     or int(abitrate) < 96 or int(abitrate) > 3000:
                 bad_audio_bitrate()
                 abitrate = ask_audio_bitrate00()
 
-            # Audio Track Channels
+            # Audio Track Channels ( max 11 [9.2] )
             surround = ask_audio_channels00()
-            while not surround or len(surround) != 1\
-                    or surround.isdigit() is False:
+            while not surround or surround.isdigit() is False\
+                    or int(surround) > 11:
                 bad_audio_surround()
                 surround = ask_audio_channels00()
 
@@ -389,14 +389,14 @@ def ANKOA_SYSTEM():
             bad_audio_title()
             audiolang = ask_audiolang01()
 
-            # Clean Audio Track 01 Title
-            for d_char in deleted:
-                if d_char in audiolang.strip():
-                    audiolang = smart_str(audiolang).strip()\
-                                                    .replace(' ', '.')\
-                                                    .replace(d_char, '')
-                else:
-                    audiolang = smart_str(audiolang).strip().replace(' ', '.')
+        # Clean Audio Track 01 Title
+        for d_char in deleted:
+            if d_char in audiolang.strip():
+                audiolang = smart_str(audiolang).strip()\
+                                                .replace(' ', '.')\
+                                                .replace(d_char, '')
+            else:
+                audiolang = smart_str(audiolang).strip().replace(' ', '.')
 
         # Audio Track 01 Codec
         audiocodec = ask_audio_codec01()
@@ -407,18 +407,17 @@ def ANKOA_SYSTEM():
         # Track 01 Codec AC3
         if (audiocodec == "2"):
 
-            # Audio Track 01 bitrate
+            # Audio Track 01 bitrate ( min: 96Kbps / max: 3000Kbps )
             abitrate = ask_audio_bitrate01()
-            while not abitrate or len(abitrate) < 2\
-                    or abitrate.isdigit() is False\
+            while not abitrate or abitrate.isdigit() is False\
                     or int(abitrate) < 96 or int(abitrate) > 3000:
                 bad_audio_bitrate()
                 abitrate = ask_audio_bitrate01()
 
             # Audio Track 01 channels
             surround = ask_audio_channels01()
-            while not surround or len(surround) != 1\
-                    or surround.isdigit() is False:
+            while not surround or surround.isdigit() is False\
+                    or innt(surround) > 11:
                 bad_audio_surround()
                 surround = ask_audio_channels01()
 
@@ -435,14 +434,14 @@ def ANKOA_SYSTEM():
             bad_audio_title()
             audiolang2 = ask_audiolang02()
 
-            # Clean Audio Track 01 Title
-            for d_char in deleted:
-                if d_char in audiolang2.strip():
-                    audiolang2 = smart_str(audiolang2).strip()\
-                                                      .replace(' ', '.')\
-                                                      .replace(d_char, '')
-                else:
-                    audiolang2 = smart_str(audiolang2).strip().replace(' ', '.')
+        # Clean Audio Track 01 Title
+        for d_char in deleted:
+            if d_char in audiolang2.strip():
+                audiolang2 = smart_str(audiolang2).strip()\
+                                                  .replace(' ', '.')\
+                                                  .replace(d_char, '')
+            else:
+                audiolang2 = smart_str(audiolang2).strip().replace(' ', '.')
 
         # Audio Track 02 Codec
         audiocodec2 = ask_audio_codec02()
@@ -453,25 +452,24 @@ def ANKOA_SYSTEM():
         # Track 02 Codec AC3
         if (audiocodec2 == "2"):
 
-            # Audio Track 02 bitrate
+            # Audio Track 02 bitrate ( min: 96Kbps / max: 3000Kbps )
             abitrate2 = ask_audio_bitrate02()
-            while not abitrate or len(abitrate) < 2\
-                    or abitrate.isdigit() is False\
+            while not abitrate or abitrate.isdigit() is False\
                     or int(abitrate) < 96 or int(abitrate) > 3000:
                 bad_audio_bitrate()
                 abitrate2 = ask_audio_bitrate02()
 
             # Audio Track 02 channels
             surround2 = ask_audio_channels02()
-            while not surround2 or len(surround2) != 1\
-                    or surround2.isdigit() is False:
+            while not surround2 or surround2.isdigit() is False\
+                    or int(surround2) > 11:
                 bad_audio_surround()
                 surround2 = ask_audio_channels02()
     # No Audio
     else:
         audiocodec = ""
 
-    # Change Audio Sampling Rate
+    # Change Audio Sampling Rate ( min: 16k / max: 192k )
     if (audiotype == "1" or audiotype == "2"
             or audiotype == "3" or audiotype == "4"):
         audiox_ = ask_modif_sampling_rate()
@@ -837,29 +835,36 @@ def ANKOA_SYSTEM():
         # Subtitles Delay
         subsync = ask_apply_subdelay()
         if (subsync == "y"):
+            delay_regex = r"^[-]?[0-9]{1,5}$"
 
             # Delay MULTi SUBS
             if (subtype == "3"):
                 subdelay1 = ask_subs_delay01()
+                d_gex = re.compile(delay_regex, flags=0).search(subdelay1)
+                while not subdelay1 or d_gex is None:
+                    bad_subs_delay()
+                    subdelay1 = ask_subs_delay01()
+                    d_gex = re.compile(delay_regex, flags=0).search(subdelay1)
+                sync = "--sync 0:{0}".format(subdelay1)
+
                 subdelay2 = ask_subs_delay02()
-                if not (subdelay1):
-                    sync = ""
-                else:
-                    sync = "--sync 0:{0}".format(subdelay1)
-                if not (subdelay2):
-                    sync = ""
-                else:
-                    sync2 = "--sync 0:{0} ".format(subdelay2)
+                dl_gex = re.compile(delay_regex, flags=0).search(subdelay2)
+                while not subdelay2 or dl_gex is None:
+                    bad_subs_delay()
+                    subdelay2 = ask_subs_delay02()
+                    dl_gex = re.compile(delay_regex, flags=0).search(subdelay2)
+                sync2 = "--sync 0:{0} ".format(subdelay2)
 
             # Delay Single SUBS
             else:
                 subdelay = ask_subs_delay00()
-                if not (subdelay):
-                    sync = ""
-                    sync2 = ""
-                else:
-                    sync = "--sync 0:{0} ".format(subdelay)
-                    sync2 = ""
+                dr_gex = re.compile(delay_regex, flags=0).search(subdelay)
+                while not subdelay or dr_gex is None:
+                    bad_subs_delay()
+                    subdelay = ask_subs_delay00()
+                    dr_gex = re.compile(delay_regex, flags=0).search(subdelay)
+                sync = "--sync 0:{0}".format(subdelay)
+                sync2 = ""
         else:
             sync = ""
             sync2 = ""
@@ -987,7 +992,7 @@ def ANKOA_SYSTEM():
         # from SOURCE
         if (subsource == "1"):
 
-            # MULTi AUDIO
+            # Subforced MULTi AUDIO
             if (audiotype == "4"):
                 if (subtype == "1"):        # FRENCH
                     forced = "--forced-track 3:no "
@@ -1000,7 +1005,7 @@ def ANKOA_SYSTEM():
                     else:
                         forced = "--forced-track 4:no "
 
-            # SINGLE AUDIO
+            # Subforced SINGLE AUDIO
             else:
                 if (subtype == "1"):        # FRENCH
                     forced = "--forced-track 2:no "
@@ -1120,18 +1125,20 @@ def ANKOA_SYSTEM():
         titlesub = "N/A"
         subforced = "N/A"
 
-    # Custom Aspect Ratio
+    # Custom Aspect Ratio ( min: 320x200 / max: 3840x2160 [4K] )
     def custom():
 
         # Resolution WIDTH
         W = ask_reso_width()
-        while not W or len(W) < 3 or len(W) > 4 or W.isdigit() is False:
+        while not W or W.isdigit() is False\
+                or int(W) < 320 or int(W) > 3840:
             bad_reso_width()
             W = ask_reso_width()
 
         # Resolution HEIGHT
         H = ask_reso_height()
-        while not H or len(H) < 3 or len(H) > 4 or H.isdigit() is False:
+        while not H or H.isdigit() is False\
+                or int(H) < 200 or int(H) > 2160:
             bad_reso_height()
             H = ask_reso_height()
         reso = " -s {0}x{1}{2}".format(W, H, crop)
@@ -1168,7 +1175,7 @@ def ANKOA_SYSTEM():
         if (perso == "y"):
             reso = custom()
 
-        # Standard Resolution
+        # Standard Resolution ( reso scene 2013 )
         else:
             ratio = ask_aspect_ratio()
 
@@ -1218,33 +1225,35 @@ def ANKOA_SYSTEM():
             global_error()
             sys.exit()
 
-    # Manual CROP
+    # Manual CROP ( min: 320x200 / max 3840x2160 [4K] )
     man_crop = ask_manual_crop()
     if (man_crop == "y"):
 
         # CROP Width
         w_crop = ask_W_crop()
-        while not w_crop or len(w_crop) < 3 or len(w_crop) > 5\
-                or w_crop.isdigit() is False:
+        while not w_crop or w_crop.isdigit() is False\
+                or int(w_crop) < 320 or int(w_crop) > 3840:
             bad_crop_width()
             w_crop = ask_W_crop()
 
         # CROP Height
         h_crop = ask_H_crop()
-        while not h_crop or len(h_crop) < 3 or len(h_crop) > 5\
-                or h_crop.isdigit() is False:
+        while not h_crop or h_crop.isdigit() is False\
+                or int(h_crop) < 200 or int(h_crop) > 2160:
             bad_crop_height()
             h_crop = ask_H_crop()
 
         # CROP Pixels LEFT/RIGHT
         x_crop = ask_LR_crop()
-        while not x_crop or len(x_crop) > 4 or x_crop.isdigit() is False:
+        while not x_crop or x_crop.isdigit() is False\
+                or int(x_crop) > 3840:
             bad_crop_LR()
             x_crop = ask_LR_crop()
 
         # CROP Pixels TOP/BOTTOM
         y_crop = ask_TB_crop()
-        while not y_crop or len(y_crop) > 4 or y_crop.isdigit() is False:
+        while not y_crop or y_crop.isdigit() is False\
+                or int(y_crop) > 2160:
             bad_crop_TB()
             y_crop = ask_TB_crop()
 
@@ -1252,7 +1261,7 @@ def ANKOA_SYSTEM():
         crop = " -filter:v crop={0}:{1}:{2}:{3}"\
                .format(w_crop, h_crop, x_crop, y_crop)
 
-    # while no crop
+    # No Crop
     else:
         crop = ""
 
@@ -1264,7 +1273,7 @@ def ANKOA_SYSTEM():
     else:
         reso = BLURAY()
 
-    # Video Format Profile
+    # Video Format Profile ( min 1.1 / max: 5.2 )
     level = ask_format_profile()
     l_regex = r"^[1-5]{1}[.][1-2]{1}$"
     level_regex = re.compile(l_regex, flags=0).search(level)
@@ -1292,16 +1301,18 @@ def ANKOA_SYSTEM():
     else:
         tune = ""
 
-    # Expert Mode
+    # EXPERT MODE
     x264 = ask_expert_mode()
     if (x264 == "y"):
 
-        # Threads
+        # Threads ( max: 32 / default: 0)
         threads_ = ask_threads()
+        while threads_isdigit() is False or int(threads_) > 32:
+            expert_mode_error()
+            threads_ = ask_threads()
+        threads = " -threads {0}".format(threads_)
         if not (threads_):
             threads = " -threads 0"
-        else:
-            threads = " -threads {0}".format(threads_)
 
         thread_type_ = ask_threads_type()
         if (thread_type_ == "1"):
@@ -1323,9 +1334,11 @@ def ANKOA_SYSTEM():
             else:
                 fastfirstpass = ""
 
-        # Refs Frames
+        # Refs Frames ( max: 16 )
         refs_ = ask_refs()
-        if not (refs_):
+        if not (refs_) or refs_isdigit() is False or int(refs_) > 16:
+            refs = ""
+        if not (refs_) or refs_isdigit() is False or int(refs_) > 16:
             refs = ""
         else:
             refs = " -refs {0}".format(refs_)
@@ -1339,9 +1352,9 @@ def ANKOA_SYSTEM():
         else:
             mixed = ""
 
-        # MAX B-Frames
+        # MAX B-Frames ( max: 16 )
         bf_ = ask_max_bframes()
-        if not (bf_):
+        if not (bf_) or bf_isdigit() is False or int(bf_) > 16:
             bf = ""
         else:
             bf = " -bf {0}".format(bf_)
@@ -1394,10 +1407,9 @@ def ANKOA_SYSTEM():
         # Adaptive B-Frames
         b_strat = ask_bstrategy()
         b_strategy_resp = ["1", "2", "3"]
-        b_strategy_values = ["", "0", "1", "2"]
         if (b_strat in b_strategy_resp):
             b_strategy = " -b_strategy {0}"\
-                         .format(b_strategy_values[int(b_strat)])
+                         .format(b_strategy_resp.index(b_strat))
         else:
             b_strategy = ""
 
@@ -1419,16 +1431,16 @@ def ANKOA_SYSTEM():
         else:
             me_method = ""
 
-        # Subpixel
+        # Subpixel ( max: 11 )
         subq_ = ask_subpixel()
-        if not (subq_):
+        if not (subq_) or subq_isdigit() is False or int(subq_) > 11:
             subq = ""
         else:
             subq = " -subq {0}".format(subq_)
 
-        # Estimation Range
+        # Estimation Range ( max: 64 )
         me_range_ = ask_motion_range()
-        if not (me_range_):
+        if not (me_range_) or me_range_isdigit() is False or int(me_range_) > 64:
             me_range = ""
         else:
             me_range = " -me_range {0}".format(me_range_)
@@ -1445,20 +1457,29 @@ def ANKOA_SYSTEM():
         # Trellis Mode
         trellis_ = ask_trellis()
         trellis_resp = ["1", "2", "3"]
-        trellis_values = ["", "0", "1", "2"]
         if (trellis_ in trellis_resp):
-            trellis = " -trellis {0}".format(trellis_values[int(trellis_)])
+            trellis = " -trellis {0}".format(trellis_resp.index(trellis_))
         else:
             trellis = ""
 
-        # Quantization
-        aq_ = ask_quantization()
-        if not (aq_):
+        # Quantization Mode
+        aq_mod = ask_aq_mode()
+        aq_mod_resp = ["1", "2", "3"]
+        if aq_mod in aq_mod_resp:
+            aq_mode = " -aq-mode {0}".format(aq_mod_resp.index(aq_mod))
+        else:
+            aq_mode = ""
+
+        # Quantization Strength ( max 2.9 )
+        aq_ = ask_aq_strength()
+        aq_regex = r"^[0-2]{1}[.][0-9]{1}$"
+        aq_mod_regex = re.compile(aq_regex, flags=0).search(aq_)
+        if not (aq_) or aq_mod_regex is None:
             aq = ""
         else:
             aq = " -aq-strength {0}".format(aq_)
 
-        # Psychovisual
+        # Psychovisual Optimization
         psy_ = ask_psy_optimization()
         if (psy_) == "n":
             psy = " -psy 0"
@@ -1469,12 +1490,15 @@ def ANKOA_SYSTEM():
 
         # Rate Distortion
         psy1 = ask_rate_distortion()
+        psy1_regex = r"^[0-2]{1}[.][0-9]{2}$"
+        psya_regex = re.compile(psy1_regex, flags=0).search(psy1)
         if not (psy1):
             psyrd = ""
         else:
 
-            # Psy RD
+            # Psy RD (
             psy2 = ask_psy_rd()
+
             if not (psy2):
                 psyrd = ""
             else:
@@ -1543,14 +1567,15 @@ def ANKOA_SYSTEM():
             cmp = ""
 
         # Expert Mode Values
-        param = "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}"\
-                "{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}"\
+        param = "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}"\
+                "{15}{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}"\
+                "{27}{28}{29}{30}"\
                 .format(preset, tune, threads, thread_type, fastfirstpass,
                         refs, mixed, bf, pyramid, weightb, weightp, dct,
                         cabac, b_strategy, direct, me_method, subq, me_range,
                         partitions, trellis, aq, psy, psyrd, deblock,
                         lookahead, bluray, fastpskip, g, keyint_min,
-                        scenecut, cmp)
+                        scenecut, cmp, aq_mod)
 
         # First Pass Values
         pass1 = "{0}{1}{2}{3}{4}".format(preset, tune, threads,

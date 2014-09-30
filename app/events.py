@@ -91,6 +91,11 @@ def global_error():
            .format(GREEN, RED, BLUE, END, str(e)))
 
 
+def expert_mode_error():
+    print ("{0} -> {1}ERROR : {2}Bad value, are you sure to be able"
+           " to use this mode ?{3}".format(GREEN, RED, BLUE, END))
+
+
 def bad_source():
     print ("{0} -> {1}ERROR : {2}Bad source selection, please try"
            " again !{3}".format(GREEN, RED, BLUE, END))
@@ -169,6 +174,11 @@ def bad_subtitles_ID():
 def bad_subtitles_source():
     print ("{0} -> {1}ERROR : {2}Bad subtitles source, please try"
            " again !{3}".format(GREEN, RED, BLUE, END))
+
+
+def bad_subs_delay():
+    print ("{0} -> {1}ERROR : {2}Please specify valid delay value !"
+           "{3}".format(GREEN, RED, BLUE, END))
 
 
 def bad_reso_width():
