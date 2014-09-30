@@ -45,6 +45,7 @@
 
 from django.utils.encoding import (smart_str, smart_unicode)
 
+
 def color():
     BLUE = '\033[36m'
     RED = '\033[31m'

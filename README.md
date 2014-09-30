@@ -129,20 +129,21 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     Filename:         Source:    Comment:    Both:    Blank:    Total:
 
     nfo.php                33          39       21        22       115
-    ankoa.py               88          51        2        20       161
-    genprez.py            281          63        7        36       387
+    ankoa.py               87          51        2        19       159
+    genprez.py            285          63        7        40       395
     imgur.py               49          48        0        10       107
     make.py               100          57        0        24       181
-    setup.py              116          65        0        30       211
+    setup.py              133          66        0        32       231
     thumbnails.py         175          47       18        36       276
-    bitrate.py             35          51        0        14       100
-    events.py             166          53        0       107       326
-    inputs.py             529          47        0       253       829
-    settings.py            17          55        1        11        84
-    style.py               46          66        5        10       127
-    system.py            1196         241       42       242      1721
+    advanced.py           224          78        0        41       343
+    bitrate.py             49          51        0        15       115
+    events.py             178          53        0       115       346
+    inputs.py             536          47        0       255       838
+    settings.py            27          64        1        19       111
+    style.py               46          66        5        11       128
+    system.py             978         208       42       204      1432
     nfogen.sh              15          41        1         4        61
 
-    [Total] :            2846         924       97       819      4686
+    [Total] :            2915         979       97       847      4838
 
 ***

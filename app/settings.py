@@ -60,6 +60,7 @@ from django.utils.encoding import (smart_str, smart_unicode)
 
 def option():
 
+    # User Values
     folder = "XXX001"
     thumb = "XXX002"
     tag = "XXX003"
@@ -74,9 +75,37 @@ def option():
 
 def bad_chars():
 
+    # Forbidden Chars
     deleted = ['!', '?', ',', ';', '%', '^', '$', '(', ')', '[', ']',
                '{', '}', '+', '=', '*', '&', '²', '#', '"', '|', '`',
                '@', '<', '>', 'µ', '£', '¨', '°', '~', '§', "'", ':']
 
     bad_values = (smart_str(deleted))
     return bad_values
+
+
+def regex():
+
+    # Regex HANDBRAKE Scan ( match tracks infos )
+    hb_regex = (r"[+]\s[0-9]{1,3},\s.+?\s[(].+?[)]")
+
+    # Regex CRF & Reso & Crop & Tracks bit, channels, ID
+    # Expert Mode Values & HH, MM, SS ( match 0xxx start )
+    crf_regex = (r"^[0].+")
+
+    # Regex Subdelay ( max 4 int with or without "-" in first )
+    delay_regex = (r"^[-]?[0-9]{1,5}$")
+
+    # Regex Format Profile ( match 1.1 to 5.2 witout bad FP vals )
+    fp_regex = (r"^[1-5]{1}[.][1-2]{1}$")
+
+    # Regex Quantization ( match 0.0 to 2.9 )
+    aq_regex = r"^[0-2]{1}[.][0-9]{1}$"
+
+    # Regex URL ( match valid tracker url )
+    url_regex = (r"^^http(s)?://([a-zA-Z0-9-]+.)?([a-zA-Z0-9-]+.)?"
+                 "[a-zA-Z0-9-]+..[a-zA-Z]{2,4}(:[0-9]+)?(/[a-zA-Z0-9-]"
+                 "*/?|/[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,4})?$")
+
+    ankoa_regex = (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex)
+    return ankoa_regex

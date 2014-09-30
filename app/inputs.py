@@ -475,8 +475,9 @@ def ask_custom_reso():
 
 
 def ask_aspect_ratio():
-    ratio = raw_input("{0}RELEASE ASPECT RATIO > \n{1}1.33 - 1.66"
-                      " - 1.78 - 1.85 - 2.35 - 2.40{0} : {2}"
+    ratio = raw_input("{0}RELEASE ASPECT RATIO > \n{1}1.33 {0}[1]{1} - 1.66 "
+                      "{0}[2]{1} - 1.78 {0}[3]{1}\n1.85 {0}[4]{1} - 2.35 {0}"
+                      "[5]{1} - 2.40 {0}[6] : {2}"
                       .format(GREEN, YELLOW, END))
     return ratio
 
@@ -538,16 +539,16 @@ def ask_x264_preset():
 
 
 def ask_x264_tune():
-    tuned = raw_input("{0}X264/X265 TUNE > \n{1}FILM {0}[1]{1} - ANIMATION "
-                      "{0}[2]{1} - GRAIN {0}[3]\n{1}STILLIMAGE {0}[4]{1} - "
-                      "PSNR {0}[5]{1} - SSIM {0}[6]\n{1}FASTDECODE {0}[7]{1}"
-                      " - {0}[8]{1} - NONE {0}[9] : {2}"
+    tuned = raw_input("{0}CUSTOM X264/X265 TUNE > \n{1}FILM {0}[1]{1} - ANIMA"
+                      "TION {0}[2]{1} - GRAIN {0}[3]\n{1}STILLIMAGE {0}[4]{1}"
+                      " - PSNR {0}[5]{1} - SSIM {0}[6]\n{1}FASTDECODE {0}[7]"
+                      "{1} - {0}[8]{1} - NONE {0}[9] : {2}"
                       .format(GREEN, YELLOW, END))
     return tuned
 
 
-def ask_expert_mode():
-    x264 = raw_input("{0}X264/X265 EXPERT MODE {1}(y/n){0} : {2}"
+def ask_advanced_mode():
+    x264 = raw_input("{0}X264/X265 ADVANCED MODE {1}(y/n){0} : {2}"
                      .format(GREEN, YELLOW, END))
     return x264
 
@@ -559,8 +560,9 @@ def ask_threads():
 
 
 def ask_threads_type():
-    thread_type = raw_input("{0}THREAD TYPE > \n{1}SLICE {0}[1]{1} - FRA"
-                            "ME {0}[2] : {2}".format(GREEN, YELLOW, END))
+    thread_type = raw_input("{0}PROCESSOR THREAD TYPE > \n{1}SLICE {0}[1]{1}"
+                            "- FRAME {0}[2]{1} - DEFAULT {0}[3] : {2}"
+                            .format(GREEN, YELLOW, END))
     return thread_type
 
 

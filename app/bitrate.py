@@ -46,34 +46,48 @@
 from inputs import (ask_HH, ask_MM, ask_SS, ask_desired_audio_bitrate,
                     ask_desired_size)
 from events import bitrate_entry_error
+from settings import regex
+
+crf_regex = regex()
 
 
 def calcul():
 
     # Hours
     HH = ask_HH()
-    while not HH or HH.isdigit() is False or int(HH) > 23:
+    verif_HH = re.compile(crf_regex, flags=0).search(HH)
+    while not HH or HH.isdigit() is False\
+            or verif_HH is not None or int(HH) > 23:
         bitrate_entry_error()
         HH = ask_HH()
+        verif_HH = re.compile(crf_regex, flags=0).search(HH)
 
     # Minutes
     MM = ask_MM()
-    while not MM or MM.isdigit() is False or int(MM) > 59:
+    verif_MM = re.compile(crf_regex, flags=0).search(MM)
+    while not MM or MM.isdigit() is False\
+            or verif_MM is not None or int(MM) > 59:
         bitrate_entry_error()
         MM = ask_MM()
+        verif_MM = re.compile(crf_regex, flags=0).search(MM)
 
     # Seconds
     SS = ask_SS()
-    while not SS or SS.isdigit() is False or int(SS) > 59:
+    verif_SS = re.compile(crf_regex, flags=0).search(SS)
+    while not SS or SS.isdigit() is False\
+            or verif_SS is not None or int(SS) > 59:
         bitrate_entry_error()
         SS = ask_SS()
+        verif_SS = re.compile(crf_regex, flags=0).search(SS)
 
     # Audio bitrate
     audiobit = ask_desired_audio_bitrate()
+    verif_bits = re.compile(crf_regex, flags=0).search(audiobit)
     while not audiobit or audiobit.isdigit() is False\
-            or int(audiobit) > 3000:
+            or verif_bits is not None or int(audiobit) > 3000:
         bitrate_entry_error()
         audiobit = ask_desired_audio_bitrate()
+        verif_bits = re.compile(crf_regex, flags=0).search(audiobit)
 
     # Release desired size
     rls_size = ask_desired_size()

@@ -181,6 +181,16 @@ def bad_subs_delay():
            "{3}".format(GREEN, RED, BLUE, END))
 
 
+def bad_ar():
+    print ("{0} -> {1}ERROR : {2}Bad Aspect Ratio choice, please try"
+           " again !{3}".format(GREEN, RED, BLUE, END))
+
+
+def bad_sar():
+    print ("{0} -> {1}ERROR : {2}Bad Sample Aspect Ratio choice, please try"
+           " again !{3}".format(GREEN, RED, BLUE, END))
+
+
 def bad_reso_width():
     print ("{0} -> {1}ERROR : {2}Bad WIDTH entry, please try"
            " again !{3}".format(GREEN, RED, BLUE, END))

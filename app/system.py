@@ -56,12 +56,15 @@ import subprocess
 from json import loads
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
 from django.utils.encoding import (smart_str, smart_unicode)
-from settings import (option, bad_chars)
+from settings import (option, bad_chars, regex)
 from bitrate import (calcul, calc)
+from advanced import advanced_mode
+from genprez import api_connexion
 from inputs import *
 from events import *
 
 deleted = bad_chars()
+(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex) = regex()
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
@@ -101,7 +104,7 @@ def ANKOA_SYSTEM():
 
     # Release Year ( min: 1895 [1st movie] / max: 2080 ? )
     year = ask_year()
-    while not year or year.isdigit() is False\
+    while not year or year.isdigit() is False or len(year) != 4\
             or int(year) < 1895 or int(year) > 2080:
         bad_year()
         year = ask_year()
@@ -169,11 +172,10 @@ def ANKOA_SYSTEM():
             # Run HANDBRAKE Scan
             if (type == "1"):
                 for lines in hb_data:
-                    b_regex = r"[+]\s[0-9]{1,3},\s.+?\s[(].+?[)]"
-                    hb_regex = re.compile(b_regex, flags=0).search(lines)
+                    verif0 = re.compile(hb_regex, flags=0).search(lines)
                     if ("+ duration:" in lines or "Stream #" in lines
                             or "+ size:" in lines or "autocrop" in lines
-                            or hb_regex is not None):
+                            or verif0 is not None):
                         print lines.strip().replace('\n', '')
 
             # Run FFMPEG Scan
@@ -214,9 +216,12 @@ def ANKOA_SYSTEM():
     if (encode_type == "2"):
         bit = ""
         crf = ask_crf_level()
-        while not crf or crf.isdigit() is False or int(crf) > 51:
+        verif1a = re.compile(crf_regex, flags=0).search(crf)
+        while not crf or len(crf) > 2 or crf.isdigit() is False\
+                or verif1a is not None or int(crf) > 51:
             bad_crf()
             crf = ask_crf_level()
+            verif1a = re.compile(crf_regex, flags=0).search(crf)
 
     # FFMPEG 2PASS
     else:
@@ -238,10 +243,12 @@ def ANKOA_SYSTEM():
 
         # Video bitrate ( min: 750Kbps / max: 100Mbps )
         bit = ask_video_bitrate()
-        while not bit or bit.isdigit() is False\
+        verif1b = re.compile(crf_regex, flags=0).search(bit)
+        while not bit or bit.isdigit() is False or verif1b is not None\
                 or int(bit) < 750 or int(bit) > 100000:
             bad_video_bitrate()
             bit = ask_video_bitrate()
+            verif1b = re.compile(crf_regex, flags=0).search(bit)
 
     # Video Format
     format = ask_rls_format()
@@ -289,9 +296,12 @@ def ANKOA_SYSTEM():
 
     # Select Video Track
     idvideo = ask_ffmped_ID()
-    while not idvideo or len(idvideo) > 2 or idvideo.isdigit() is False:
+    verif_t0 = re.compile(crf_regex, flags=0).search(idvideo)
+    while not idvideo or len(idvideo) > 2 or idvideo.isdigit() is False\
+            or verif_t0 is not None:
         bad_video_ID()
         idvideo = ask_ffmped_ID()
+        verif_t0 = re.compile(crf_regex, flags=0).search(idvideo)
 
     # Change Video FPS
     modif_fps = ask_modif_fps()
@@ -329,10 +339,12 @@ def ANKOA_SYSTEM():
 
         # Select Audio Track
         audionum = ask_audio_track00()
+        verif_t1 = re.compile(crf_regex, flags=0).search(audionum)
         while not audionum or len(audionum) > 2\
-                or audionum.isdigit() is False:
+                or audionum.isdigit() is False or verif_t1 is not None:
             bad_audio_ID()
             audionum = ask_audio_track00()
+            verif_t1 = re.compile(crf_regex, flags=0).search(audionum)
 
         # Audio Track Title
         if (audiotype == "3"):
@@ -341,14 +353,14 @@ def ANKOA_SYSTEM():
                 bad_audio_title()
                 audiolang = ask_audiolang00()
 
-        # Clean Audio Track Title
-        for d_char in deleted:
-            if d_char in audiolang.strip():
-                audiolang = smart_str(audiolang).strip()\
-                                                .replace(' ', '.')\
-                                                .replace(d_char, '')
-            else:
-                audiolang = smart_str(audiolang).strip().replace(' ', '.')
+            # Clean Audio Track Title
+            for d_char in deleted:
+                if d_char in audiolang.strip():
+                    audiolang = smart_str(audiolang).strip()\
+                                                    .replace(' ', '.')\
+                                                    .replace(d_char, '')
+                else:
+                    audiolang = smart_str(audiolang).strip().replace(' ', '.')
 
         # Audio Track Codec
         audiocodec = ask_audio_codec00()
@@ -361,27 +373,34 @@ def ANKOA_SYSTEM():
 
             # Audio Track bitrate ( min: 96Kbps / max: 3000Kbps )
             abitrate = ask_audio_bitrate00()
+            verif_b0 = re.compile(crf_regex, flags=0).search(abitrate)
             while not abitrate or abitrate.isdigit() is False\
+                    or verif_b0 is not None\
                     or int(abitrate) < 96 or int(abitrate) > 3000:
                 bad_audio_bitrate()
                 abitrate = ask_audio_bitrate00()
+                verif_b0 = re.compile(crf_regex, flags=0).search(abitrate)
 
             # Audio Track Channels ( max 11 [9.2] )
             surround = ask_audio_channels00()
+            verif_s0 = re.compile(crf_regex, flags=0).search(abitrate)
             while not surround or surround.isdigit() is False\
-                    or int(surround) > 11:
+                    or verif_s0 is not None or int(surround) > 11:
                 bad_audio_surround()
                 surround = ask_audio_channels00()
+                verif_s0 = re.compile(crf_regex, flags=0).search(abitrate)
 
     # Multi Audio Tracks
     elif (audiotype == "4"):
 
         # Select Audio Track 01
         audionum = ask_audio_track01()
+        verif_t2 = re.compile(crf_regex, flags=0).search(audionum)
         while not audionum or len(audionum) > 2\
-                or audionum.isdigit() is False:
+                or audionum.isdigit() is False or verif_t2 is not None:
             bad_audio_ID()
             audionum = ask_audio_track01()
+            verif_t2 = re.compile(crf_regex, flags=0).search(audionum)
 
         # Audio Track 01 Title
         audiolang = ask_audiolang01()
@@ -423,10 +442,12 @@ def ANKOA_SYSTEM():
 
         # Select Audio Track 02
         audionum2 = ask_audio_track02()
+        verif_t3 = re.compile(crf_regex, flags=0).search(audionum2)
         while not audionum2 or len(audionum2) > 2\
-                or audionum2.isdigit() is False:
+                or audionum2.isdigit() is False or verif_t3 is not None:
             bad_audio_ID()
             audionum2 = ask_audio_track02()
+            verif_t3 = re.compile(crf_regex, flags=0).search(audionum2)
 
         # Audio Track 02 Title
         audiolang2 = ask_audiolang02()
@@ -454,17 +475,22 @@ def ANKOA_SYSTEM():
 
             # Audio Track 02 bitrate ( min: 96Kbps / max: 3000Kbps )
             abitrate2 = ask_audio_bitrate02()
+            verif_b1 = re.compile(crf_regex, flags=0).search(abitrate2)
             while not abitrate or abitrate.isdigit() is False\
+                    or verif_b1 is not None\
                     or int(abitrate) < 96 or int(abitrate) > 3000:
                 bad_audio_bitrate()
                 abitrate2 = ask_audio_bitrate02()
+                verif_b1 = re.compile(crf_regex, flags=0).search(abitrate2)
 
             # Audio Track 02 channels
             surround2 = ask_audio_channels02()
+            verif_s1 = re.compile(crf_regex, flags=0).search(surround2)
             while not surround2 or surround2.isdigit() is False\
-                    or int(surround2) > 11:
+                    or verif_s1 is not None or int(surround2) > 11:
                 bad_audio_surround()
                 surround2 = ask_audio_channels02()
+                verif_s1 = re.compile(crf_regex, flags=0).search(surround2)
     # No Audio
     else:
         audiocodec = ""
@@ -704,32 +730,42 @@ def ANKOA_SYSTEM():
 
                 # Subtitles Track 01 ISO ID
                 idsub = ask_subs_ISO_ID01()
-                while not idsub or len(idsub) > 2 or idsub.isdigit() is False:
+                verif_t4 = re.compile(crf_regex, flags=0).search(idsub)
+                while not idsub or len(idsub) > 2\
+                        or verif_t4 is not None or idsub.isdigit() is False:
                     bad_subtitles_ID()
                     idsub = ask_subs_ISO_ID01()
+                    verif_t4 = re.compile(crf_regex, flags=0).search(idsub)
 
                 # Subtitles Tracks 02 ISO ID
                 idsub2 = ask_subs_ISO_ID02()
+                verif_t5 = re.compile(crf_regex, flags=0).search(idsub2)
                 while not idsub2 or len(idsub2) > 2\
-                        or idsub2.isdigit() is False:
+                        or verif_t5 is not None or idsub2.isdigit() is False:
                     bad_subtitles_ID()
                     idsub2 = ask_subs_ISO_ID02()
+                    verif_t5 = re.compile(crf_regex, flags=0).search(idsub2)
 
             # From MKV or M2TS
             else:
 
                 # Subtitles Track 01 FFMPEG ID
                 idsub = ask_subs_FFMPEG_ID01()
-                while not idsub or len(idsub) > 2 or idsub.isdigit() is False:
+                verif_t6 = re.compile(crf_regex, flags=0).search(idsub)
+                while not idsub or len(idsub) > 2\
+                        or verif_t6 is not None or idsub.isdigit() is False:
                     bad_subtitles_ID()
                     idsub = ask_subs_FFMPEG_ID01()
+                    verif_t6 = re.compile(crf_regex, flags=0).search(idsub)
 
                 # Subtitles Track 02 FFMPEG ID
                 idsub2 = ask_subs_FFMPEG_ID02()
+                verif_t7 = re.compile(crf_regex, flags=0).search(idsub2)
                 while not idsub2 or len(idsub2) > 2\
-                        or idsub2.isdigit() is False:
+                        or verif_t7 is not None or idsub2.isdigit() is False:
                     bad_subtitles_ID()
                     idsub2 = ask_subs_FFMPEG_ID02()
+                    verif_t7 = re.compile(crf_regex, flags=0).search(idsub2)
                 manual_title_subs()
 
         # Single SUBS (from Source)
@@ -740,18 +776,24 @@ def ANKOA_SYSTEM():
 
                 # Subtitles Track ISO ID
                 idsub = ask_subs_ISO_ID00()
-                while not idsub or len(idsub) > 2 or idsub.isdigit() is False:
+                verif_t8 = re.compile(crf_regex, flags=0).search(idsub)
+                while not idsub or len(idsub) > 2\
+                        or verif_t8 is not None or idsub.isdigit() is False:
                     bad_subtitles_ID()
                     idsub = ask_subs_ISO_ID00()
+                    verif_t8 = re.compile(crf_regex, flags=0).search(idsub)
 
             # From MKV or M2TS
             else:
 
                 # Subtitles Track FFMPEG ID
                 idsub = ask_subs_FFMPEG_ID00()
-                while not idsub or len(idsub) > 2 or idsub.isdigit() is False:
+                verif_t9 = re.compile(crf_regex, flags=0).search(idsub)
+                while not idsub or len(idsub) > 2\
+                        or verif_t9 is not None or idsub.isdigit() is False:
                     bad_subtitles_ID
                     idsub = ask_subs_FFMPEG_ID00()
+                    verif_t9 = re.compile(crf_regex, flags=0).search(idsub)
 
             # Subtitles Track Title
             if (subtype == "1"):
@@ -835,34 +877,33 @@ def ANKOA_SYSTEM():
         # Subtitles Delay
         subsync = ask_apply_subdelay()
         if (subsync == "y"):
-            delay_regex = r"^[-]?[0-9]{1,5}$"
 
             # Delay MULTi SUBS
             if (subtype == "3"):
                 subdelay1 = ask_subs_delay01()
-                d_gex = re.compile(delay_regex, flags=0).search(subdelay1)
-                while not subdelay1 or d_gex is None:
+                verif2 = re.compile(delay_regex, flags=0).search(subdelay1)
+                while not subdelay1 or verif2 is None:
                     bad_subs_delay()
                     subdelay1 = ask_subs_delay01()
-                    d_gex = re.compile(delay_regex, flags=0).search(subdelay1)
+                    verif2 = re.compile(delay_regex, flags=0).search(subdelay1)
                 sync = "--sync 0:{0}".format(subdelay1)
 
                 subdelay2 = ask_subs_delay02()
-                dl_gex = re.compile(delay_regex, flags=0).search(subdelay2)
-                while not subdelay2 or dl_gex is None:
+                verif3 = re.compile(delay_regex, flags=0).search(subdelay2)
+                while not subdelay1 or verif3 is None:
                     bad_subs_delay()
                     subdelay2 = ask_subs_delay02()
-                    dl_gex = re.compile(delay_regex, flags=0).search(subdelay2)
+                    verif3 = re.compile(delay_regex, flags=0).search(subdelay2)
                 sync2 = "--sync 0:{0} ".format(subdelay2)
 
             # Delay Single SUBS
             else:
                 subdelay = ask_subs_delay00()
-                dr_gex = re.compile(delay_regex, flags=0).search(subdelay)
-                while not subdelay or dr_gex is None:
+                verif4 = re.compile(delay_regex, flags=0).search(subdelay)
+                while not subdelay or verif4 is None:
                     bad_subs_delay()
                     subdelay = ask_subs_delay00()
-                    dr_gex = re.compile(delay_regex, flags=0).search(subdelay)
+                    verif4 = re.compile(delay_regex, flags=0).search(subdelay)
                 sync = "--sync 0:{0}".format(subdelay)
                 sync2 = ""
         else:
@@ -1130,41 +1171,49 @@ def ANKOA_SYSTEM():
 
         # Resolution WIDTH
         W = ask_reso_width()
-        while not W or W.isdigit() is False\
+        verif_W = re.compile(crf_regex, flags=0).search(W)
+        while not W or W.isdigit() is False or verif_W is not None\
                 or int(W) < 320 or int(W) > 3840:
             bad_reso_width()
             W = ask_reso_width()
+            verif_W = re.compile(crf_regex, flags=0).search(W)
 
         # Resolution HEIGHT
         H = ask_reso_height()
-        while not H or H.isdigit() is False\
+        verif_H = re.compile(crf_regex, flags=0).search(H)
+        while not H or H.isdigit() is False or verif_H is not None\
                 or int(H) < 200 or int(H) > 2160:
             bad_reso_height()
             H = ask_reso_height()
+            verif_H = re.compile(crf_regex, flags=0).search(H)
+
         reso = " -s {0}x{1}{2}".format(W, H, crop)
         return (reso)
 
     # DVD Aspect Ratio
     def DVD():
 
-        # Sample Aspect Ratio
-        ask_sar = ask_use_reso_sar()
-        if (ask_sar == "y"):
-            sar = ask_reso_sar()
-            if (sar == "1"):
-                reso = " -sar 64:45{0}".format(crop)
-            elif (sar == "2"):
-                reso = " -sar 16:15{0}".format(crop)
-            elif (sar == "3"):
-                reso = " -sar 32:27{0}".format(crop)
-            elif (sar == "4"):
-                reso = " -sar 8:9{0}".format(crop)
-            else:
-                reso = custom()
-
         # Custom Resolution
-        else:
+        perso = ask_custom_reso()
+        if (perso == "y"):
             reso = custom()
+        else:
+
+            # Sample Aspect Ratio
+            ask_sar = ask_use_reso_sar()
+            if (ask_sar == "y"):
+                sar = ask_reso_sar()
+                sar_resp = ["1", "2", "3", "4"]
+                sar_val = ["", "64:45", "16:15", "32:27", "8:9"]
+
+                while sar not in sar_resp:
+                    bad_sar()
+                    ask_sar = ask_use_reso_sar()
+                reso = " -sar {0}{1}".format(sar_val[int(sar)], crop)
+
+            # Standard reso
+            else:
+                reso = BLURAY()
         return (reso)
 
     # BluRay Aspect Ratio
@@ -1178,21 +1227,14 @@ def ANKOA_SYSTEM():
         # Standard Resolution ( reso scene 2013 )
         else:
             ratio = ask_aspect_ratio()
+            ratio_resp = ["1", "2", "3", "4", "5", "6"]
+            ratio_val = ["", "720x540", "720x432", "720x404",
+                         "720x390", "720x306", "720x300"]
 
-            if (ratio == "2.40"):
-                reso = " -s 720x300{0}".format(crop)
-            elif (ratio == "2.35"):
-                reso = " -s 720x306{0}".format(crop)
-            elif (ratio == "1.85"):
-                reso = " -s 720x390{0}".format(crop)
-            elif (ratio == "1.78"):
-                reso = " -s 720x404{0}".format(crop)
-            elif (ratio == "1.66"):
-                reso = " -s 720x432{0}".format(crop)
-            elif (ratio == "1.33"):
-                reso = " -s 720x540{0}".format(crop)
-            else:
-                reso = custom()
+            while ratio not in ratio_resp:
+                bad_ar()
+                ratio = ask_aspect_ratio()
+            reso = " -s {0}".format(ratio_val[int(ratio)])
         return (reso)
 
     # Scan Autocrop
@@ -1204,9 +1246,11 @@ def ANKOA_SYSTEM():
                           .format(thumb, title, year), "w").write(hb)
             hb_data = file("{0}{1}.{2}_scan.txt"
                            .format(thumb, title, year), "r").readlines()
+
             for lines in hb_data:
                 if ("size:" in lines or "autocrop" in lines):
                     print lines.strip().replace('\n', '')
+
             os.system("rm -f {0}{1}.{2}_scan.txt".format(thumb, title, year))
 
         # Scan Error
@@ -1231,31 +1275,41 @@ def ANKOA_SYSTEM():
 
         # CROP Width
         w_crop = ask_W_crop()
+        verif_crop1 = re.compile(crf_regex, flags=0).search(w_crop)
         while not w_crop or w_crop.isdigit() is False\
+                or verif_crop1 is not None\
                 or int(w_crop) < 320 or int(w_crop) > 3840:
             bad_crop_width()
             w_crop = ask_W_crop()
+            verif_crop1 = re.compile(crf_regex, flags=0).search(w_crop)
 
         # CROP Height
         h_crop = ask_H_crop()
+        verif_crop2 = re.compile(crf_regex, flags=0).search(h_crop)
         while not h_crop or h_crop.isdigit() is False\
+                or verif_crop2 is not None\
                 or int(h_crop) < 200 or int(h_crop) > 2160:
             bad_crop_height()
             h_crop = ask_H_crop()
+            verif_crop2 = re.compile(crf_regex, flags=0).search(h_crop)
 
         # CROP Pixels LEFT/RIGHT
         x_crop = ask_LR_crop()
+        verif_crop3 = re.compile(crf_regex, flags=0).search(x_crop)
         while not x_crop or x_crop.isdigit() is False\
-                or int(x_crop) > 3840:
+                or verif_crop3 is not None or int(x_crop) > 1920:
             bad_crop_LR()
             x_crop = ask_LR_crop()
+            verif_crop3 = re.compile(crf_regex, flags=0).search(x_crop)
 
         # CROP Pixels TOP/BOTTOM
         y_crop = ask_TB_crop()
+        verif_crop4 = re.compile(crf_regex, flags=0).search(y_crop)
         while not y_crop or y_crop.isdigit() is False\
-                or int(y_crop) > 2160:
+                or verif_crop4 is not None or int(y_crop) > 1080:
             bad_crop_TB()
             y_crop = ask_TB_crop()
+            verif_crop4 = re.compile(crf_regex, flags=0).search(y_crop)
 
         # CROP Values
         crop = " -filter:v crop={0}:{1}:{2}:{3}"\
@@ -1275,12 +1329,11 @@ def ANKOA_SYSTEM():
 
     # Video Format Profile ( min 1.1 / max: 5.2 )
     level = ask_format_profile()
-    l_regex = r"^[1-5]{1}[.][1-2]{1}$"
-    level_regex = re.compile(l_regex, flags=0).search(level)
-    while not level or len(level) != 3 or level_regex is None:
+    verif5 = re.compile(fp_regex, flags=0).search(level)
+    while not level or len(level) != 3 or verif5 is None:
         bad_format_profile()
         level = ask_format_profile()
-        level_regex = re.compile(l_regex, flags=0).search(level)
+        verif5 = re.compile(fp_regex, flags=0).search(level)
 
     # Preset x264/x265
     preset = ask_x264_preset()
@@ -1301,283 +1354,10 @@ def ANKOA_SYSTEM():
     else:
         tune = ""
 
-    # EXPERT MODE
-    x264 = ask_expert_mode()
+    # ADVANCED x264 MODE
+    x264 = ask_advanced_mode()
     if (x264 == "y"):
-
-        # Threads ( max: 32 / default: 0)
-        threads = ask_threads()
-        while not threads or threads.isdigit() is False or int(threads) > 32:
-            expert_mode_error()
-            threads = ask_threads()
-        threads = " -threads {0}".format(threads)
-
-        # Threads Type
-        thread_type = ask_threads_type()
-        if (thread_type == "1"):
-            thread_type = " -thread_type slice"
-        elif (thread_type == "2"):
-            thread_type = " -thread_type frame"
-        else:
-            thread_type = ""
-
-        # First PASS
-        if (encode_type == "2"):
-            fastfirstpass = ""
-        else:
-            fastfirstpass = ask_fastfirstpass()
-            if (fastfirstpass == "y"):
-                fastfirstpass = " -fastfirstpass 1"
-            elif (fastfirstpass == "n"):
-                fastfirstpass = " -fastfirstpass 0"
-            else:
-                fastfirstpass = ""
-
-        # Refs Frames ( max: 16 )
-        refs = ask_refs()
-        while not (refs) or refs.isdigit() is False or int(refs) > 16:
-            expert_mode_error()
-            refs = ask_refs()
-        refs = " -refs {0}".format(refs)
-
-        # Mixed Refs
-        mixed = ask_mixed_refs()
-        if (mixed == "n"):
-            mixed = " -mixed-refs 0"
-        elif (mixed == "y"):
-            mixed = " -mixed-refs 1"
-        else:
-            mixed = ""
-
-        # MAX B-Frames ( max: 16 )
-        bf = ask_max_bframes()
-        while not (bf) or bf.isdigit() is False or int(bf) > 16:
-            expert_mode_error()
-            bf = ask_max_bframes()
-        bf = " -bf {0}".format(bf)
-
-        # Pyramidal
-        pyramid = ask_pyramidal()
-        pyramid_resp = ["1", "2", "3"]
-        pyramid_values = ["", "none", "normal", "strict"]
-        if (pyramid in pyramid_resp):
-            pyramid = " -b-pyramid {0}".format(pyramid_values[int(pyramid)])
-        else:
-            pyramid = ""
-
-        # Weight B-Frames
-        weightb = ask_weight_bframes()
-        if (weightb == "n"):
-            weightb = " -weightb 0"
-        elif (weightb == "y"):
-            weightb = " -weightb 1"
-        else:
-            weightb = ""
-
-        # Weight P-Frames
-        weightp = ask_weight_pframes()
-        weightp_resp = ["1", "2", "3"]
-        weightp_values = ["", "none", "simple", "smart"]
-        if (weightp in weightp_resp):
-            weightp = " -weightp {0}".format(weightp_values[int(weightp)])
-        else:
-            weightp = ""
-
-        # 8x8 Transform
-        dct = ask_8x8_transform()
-        if (dct == "n"):
-            dct = " -8x8dct 0"
-        elif (dct == "y"):
-            dct = " -8x8dct 1"
-        else:
-            dct = ""
-
-        # Cabac
-        cabac = ask_cabac()
-        if (cabac == "n"):
-            cabac = " -coder vlc"
-        elif (cabac == "y"):
-            cabac = " -coder ac"
-        else:
-            cabac = ""
-
-        # Adaptive B-Frames
-        b_strat = ask_bstrategy()
-        b_strategy_resp = ["1", "2", "3"]
-        if (b_strat in b_strategy_resp):
-            b_strategy = " -b_strategy {0}"\
-                         .format(b_strategy_resp.index(b_strat))
-        else:
-            b_strategy = ""
-
-        # Direct Mode
-        direct = ask_direct_mode()
-        direct_resp = ["1", "2", "3", "4"]
-        direct_values = ["", "none", "spatial", "temporal", "auto"]
-        if (direct in direct_resp):
-            direct = " -direct-pred {0}".format(direct_values[int(direct)])
-        else:
-            direct = ""
-
-        # Motion Estimation
-        me_method = ask_me_method()
-        me_resp = ["1", "2", "3", "4", "5"]
-        me_values = ["", "dia", "hex", "umh", "esa", "tesa"]
-        if (me_method_ in me_resp):
-            me_method = " -me_method {0}".format(me_values[int(me_method)])
-        else:
-            me_method = ""
-
-        # Subpixel ( max: 11 )
-        subq = ask_subpixel()
-        while not (subq) or subq.isdigit() is False or int(subq) > 11:
-            expert_mode_error()
-            subq = ask_subpixel()
-        subq = " -subq {0}".format(subq)
-
-        # Estimation Range ( max: 64 )
-        me_range = ask_motion_range()
-        while not (me_range) or me_range.isdigit() is False\
-                or int(me_range) > 64:
-            me_range = ""
-        else:
-            me_range = " -me_range {0}".format(me_range)
-
-        # Partitions
-        parts = ask_partitions()
-        parts_resp = ["1", "2", "3", "4", "5", "6", "7"]
-        p_values = ["", "all", "p8x8", "p4x4", "none", "b8x8", "i8x8", "i4x4"]
-        if (parts in parts_resp):
-            partitions = " -partitions {0}".format(p_values[int(parts)])
-        else:
-            partitions = ""
-
-        # Trellis Mode
-        trellis = ask_trellis()
-        trellis_resp = ["1", "2", "3"]
-        if (trellis in trellis_resp):
-            trellis = " -trellis {0}".format(trellis_resp.index(trellis))
-        else:
-            trellis = ""
-
-        # Quantization Mode
-        aq_mod = ask_aq_mode()
-        aq_mod_resp = ["1", "2", "3"]
-        if aq_mod in aq_mod_resp:
-            aq_mode = " -aq-mode {0}".format(aq_mod_resp.index(aq_mod))
-        else:
-            aq_mode = ""
-
-        # Quantization Strength ( max 2.9 )
-        aq = ask_aq_strength()
-        aq_regex = r"^[0-2]{1}[.][0-9]{1}$"
-        aq_mod_regex = re.compile(aq_regex, flags=0).search(aq)
-        if not (aq) or aq_mod_regex is None:
-            aq = ""
-        else:
-            aq = " -aq-strength {0}".format(aq)
-
-        # Psychovisual Optimization
-        psy = ask_psy_optimization()
-        if (psy) == "n":
-            psy = " -psy 0"
-        elif (psy) == "y":
-            psy = " -psy 1"
-        else:
-            psy = ""
-
-        # Rate Distortion
-        psy1 = ask_rate_distortion()
-        psy1_regex = r"^[0-2]{1}[.][0-9]{2}$"
-        psya_regex = re.compile(psy1_regex, flags=0).search(psy1)
-        if not (psy1):
-            psyrd = ""
-        else:
-
-            # Psy RD (
-            psy2 = ask_psy_rd()
-
-            if not (psy2):
-                psyrd = ""
-            else:
-                psyrd = " -psy-rd {0}:{1}".format(psy1, psy2)
-
-        # Deblock
-        deblock = ask_deblock()
-        if not (deblock):
-            deblock = ""
-        else:
-            deblock = " -deblock {0}".format(deblock)
-
-        # Frames Lookahead
-        lookahead = ask_lookahead()
-        if not (lookahead):
-            lookahead = ""
-        else:
-            lookahead = " -rc-lookahead {0}".format(lookahead)
-
-        # BluRay Compatibility
-        bluray = ask_bluray_compatibility()
-        if (bluray == "y"):
-            bluray = " -bluray-compat 1"
-        elif (bluray == "n"):
-            bluray = " -bluray-compat 0"
-        else:
-            bluray = ""
-
-        # Fast Skip
-        fastpskip = ask_fast_skip()
-        if (fastpskip == "y"):
-            fastpskip = " -fast-pskip 1"
-        elif (fastpskip == "n"):
-            fastpskip = " -fast-pskip 0"
-        else:
-            fastpskip = ""
-
-        # Keyframe Interval
-        g = ask_keyframe_interval()
-        if not (g):
-            g = ""
-        else:
-            g = " -g {0}".format(g)
-
-        # Minimal Key Interval
-        keyint_min = ask_key_min_interval()
-        if not (keyint_min):
-            keyint_min = ""
-        else:
-            keyint_min = " -keyint_min {0}".format(keyint_min)
-
-        # Scene Cut
-        scenecut = ask_scenecut()
-        if not (scenecut):
-            scenecut = ""
-        else:
-            scenecut = " -sc_threshold {0}".format(scenecut)
-
-        # Chroma Motion
-        cmp = ask_chroma_motion()
-        if (cmp == "n"):
-            cmp = " -cmp sad"
-        elif (cmp == "y"):
-            cmp = " -cmp chroma"
-        else:
-            cmp = ""
-
-        # Expert Mode Values
-        param = "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}"\
-                "{15}{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}"\
-                "{27}{28}{29}{30}"\
-                .format(preset, tune, threads, thread_type, fastfirstpass,
-                        refs, mixed, bf, pyramid, weightb, weightp, dct,
-                        cabac, b_strategy, direct, me_method, subq, me_range,
-                        partitions, trellis, aq, psy, psyrd, deblock,
-                        lookahead, bluray, fastpskip, g, keyint_min,
-                        scenecut, cmp, aq_mod)
-
-        # First Pass Values
-        pass1 = "{0}{1}{2}{3}{4}".format(preset, tune, threads,
-                                         thread_type, fastfirstpass)
+        (param, pass1) = advanced_mode()
 
     # Default Threads Values
     else:
@@ -1603,77 +1383,28 @@ def ANKOA_SYSTEM():
 
     # Find Release Title
     if (len(nfoimdb) == 7 and nfoimdb.isdigit() is True):
+        imdb = nfoimdb
         scanning()
-
-        # Search IMDB
-        searchIMDB = "http://deanclatworthy.com/imdb/?id=tt{0}"\
-                     .format(nfoimdb)
-        try:
-            data1 = loads(urlopen(searchIMDB, None, 5.0).read())
-        except (HTTPError, ValueError, URLError):
-            data1 = ""
-            pass
-        except socket.timeout:
-            data1 = ""
-            pass
-
-        # Search TMDB
-        searchTMDB = "http://api.themoviedb.org/3/movie/tt{0}?api_key={1}&"\
-                     "language=fr".format(nfoimdb, tmdb_api_key)
-        dataTMDB = urllib2.Request(searchTMDB,
-                                   headers={"Accept": "application/json"})
-        try:
-            data2 = loads(urllib2.urlopen(dataTMDB, None, 5.0).read())
-        except (HTTPError, ValueError, URLError):
-            data2 = ""
-            pass
-        except socket.timeout:
-            data2 = ""
-            pass
-
-        # Search OMDB
-        searchOMDB = "http://www.omdbapi.com/?i=tt{0}".format(nfoimdb)
-        try:
-            data3 = loads(urlopen(searchOMDB, None, 5.0).read())
-        except (HTTPError, ValueError, URLError):
-            data3 = ""
-            pass
-        except socket.timeout:
-            data3 = ""
-            pass
-
-        # Search MyAPI
-        searchAPI = "http://www.myapifilms.com/imdb?idIMDB=tt{0}&format=JSON"\
-                    "&aka=0&business=0&seasons=0&seasonYear=0&technical=0&la"\
-                    "ng=en-us&actors=N&biography=0&trailer=0&uniqueName=0&fi"\
-                    "lmography=0&bornDied=0&starSign=0&actorActress=0&actorT"\
-                    "rivia=0&movieTrivia=0".format(nfoimdb)
-        try:
-            data4 = loads(urlopen(searchAPI, None, 5.0).read())
-        except(HTTPError, ValueError, URLError):
-            data4 = ""
-            pass
-        except socket.timeout:
-            data4 = ""
-            pass
+        (data_IMDB, data_TMDB,
+         data_OMDB, data_API) = api_connexion(imdb)
 
         # Parse PREZ Title
         tit = ["title", "original_title", "Title", "title"]
 
-        if (tit[0] in data1):
-            dir = "{0}".format(smart_str(data1['title']))
-        elif (tit[1] in data2):
-            dir = "{0}".format(smart_str(data2['original_title']))
-        elif (tit[2] in data3):
-            dir = "{0}".format(smart_str(data3['Title']))
-        elif (tit[3] in data4):
-            dir = "{0}".format(smart_str(data4['title']))
+        if (tit[0] in data_IMDB):
+            dir = "{0}".format(smart_str(data_IMDB['title']))
+        elif (tit[1] in data_TMDB):
+            dir = "{0}".format(smart_str(data_TMDB['original_title']))
+        elif (tit[2] in data_OMDB):
+            dir = "{0}".format(smart_str(data_OMDB['Title']))
+        elif (tit[3] in data_API):
+            dir = "{0}".format(smart_str(data_API['title']))
         else:
             nfoimdb = ""
 
         # Clean PREZ Title
-        if (tit[0] in data1 or tit[1] in data2
-                or tit[2] in data3 or tit[3] in data4):
+        if (tit[0] in data_IMDB or tit[1] in data_TMDB
+                or tit[2] in data_OMDB or tit[3] in data_API):
             name = dir.replace(' ', '.').replace('/', '').replace('(', '')\
                       .replace(')', '').replace('"', '').replace(':', '')\
                       .replace("'", "").replace("[", "").replace("]", "")\

@@ -59,23 +59,7 @@ from settings import option
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
-def main():
-
-    # HELP
-    usage = genprez_help()
-    parser = optparse.OptionParser(usage=usage)
-    (options, args) = parser.parse_args()
-    if (len(args) != 6):
-        parser.print_help()
-        parser.exit(1)
-
-    # VALUES
-    lang = sys.argv[1]
-    qualite = sys.argv[2]
-    format = sys.argv[3]
-    sub = sys.argv[4]
-    size = sys.argv[5]
-    imdb = sys.argv[6]
+def api_connexion(imdb):
 
     # CONNECT IMDB
     searchIMDB = "http://deanclatworthy.com/imdb/?id=tt{0}"\
@@ -128,6 +112,30 @@ def main():
     except socket.timeout:
         data_API = ""
         pass
+
+    api_data = (data_IMDB, data_TMDB, data_OMDB, data_API)
+    return api_data
+
+
+def main():
+
+    # HELP
+    usage = genprez_help()
+    parser = optparse.OptionParser(usage=usage)
+    (options, args) = parser.parse_args()
+    if (len(args) != 6):
+        parser.print_help()
+        parser.exit(1)
+
+    # VALUES
+    lang = sys.argv[1]
+    qualite = sys.argv[2]
+    format = sys.argv[3]
+    sub = sys.argv[4]
+    size = sys.argv[5]
+    imdb = sys.argv[6]
+
+    (data_IMDB, data_TMDB, data_OMDB, data_API) = api_connexion(imdb)
 
     # Cover
     cover_TMDB = "poster_path"

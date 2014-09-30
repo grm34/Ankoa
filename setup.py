@@ -56,9 +56,11 @@ from events import (setup_help, setup_success, setup_error, update_success,
                     setup_bad_team, setup_bad_tk, setup_bad_api, global_error)
 from inputs import (ask_source_path, ask_dest_path, ask_user_team,
                     ask_tk_announce, ask_tmdb_key)
-from settings import bad_chars
+from settings import (bad_chars, regex)
 
 deleted = bad_chars()
+(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex) = regex()
+
 
 def main():
 
@@ -125,9 +127,6 @@ def main():
 
         # Specify Tracker URL announce
         tk = ask_tk_announce()
-        url_regex = (r"^^http(s)?://([a-zA-Z0-9-]+.)?([a-zA-Z0-9-]+.)?"
-                     "[a-zA-Z0-9-]+..[a-zA-Z]{2,4}(:[0-9]+)?(/[a-zA-Z0-9-]"
-                     "*/?|/[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,4})?$")
         tk_regex = re.compile(url_regex, flags=0).search(tk.strip())
         while not tk or tk_regex is None:
             setup_bad_tk()
