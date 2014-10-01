@@ -48,7 +48,7 @@ from inputs import *
 from settings import regex
 from events import expert_mode_error
 
-(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex) = regex()
+(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex) = regex()
 
 
 def advanced_mode():

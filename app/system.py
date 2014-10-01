@@ -64,8 +64,8 @@ from inputs import *
 from events import *
 
 deleted = bad_chars()
-(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex) = regex()
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
+(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex) = regex()
 
 
 def ANKOA_SYSTEM():

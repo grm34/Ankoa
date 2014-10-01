@@ -48,7 +48,7 @@ from inputs import (ask_HH, ask_MM, ask_SS, ask_desired_audio_bitrate,
 from events import bitrate_entry_error
 from settings import regex
 
-crf_regex = regex()
+(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex) = regex()
 
 
 def calcul():

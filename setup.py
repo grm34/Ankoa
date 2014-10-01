@@ -59,7 +59,7 @@ from inputs import (ask_source_path, ask_dest_path, ask_user_team,
 from settings import (bad_chars, regex)
 
 deleted = bad_chars()
-(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex) = regex()
+(hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex) = regex()
 
 
 def main():

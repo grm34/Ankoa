@@ -813,8 +813,8 @@ def ask_dest_path():
 
 
 def ask_user_team():
-    team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: KULTURA){0} :"
-                     " {2}".format(GREEN, YELLOW, END))
+    team = raw_input("{0}ENTER PERSONAL TEAM NAME {1}(ex: THENiGHTMAREiNHD)"
+                     "{0} : {2}".format(GREEN, YELLOW, END))
     return team
 
 

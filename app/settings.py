@@ -107,5 +107,6 @@ def regex():
                  "[a-zA-Z0-9-]+..[a-zA-Z]{2,4}(:[0-9]+)?(/[a-zA-Z0-9-]"
                  "*/?|/[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,4})?$")
 
-    ankoa_regex = (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex)
+    ankoa_regex = (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex,
+                   url_regex)
     return ankoa_regex
