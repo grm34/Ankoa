@@ -76,7 +76,7 @@ def snapshot(path, nb_lgn, nb_col):
             os.system('mplayer -nosound -ss {0} -frames 4 -vf scale'
                       ' -vo png:z=0 {1}'.format(str(i), path))
         except OSError as e:
-            global_error()
+            global_error(e)
             sys.exit()
         try:
             shutil.move('00000004.png', os.path.expanduser(thumb) +
@@ -236,7 +236,7 @@ def img_infos(infos, duree, path):
         try:
             os.system(resize)
         except OSError as e:
-            global_error()
+            global_error(e)
             sys.exit()
 
 

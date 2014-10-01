@@ -184,7 +184,7 @@ def main():
 
         # Install Error
         except OSError as e:
-            global_error()
+            global_error(e)
             sys.exit()
 
     # UPDATE

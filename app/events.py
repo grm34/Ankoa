@@ -86,9 +86,10 @@ def thumbnails_help():
 
 
 # ANKOA SYSTEM ERRORS
-def global_error():
-    print ("{0} -> {1}ERROR : {2}{4}{3}"
-           .format(GREEN, RED, BLUE, END, str(e)))
+def global_error(e):
+    print ("{0} -> {1}ERROR : {2}{4}\n{1} -> {0}Please try again, or report "
+           "this error on: {5}https://github.com/grm34/AnkoA/issues{3}"
+           .format(GREEN, RED, BLUE, END, str(e), YELLOW))
 
 
 def expert_mode_error():
@@ -142,7 +143,7 @@ def bad_audio_title():
 
 
 def bad_audio_codec():
-    print ("{0} -> {1}ERROR : {2}Please, specify valid codec !"
+    print ("{0} -> {1}ERROR : {2}Please, specify valid audio codec !"
            "{3}".format(GREEN, RED, BLUE, END))
 
 
@@ -265,7 +266,7 @@ def imgur_print_url():
            .format(GREEN, BLUE, thumb_link, END))
 
 
-def imgur_upload_error():
+def imgur_upload_error(e):
     print ("{0} Thumbnails Upload Error > {1}{2}{3}"
            .format(RED, BLUE, str(e), END))
 
@@ -335,8 +336,8 @@ def setup_bad_api():
 
 
 # THUMBNAILS ERROR
-def bad_thumbs():
-    print ("{0} ->{1} BAD THUMBS : {1}str(e){2}{3}"
+def bad_thumbs(e):
+    print ("{0} ->{1} BAD THUMBS : {2}{3}{4}}"
            .format(GREEN, RED, BLUE, str(e), END))
 
 

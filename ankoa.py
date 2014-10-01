@@ -144,16 +144,18 @@ def main():
     # RUN ANKOA PROCESS
     for i in range(n):
         try:
-            os.system(run_ffmpeg[i])
-            os.system(run_ankoa_tools[i])
+            subprocess.check_output(run_ffmpeg[i], shell=True)
+            subprocess.check_output(run_ankoa_tools[i], shell=True)
             i = i + 1
-
-        except OSError as e:
-            global_error()
+            ankoa_success()
             sys.exit()
 
-    ankoa_success()
-    sys.exit()
+        except OSError as e:
+            global_error(e)
+            sys.exit()
+        except subprocess.CalledProcessError as e:
+            global_error(e)
+            sys.exit()
 
 if (__name__ == "__main__"):
     main()

@@ -139,11 +139,11 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     bitrate.py             49          51        0        15       115
     events.py             178          53        0       115       346
     inputs.py             536          47        0       255       838
-    settings.py            27          64        1        19       111
+    settings.py            28          64        1        19       112
     style.py               46          66        5        11       128
     system.py             978         208       42       204      1432
     nfogen.sh              15          41        1         4        61
 
-    [Total] :            2915         979       97       847      4838
+    [Total] :            2916         979       97       847      4839
 
 ***

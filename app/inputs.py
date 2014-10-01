@@ -308,19 +308,19 @@ def ask_title_subs02():
 
 
 def ask_subs_ISO_ID00():
-    idsub = raw_input("{0}SUBTITLES TRACK ISO ID {1}(ex: 1){0} : "
+    idsub = raw_input("{0}SUBTITLES TRACK HANDBRAKE ID {1}(ex: 1){0} : "
                       "{2}".format(GREEN, YELLOW, END))
     return idsub
 
 
 def ask_subs_ISO_ID01():
-    idsub = raw_input("{0}SUBTITLES TRACK 01 ISO ID {1}(ex: 1){0}"
+    idsub = raw_input("{0}SUBTITLES TRACK 01 HANDBRAKE ID {1}(ex: 1){0}"
                       " : {2}".format(GREEN, YELLOW, END))
     return idsub
 
 
 def ask_subs_ISO_ID02():
-    idsub2 = raw_input("{0}SUBTITLES TRACK 02 ISO ID {1}(ex: 2)"
+    idsub2 = raw_input("{0}SUBTITLES TRACK 02 HANDBRAKE ID {1}(ex: 2)"
                        "{0} : {2}".format(GREEN, YELLOW, END))
     return idsub2
 
@@ -825,14 +825,14 @@ def ask_tk_announce():
 
 
 def ask_tmdb_key():
-    api = raw_input("{0}ENTER PERSONAL TMDB API KEY {1}(from: {3}https://w"
+    api = raw_input("{0}ENTER TMDB API KEY {1}(from: {3}https://w"
                     "ww.themoviedb.org/documentation/api{1}){0} : {2}"
                     .format(GREEN, YELLOW, END, BLUE))
     return api
 
 
-# ANKOA NEXT ENCODE MESSAGE
+# ANKOA QUEUE MESSAGE
 def ask_next_encode():
-    again = raw_input("{0}NEXT ENCODE {1}(y/n){0} : {2}"
-                      .format(GREEN, YELLOW, END))
+    again = raw_input("{0}ADD QUEUE {1}(y/n) {0}|{3} [{2} ENTER to RUN {3}]"
+                      "{0} : {4}".format(GREEN, YELLOW, BLUE, RED, END))
     return again

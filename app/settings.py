@@ -93,20 +93,20 @@ def regex():
     # Expert Mode Values & HH, MM, SS ( match 0xxx start )
     crf_regex = (r"^[0].+")
 
-    # Regex Subdelay ( max 4 int with or without "-" in first )
+    # Regex Subdelay ( max 5 int with or without "-" in first )
     delay_regex = (r"^[-]?[0-9]{1,5}$")
 
     # Regex Format Profile ( match 1.1 to 5.2 witout bad FP vals )
     fp_regex = (r"^[1-5]{1}[.][1-2]{1}$")
 
     # Regex Quantization ( match 0.0 to 2.9 )
-    aq_regex = r"^[0-2]{1}[.][0-9]{1}$"
+    aq_regex = (r"^[0-2]{1}[.][0-9]{1}$")
 
     # Regex URL ( match valid tracker url )
     url_regex = (r"^^http(s)?://([a-zA-Z0-9-]+.)?([a-zA-Z0-9-]+.)?"
                  "[a-zA-Z0-9-]+..[a-zA-Z]{2,4}(:[0-9]+)?(/[a-zA-Z0-9-]"
                  "*/?|/[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,4})?$")
 
-    ankoa_regex = (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex,
-                   url_regex)
+    ankoa_regex = (hb_regex, crf_regex, delay_regex,
+                   fp_regex, aq_regex, url_regex)
     return ankoa_regex

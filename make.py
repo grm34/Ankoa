@@ -174,7 +174,7 @@ def main():
 
     # make Error
     except OSError as e:
-        global_error()
+        global_error(e)
         sys.exit()
 
 if (__name__ == "__main__"):

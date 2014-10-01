@@ -194,7 +194,7 @@ def ANKOA_SYSTEM():
 
         # Scan Error
         except (OSError) as e:
-            global_error()
+            global_error(e)
             sys.exit()
 
         # Scan again ?
@@ -237,7 +237,7 @@ def ANKOA_SYSTEM():
                 try:
                     os.system(run_calc)
                 except OSError as e:
-                    global_error()
+                    global_error(e)
                     sys.exit()
                 next = ask_try_again()
 
@@ -291,7 +291,7 @@ def ANKOA_SYSTEM():
 
         # Scan Error
         except OSError as e:
-            global_error()
+            global_error(e)
             sys.exit()
 
     # Select Video Track
@@ -791,7 +791,7 @@ def ANKOA_SYSTEM():
                 verif_t9 = re.compile(crf_regex, flags=0).search(idsub)
                 while not idsub or len(idsub) > 2\
                         or verif_t9 is not None or idsub.isdigit() is False:
-                    bad_subtitles_ID
+                    bad_subtitles_ID()
                     idsub = ask_subs_FFMPEG_ID00()
                     verif_t9 = re.compile(crf_regex, flags=0).search(idsub)
 
@@ -1098,7 +1098,7 @@ def ANKOA_SYSTEM():
             try:
                 os.system(extract_iso)
             except OSError as e:
-                global_error()
+                global_error(e)
                 sys.exit()
             subextract_message()
 
@@ -1118,7 +1118,7 @@ def ANKOA_SYSTEM():
             try:
                 os.system(extract_mkv)
             except OSError as e:
-                global_error()
+                global_error(e)
                 sys.exit()
             subextract_message()
 
@@ -1137,7 +1137,7 @@ def ANKOA_SYSTEM():
             try:
                 os.system(extract_m2ts)
             except OSError as e:
-                global_error()
+                global_error(e)
                 sys.exit()
             subextract_message()
 
@@ -1255,7 +1255,7 @@ def ANKOA_SYSTEM():
 
         # Scan Error
         except OSError as e:
-            global_error()
+            global_error(e)
             sys.exit()
 
     # Screenshots Verification
@@ -1266,7 +1266,7 @@ def ANKOA_SYSTEM():
 
         # Screenshots Error
         except OSError as e:
-            global_error()
+            global_error(e)
             sys.exit()
 
     # Manual CROP ( min: 320x200 / max 3840x2160 [4K] )
