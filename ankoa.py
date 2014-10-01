@@ -148,7 +148,6 @@ def main():
             subprocess.check_output(run_ankoa_tools[i], shell=True)
             i = i + 1
             ankoa_success()
-            sys.exit()
 
         except OSError as e:
             global_error(e)
@@ -156,6 +155,8 @@ def main():
         except subprocess.CalledProcessError as e:
             global_error(e)
             sys.exit()
+
+    sys.exit()
 
 if (__name__ == "__main__"):
     main()
