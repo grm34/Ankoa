@@ -71,14 +71,11 @@ def snapshot(path, nb_lgn, nb_col):
     interval = int(longueur/(int(nb_lgn)*int(nb_col)+1))
     width = int(re.findall('ID_VIDEO_WIDTH=([0-9]*)', infos)[0])
 
-    for i in range(300, longueur-interval, interval):
-        try:
+    try:
+        for i in range(300, longueur-interval, interval):
             os.system('mplayer -nosound -ss {0} -frames 4 -vf scale'
                       ' -vo png:z=0 {1}'.format(str(i), path))
-        except OSError as e:
-            global_error(e)
-            sys.exit()
-        try:
+
             shutil.move('00000004.png', os.path.expanduser(thumb) +
                         'rtemp/'+str(i).zfill(5)+'.png')
             image = Image.open(os.path.expanduser(thumb) +
@@ -102,12 +99,12 @@ def snapshot(path, nb_lgn, nb_col):
             image.save(os.path.expanduser(thumb) +
                        'rtemp/'+str(i).zfill(5)+'.png')
 
-        except (IOError, IndexError) as e:
-            bad_thumbs()
-            sys.exit()
+        for i in range(1, 4):
+            os.remove('0000000{0}.png'.format(str(i)))
 
-    for i in range(1, 4):
-        os.remove('0000000{0}.png'.format(str(i)))
+    except (OSError, IOError, IndexError) as e:
+        bad_thumbs(e)
+        sys.exit()
 
     return (infos, longueur)
 
@@ -236,7 +233,7 @@ def img_infos(infos, duree, path):
         try:
             os.system(resize)
         except OSError as e:
-            global_error(e)
+            bad_thumbs(e)
             sys.exit()
 
 
@@ -262,7 +259,7 @@ def main(argv):
 
         # Thubnails Error
         except (IOError, IndexError) as e:
-            bad_thumbs()
+            bad_thumbs(e)
             sys.exit()
 
         if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):

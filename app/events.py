@@ -80,7 +80,7 @@ def setup_help():
 
 
 def thumbnails_help():
-    usage = "./thumbnails.py source.video 5 2"\
+    usage = "{0}./thumbnails.py source.video 5 2"\
             "{1}\n{2}".format(GREEN, END, version)
     return usage
 

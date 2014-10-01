@@ -94,7 +94,7 @@ def main():
 
         # Upload Error
         except (HTTPError, ValueError, IOError, TypeError, URLError) as e:
-            imgur_upload_error()
+            imgur_upload_error(e)
         except socket.timeout:
             imgur_timeout_error()
             sys.exit()

@@ -53,7 +53,7 @@ from events import expert_mode_error
 
 def advanced_mode():
 
-    # Threads ( max: 32 / default: 0)
+    # Threads ( max: 32 / default: 0 )
     threads = ask_threads()
     verif_z0 = re.compile(crf_regex, flags=0).search(threads)
     while not threads or threads.isdigit() is False\
