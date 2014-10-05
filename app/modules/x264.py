@@ -43,15 +43,59 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
+from __future__ import absolute_import
 import re
-from inputs import *
-from settings import regex
-from events import expert_mode_error
+from app.main.inputs import *
+from app.main.param import regex
+from app.main.events import (expert_mode_error, bad_format_profile)
 
 (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex) = regex()
 
 
-def advanced_mode():
+# Format Profile ( min 1.1 / max: 5.2 )
+def format_profile():
+    level = ask_format_profile()
+    verif5 = re.compile(fp_regex, flags=0).search(level)
+    while not level or len(level) != 3 or verif5 is None:
+        bad_format_profile()
+        level = ask_format_profile()
+        verif5 = re.compile(fp_regex, flags=0).search(level)
+    return level
+
+
+# Preset x264/x265
+def x264_preset():
+    preset = ""
+    preset = ask_x264_preset()
+    preset_resp = ["1", "2", "3", "4", "5"]
+    preset_values = ["", "fast", "slow", "slower", "veryslow", "placebo"]
+    if (preset in preset_resp):
+        preset = " -preset {0}".format(preset_values[int(preset)])
+    return preset
+
+
+# Tune x264/x265
+def x264_tune():
+    tune = ""
+    tuned = ask_x264_tune()
+    tuned_resp = ["1", "2", "3", "4", "5", "6", "7", "8"]
+    tuned_values = ["", "film", "animation", "grain", "stillimage", "psnr",
+                    "ssim", "fastdecode", "zerolatency"]
+    if (tuned in tuned_resp):
+        tune = " -tune {0}".format(tuned_values[int(tuned)])
+
+    return tune
+
+
+# Default Threads
+def default_threads(preset, tune):
+    param = "{0}{1} -threads 0".format(preset, tune)
+    pass1 = "{0}{1} -threads 0".format(preset, tune)
+    return (param, pass1)
+
+
+# Advanced Mode
+def advanced_mode(encode_type):
 
     # Threads ( max: 32 / default: 0 )
     threads = ask_threads()
@@ -79,7 +123,7 @@ def advanced_mode():
         thread_type = ""
 
     # First PASS
-    if (encode_type == "2"):
+    if (encode_type == "3"):
         fastfirstpass = ""
     else:
         fastfirstpass = ask_fastfirstpass()
@@ -339,5 +383,4 @@ def advanced_mode():
     pass1 = "{0}{1}{2}{3}{4}".format(preset, tune, threads,
                                      thread_type, fastfirstpass)
 
-    expert_values = (param, pass1)
-    return expert_values
+    return (param, pass1)

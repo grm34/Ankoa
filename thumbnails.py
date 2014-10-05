@@ -50,61 +50,58 @@ import time
 import glob
 import Image
 import shutil
+import commands
 import optparse
 import ImageDraw
 import ImageFont
-sys.path.append("app/")
-from settings import option
-from events import (thumbnails_help, global_error, bad_source, bad_thumbs)
+from user.settings import option
+from django.utils.encoding import (smart_str, smart_unicode)
+from app.main.events import (thumbnails_help, global_error,
+                             bad_source, bad_thumbs, thumbnails_process,
+                             thumbnails_success)
 
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
 def snapshot(path, nb_lgn, nb_col):
-    buff = os.popen('mplayer -identify -frames 0 {0} 2>/dev/null| grep ID_'
-                    .format(path))
-    infos = buff.read()
-    buff.close()
+    mplayer = 'mplayer -identify -frames 0 {0} 2>/dev/null| grep ID_'
+    infos = commands.getoutput(mplayer.format(path))
 
     longueur = int(re.findall('ID_LENGTH=([0-9]*)', infos)[0])-300
     os.mkdir(os.path.expanduser(thumb)+'rtemp')
     interval = int(longueur/(int(nb_lgn)*int(nb_col)+1))
     width = int(re.findall('ID_VIDEO_WIDTH=([0-9]*)', infos)[0])
 
-    try:
-        for i in range(300, longueur-interval, interval):
-            os.system('mplayer -nosound -ss {0} -frames 4 -vf scale'
-                      ' -vo png:z=0 {1}'.format(str(i), path))
+    for i in range(300, longueur-interval, interval):
+        mplayer2 = 'mplayer -nosound -ss {0} -frames 4 -vf scale'\
+                   ' -vo png:z=0 {1}'.format(str(i), path)
+        empty = commands.getoutput(mplayer2)
 
-            shutil.move('00000004.png', os.path.expanduser(thumb) +
-                        'rtemp/'+str(i).zfill(5)+'.png')
-            image = Image.open(os.path.expanduser(thumb) +
-                               'rtemp/'+str(i).zfill(5)+'.png')
-            draw = ImageDraw.Draw(image)
+        shutil.move('00000004.png', os.path.expanduser(thumb) +
+                    'rtemp/'+str(i).zfill(5)+'.png')
+        image = Image.open(os.path.expanduser(thumb) +
+                           'rtemp/'+str(i).zfill(5)+'.png')
+        draw = ImageDraw.Draw(image)
 
-            if (width <= 720):
-                font = ImageFont.truetype(os.path.expanduser("app/") +
-                                          'police.ttf', 20)
-            elif (width > 720 and width <= 1280):
-                font = ImageFont.truetype(os.path.expanduser("app/") +
-                                          'police.ttf', 35)
-            else:
-                font = ImageFont.truetype(os.path.expanduser("app/") +
-                                          'police.ttf', 50)
+        if (width <= 720):
+            font = ImageFont.truetype(os.path.expanduser("app/skin/") +
+                                      'police.ttf', 20)
+        elif (width > 720 and width <= 1280):
+            font = ImageFont.truetype(os.path.expanduser("app/skin/") +
+                                      'police.ttf', 35)
+        else:
+            font = ImageFont.truetype(os.path.expanduser("app/skin/") +
+                                      'police.ttf', 50)
 
-            draw.text((10, 10),
-                      time.strftime('%H:%M:%S', time.gmtime(i)),
-                      font=font)
+        draw.text((10, 10),
+                  time.strftime('%H:%M:%S', time.gmtime(i)),
+                  font=font)
 
-            image.save(os.path.expanduser(thumb) +
-                       'rtemp/'+str(i).zfill(5)+'.png')
+        image.save(os.path.expanduser(thumb) +
+                   'rtemp/'+str(i).zfill(5)+'.png')
 
-        for i in range(1, 4):
-            os.remove('0000000{0}.png'.format(str(i)))
-
-    except (OSError, IOError, IndexError) as e:
-        bad_thumbs(e)
-        sys.exit()
+    for i in range(1, 4):
+        os.remove('0000000{0}.png'.format(str(i)))
 
     return (infos, longueur)
 
@@ -180,7 +177,7 @@ def img_infos(infos, duree, path):
     title = nom[-1]
 
     if (int(width) <= 720):
-        font = ImageFont.truetype(os.path.expanduser("app/") +
+        font = ImageFont.truetype(os.path.expanduser("app/skin/") +
                                   'police.ttf', 20)
         draw.text((10, 10), ""+tag_thumb+"", font=font, fill="#000000")
         draw.text((20, 35), "TiTLE : " + title[:-4],
@@ -195,7 +192,7 @@ def img_infos(infos, duree, path):
                   width + "x" + height, font=font, fill="#000000")
 
     elif (int(width) > 720 and int(width) <= 1280):
-        font = ImageFont.truetype(os.path.expanduser("app/") +
+        font = ImageFont.truetype(os.path.expanduser("app/skin/") +
                                   'police.ttf', 35)
         draw.text((15, 15), ""+tag_thumb+"", font=font, fill="#000000")
         draw.text((30, 60), "TiTLE : " + title[:-4],
@@ -209,7 +206,7 @@ def img_infos(infos, duree, path):
         draw.text((30, 180), "RESOLUTiON........: " +
                   width + "x" + height, font=font, fill="#000000")
     else:
-        font = ImageFont.truetype(os.path.expanduser("app/") +
+        font = ImageFont.truetype(os.path.expanduser("app/skin/") +
                                   'police.ttf', 50)
         draw.text((20, 20), ""+tag_thumb+"", font=font, fill="#000000")
         draw.text((40, 85), "TiTLE : " + title[:-4],
@@ -230,11 +227,7 @@ def img_infos(infos, duree, path):
     if (width > 800):
         resize = ("convert -quality 0 -resize 3470000@ {0}{1}png {0}{1}png"
                   .format(thumb, title[:-3]))
-        try:
-            os.system(resize)
-        except OSError as e:
-            bad_thumbs(e)
-            sys.exit()
+        os.system(resize)
 
 
 def main(argv):
@@ -252,10 +245,12 @@ def main(argv):
         if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
             shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
         try:
+            thumbnails_process()
             path = trait_path(argv[0])
             info, longueur = snapshot(path, argv[1], argv[2])
             index_th(info, argv[2], argv[1])
             img_infos(info, longueur, path)
+            thumbnails_success()
 
         # Thubnails Error
         except (IOError, IndexError) as e:

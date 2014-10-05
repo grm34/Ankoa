@@ -40,22 +40,61 @@
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL-C license and that you accept its terms.
 
+# HELP
+HELP=$(
+/usr/bin/python <<'EOF'
+from app.main.events import nfogen_help
+usage = nfogen_help()
+print usage
+EOF
+)
+function help {
+    echo -e "${HELP}\n\n"
+    echo -e "Options:\n  -h, --help  show this help message and exit"
+    exit 0
+}
 
-FINAL=${1}
-SOURCE=${2}
-SOURCESRT=${3}
-FORCED=${4}
-IMDB=${5}
-EXT=${1##*.}
-FILE_NAME=`basename "${FINAL}" ".${EXT}"`
-
+# COLORS
 RED='\e[0;31m'
+BLUE='\e[0;36m'
 GREEN='\e[0;32m'
+YELLOW='\e[0;33m'
 END='\e[0m'
 
-if [ -f "${FINAL}" ]; then
-    php -e app/nfo.php "${FINAL}" "${FILE_NAME}" "${SOURCE}" "${SOURCESRT}" "${IMDB}" "${FORCED}" >> XXX002$FILE_NAME.nfo
-    echo -e "${RED} -> ${GREEN}NFO CREATED, CONGRATULATIONS !${END}"
-else
-    echo -e "${GREEN} -> ${RED}NFO Error : ${GREEN}bad source !${END}"
-fi
+# VALUES
+VIDEO=${1}
+SOURCE=${2}
+SUBS=${3}
+SUBFORCED=${4}
+URL=${5}
+EXT=${1##*.}
+TITLE=`basename "${VIDEO}" ".${EXT}"`
+
+# NFOGEN
+function nfogen {
+
+    if ([ -f "${VIDEO}" ] && [ -n "$SOURCE" ] && [ -n "$SUBS" ] \
+&& [ -n "$SUBFORCED" ] && [ -n "$URL" ]); then
+
+        echo -e "${RED} > ${BLUE}Creating NFO...${END}"
+        php -e app/nfo/nfo.php "${VIDEO}" "${TITLE}" "${SOURCE}" "\
+${SUBS}" "${SUBFORCED}" "${URL}" >> XXX002$TITLE.nfo
+
+        echo -e "${RED} > ${GREEN}NFO created !${END}"
+
+    elif [ -f "${VIDEO}" ]; then
+        help;
+    else
+
+        echo -e "${END} > ${RED}NFO ERROR : ${GREEN}Bad source, specify \
+valid video source !${END}"
+
+    fi
+}
+
+# EXECUTE
+case $1 in -h | --help)
+        help;;
+    *)
+        nfogen
+esac

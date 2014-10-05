@@ -41,6 +41,7 @@
 // knowledge of the CeCILL-C license and that you accept its terms.
 
 
+# SCAN SOURCE & IMPORT DATA
 function get_media_info( $video ){
     $media_infos = array( ); $content = shell_exec( 'mediainfo "' . $video . '"' ); $xx = explode( "\n\n", $content );
 
@@ -56,7 +57,7 @@ function get_media_info( $video ){
     }return $media_infos;
 }
 
-
+# PARSE SOURCE INFOS
 function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ $media = get_media_info( $video );
 
     // CODECS AUDIO
@@ -105,11 +106,12 @@ function get_nfo( $video, $release_name, $source, $sourcesrt, $imdb, $forced ){ 
     $tags['DATE'] = @date( 'd-m-Y' ); $tags['SOURCE'] = $source; $tags['SOURCESRT'] = $sourcesrt; $tags['B0'] = $imdb; $tags['TITRE_RELEASE'] = $release_name; $tags['FORCED'] = $forced;
 
     // WRITE NFO
-    $template = file_get_contents( "app/nfo_base.nfo" ); preg_match_all( "/<\!(.*?)[ ]*\!>/", $template, $matches );
+    $template = file_get_contents( "user/nfo_base.nfo" ); preg_match_all( "/<\!(.*?)[ ]*\!>/", $template, $matches );
     foreach ( $matches[1] as $key => $value ){$template_value = $tags[$value]; $taglen = strlen( $matches[0][$key] ); $align = STR_PAD_RIGHT;
         if ( in_array( $value, array( 'TITRE_RELEASE' ) ) ) $align = STR_PAD_BOTH; $template = str_replace( $matches[0][$key], str_pad( substr( $template_value, 0, $taglen ), $taglen, ' ', $align ), $template );
     }return $template; }
 
+# FINALLY
 $new_template = get_nfo( $_SERVER['argv'][1], $_SERVER['argv'][2], $_SERVER['argv'][3], $_SERVER['argv'][4], $_SERVER['argv'][5], $_SERVER['argv'][6] ); echo $new_template . "\n\n";
 
 ?>

@@ -52,9 +52,9 @@ import urllib2
 import optparse
 import BeautifulSoup
 from urllib2 import (urlopen, URLError, HTTPError)
-sys.path.append("app/")
-from events import (imgur_help, imgur_print_url, imgur_upload_error,
-                    imgur_timeout_error, imgur_source_error)
+from app.main.events import (imgur_help, imgur_print_url, imgur_upload_error,
+                             imgur_timeout_error, imgur_source_error,
+                             imgur_process)
 
 
 def main():
@@ -70,6 +70,7 @@ def main():
     # UPLOAD IMG FILE
     if os.path.isfile(sys.argv[1]) is True:
         try:
+            imgur_process()
             img_file = open(sys.argv[1], "rb")
             img = base64.b64encode(img_file.read())
             url = 'http://api.imgur.com/2/upload'
@@ -89,8 +90,8 @@ def main():
                 f = file("{0}.txt".format(sys.argv[1][:-4]), 'w')
                 f.write(data)
                 f.close
-            else:
-                imgur_print_url()
+
+            imgur_print_url(thumb_link)
 
         # Upload Error
         except (HTTPError, ValueError, IOError, TypeError, URLError) as e:

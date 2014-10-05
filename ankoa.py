@@ -47,11 +47,33 @@ import os
 import sys
 import optparse
 import subprocess
-sys.path.append("app/")
-from system import ANKOA_SYSTEM
-from style import (banner, next)
-from events import (ankoa_help, global_error, ankoa_success)
-from inputs import ask_next_encode
+from user.settings import option
+from app.system import ANKOA_SYSTEM
+from app.skin.style import (banner, next)
+from app.main.events import (ankoa_help, global_error, ankoa_success,
+                             muxing_process, muxing_success, ffmpeg_success)
+from app.main.inputs import (ask_next_encode, ask_print_ffmpeg, check_cmds,
+                             ask_print_mkvmerge, ask_print_tools)
+from app.modules.ffmpeg import *
+from app.main.main import MKVMERGE
+from make import ankoa_tools
+
+(folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
+
+
+def CHECK_COMMANDS_LINES(cmd, mkvmerge, tools):
+    ask_cmds = check_cmds()
+    if (ask_cmds == "y"):
+        print_ffmpeg = ask_print_ffmpeg()
+        if (print_ffmpeg == "y"):
+            print cmd
+        if (mkvmerge):
+            print_mkvmerge = ask_print_mkvmerge()
+            if (print_mkvmerge == "y"):
+                print mkvmerge
+        print_tools = ask_print_tools()
+        if (print_tools == "y"):
+            print tools
 
 
 def main():
@@ -64,91 +86,90 @@ def main():
         parser.print_help()
         parser.exit(1)
 
-    # RUN ANKOA
+    # ANKOA SYSTEM
     banner()
     (
-        source, thumb, team, announce, title, year, stag, string, codec,
-        encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
-        audiolang, audio_config, sub_config, sub_remux, reso, param, pass1,
-        mark, nfoimdb, nfosource, titlesub, subforced, prezquality,
-        name, pprint
+        source, title, year, stag, string, codec, encode_type, crf,
+        bit, level, idvideo, fps, interlace, interlace2, audiolang,
+        audio_config, sub_config, reso, param, pass1, mark, nfoimdb,
+        nfosource, titlesub, subforced, prezquality, name, subtype,
+        audiotype, extend, sync, titlesub, charset, idsub, forced,
+        sync2, titlesub2, charset2, idsub2, subsource
     ) = ANKOA_SYSTEM()
 
-    # FFMPEG CLI
-    def ffmpeg():
-        if (encode_type == "2"):    # CRF method
-            return (
-                "cd {0} && ffmpeg -i {1} -metadata title='{2}.{3}' -metadata "
-                "proudly.presented.by='{4}' -map 0:{5}{6}{7} -metadata:s:v:0 "
-                "title= -metadata:s:v:0 language= -f {8}{9} -c:v:0 {10} -crf "
-                "{11} -level {12}{13}{14}{15} -passlogfile {2}.{3}.log "
-                "{2}.{3}{16}{17}{18}"
-                .format(thumb, source, title, year, team, idvideo, interlace,
-                        fps, string, reso, codec, crf, level, param,
-                        audio_config, sub_config, stag, mark, sub_remux))
-
-        else:                       # 2PASS method
-            return (
-                "cd {0} && ffmpeg -i {1} -pass 1 -map 0:{2}{3}{4} -f {5}{6} -"
-                "c:v:0 {7} -b:v:0 {8}k -level {9}{10} -an -sn -passlogfile "
-                "{11}.{12}.log {11}.{12}{13}{14} && ffmpeg -y -i {1} -pass 2 "
-                "-metadata title='{11}.{12}' -metadata proudly.presented.by='"
-                "{15}' -map 0:{2}{16}{4} -metadata:s:v:0 title= -metadata:s:v"
-                ":0 language= -f {5}{6} -c:v:0 {7} -b:v:0 {8}k -level {9}{17}"
-                "{18}{19} -passlogfile {11}.{12}.log {11}.{12}{13}{14}{20}"
-                .format(thumb, source, idvideo, interlace2, fps, string, reso,
-                        codec, bit, level, pass1, title, year, stag, mark,
-                        team, interlace, param, audio_config, sub_config,
-                        sub_remux))
+    # FFMPEG CRF
+    if (encode_type == "3"):
+        cmd = ffmpeg_crf(thumb, source, title, year, team, idvideo,
+                         interlace, fps, string, reso, codec, crf,
+                         level, param, audio_config, sub_config, stag, mark)
+    # FFMPEG 2PASS
+    else:
+        cmd = ffmpeg_2pass(thumb, source, idvideo, interlace2, fps, string,
+                           reso, codec, bit, level, pass1, title, year, stag,
+                           mark, team, interlace, param, audio_config,
+                           sub_config)
+    # MKVMERGE
+    mkvmerge = MKVMERGE(subtype, audiotype, thumb, title, year, stag, mark,
+                        extend, sync, titlesub, charset, idsub, forced,
+                        sync2, titlesub2, charset2, idsub2, subsource)
 
     # ANKOA TOOLS
-    def ankoa_tools():
-        return (
-            "./make.py {0}{1}.{2}{3}{4} {1} {2} {5} {6} {7} {8} {9} {10} {11}"
-            .format(thumb, title, year, stag, mark, audiolang, prezquality,
-                    titlesub, subforced, nfosource, nfoimdb, name))
-
-    # User command line
-    if (pprint == "y"):
-        print ffmpeg()
+    tools = ankoa_tools(thumb, title, year, stag, mark, audiolang, prezquality,
+                        titlesub, subforced, nfosource, nfoimdb, name)
 
     # ANKOA QUEUE
-    run_ffmpeg = [ffmpeg(), "", "", "", "", "", "", "", "",
-                  "", "", "", "", "", "", "", "", "", "", ""]
-
-    run_ankoa_tools = [ankoa_tools(), "", "", "", "", "", "", "", "",
-                       "", "", "", "", "", "", "", "", "", "", ""]
+    run_ffmpeg = [cmd, "", "", "", "", "", "", "", "", "", "", "", "",
+                  "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    if (mkvmerge):
+        run_mkvmerge = [mkvmerge, "", "", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "", "", "", "",
+                        "", "", "", "", "", ""]
+    run_ankoa_tools = [tools, "", "", "", "", "", "", "", "", "", "", "", "",
+                       "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
     n = 1
 
-    # QUEUE PROCESS
+    CHECK_COMMANDS_LINES(cmd, mkvmerge, tools)
+
+    # ANKOA PROCESS
     again = ask_next_encode()
     while (again == "y"):
         next()
         (
-            source, thumb, team, announce, title, year, stag, string, codec,
-            encode_type, crf, bit, level, idvideo, fps, interlace, interlace2,
-            audiolang, audio_config, sub_config, sub_remux, reso, param, pass1,
-            mark, nfoimdb, nfosource, titlesub, subforced, prezquality,
-            name, pprint
+            source, title, year, stag, string, codec, encode_type, crf,
+            bit, level, idvideo, fps, interlace, interlace2, audiolang,
+            audio_config, sub_config, reso, param, pass1, mark, nfoimdb,
+            nfosource, titlesub, subforced, prezquality, name, subtype,
+            audiotype, extend, sync, titlesub, charset, idsub, forced,
+            sync2, titlesub2, charset2, idsub2, subsource
         ) = ANKOA_SYSTEM()
 
-        run_ffmpeg[n] = ffmpeg()
-        run_ankoa_tools[n] = ankoa_tools()
+        run_ffmpeg[n] = cmd
+        if (mkvmerge):
+            run_mkvmerge[n] = mkvmerge
+        run_ankoa_tools[n] = tools
+        n += 1
 
-        n = n + 1
-        if (n != 20):
+        CHECK_COMMANDS_LINES(cmd, mkvmerge, tools)
+
+        if (n != 27):
             again = ask_next_encode()
         else:
             break
 
-    # RUN ANKOA PROCESS
+    # EXECUTE ANKOA
     for i in range(n):
         try:
             subprocess.check_output(run_ffmpeg[i], shell=True)
-            subprocess.check_output(run_ankoa_tools[i], shell=True)
-            i = i + 1
+            ffmpeg_success()
+            if (mkvmerge):
+                muxing_process()
+                os.system(run_mkvmerge[i])
+                muxing_success()
+            os.system(run_ankoa_tools[i])
+            i += 1
             ankoa_success()
 
+        # ANKOA ERROR
         except OSError as e:
             global_error(e)
             sys.exit()

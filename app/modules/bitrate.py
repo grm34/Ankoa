@@ -43,10 +43,13 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
-from inputs import (ask_HH, ask_MM, ask_SS, ask_desired_audio_bitrate,
-                    ask_desired_size)
-from events import bitrate_entry_error
-from settings import regex
+from __future__ import absolute_import
+import re
+from app.main.inputs import (ask_HH, ask_MM, ask_SS,
+                             ask_desired_audio_bitrate, ask_desired_size)
+from app.main.events import (bitrate_time_error, bitrate_size_error,
+                             bitrate_audio_error)
+from app.main.param import regex
 
 (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex) = regex()
 
@@ -58,7 +61,7 @@ def calcul():
     verif_HH = re.compile(crf_regex, flags=0).search(HH)
     while not HH or HH.isdigit() is False\
             or verif_HH is not None or int(HH) > 23:
-        bitrate_entry_error()
+        bitrate_time_error()
         HH = ask_HH()
         verif_HH = re.compile(crf_regex, flags=0).search(HH)
 
@@ -67,7 +70,7 @@ def calcul():
     verif_MM = re.compile(crf_regex, flags=0).search(MM)
     while not MM or MM.isdigit() is False\
             or verif_MM is not None or int(MM) > 59:
-        bitrate_entry_error()
+        bitrate_time_error()
         MM = ask_MM()
         verif_MM = re.compile(crf_regex, flags=0).search(MM)
 
@@ -76,7 +79,7 @@ def calcul():
     verif_SS = re.compile(crf_regex, flags=0).search(SS)
     while not SS or SS.isdigit() is False\
             or verif_SS is not None or int(SS) > 59:
-        bitrate_entry_error()
+        bitrate_time_error()
         SS = ask_SS()
         verif_SS = re.compile(crf_regex, flags=0).search(SS)
 
@@ -85,26 +88,20 @@ def calcul():
     verif_bits = re.compile(crf_regex, flags=0).search(audiobit)
     while not audiobit or audiobit.isdigit() is False\
             or verif_bits is not None or int(audiobit) > 3000:
-        bitrate_entry_error()
+        bitrate_audio_error()
         audiobit = ask_desired_audio_bitrate()
         verif_bits = re.compile(crf_regex, flags=0).search(audiobit)
 
     # Release desired size
-    rls_size = ask_desired_size()
     resp = ["1", "2", "3", "4", "5", "6", "7", "8"]
-
-    # Size Values
     values = ["", "357.8", "562.9", "716.3", "1439.3",
               "2151", "2875.5", "4585.2", "6881.5"]
-
-    # Process
-    if (rls_size in resp):
-        calsize = values[int(rls_size)]
-    else:
-        calsize = values[4]
-
-    info_calcul = (HH, MM, SS, audiobit, rls_size, calsize)
-    return (info_calcul)
+    rls_size = ask_desired_size()
+    while rls_size not in resp:
+        bitrate_size_error()
+        rls_size = ask_desired_size()
+    calsize = values[int(rls_size)]
+    return (HH, MM, SS, audiobit, rls_size, calsize)
 
 
 # RUN CALCUL

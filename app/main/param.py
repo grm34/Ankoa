@@ -58,21 +58,6 @@ iNFOS:
 from django.utils.encoding import (smart_str, smart_unicode)
 
 
-def option():
-
-    # User Values
-    folder = "XXX001"
-    thumb = "XXX002"
-    tag = "XXX003"
-    team = "TEAM XXX003"
-    announce = "XXX004"
-    tmdb_api_key = "XXX005"
-    tag_thumb = "<XXX003 PROUDLY PRESENTS>"
-
-    values = (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb)
-    return (values)
-
-
 def bad_chars():
 
     # Forbidden Chars
@@ -80,8 +65,7 @@ def bad_chars():
                '{', '}', '+', '=', '*', '&', '²', '#', '"', '|', '`',
                '@', '<', '>', 'µ', '£', '¨', '°', '~', '§', "'", ':']
 
-    bad_values = (smart_str(deleted))
-    return bad_values
+    return (smart_str(deleted))
 
 
 def regex():
@@ -107,6 +91,4 @@ def regex():
                  "[a-zA-Z0-9-]+..[a-zA-Z]{2,4}(:[0-9]+)?(/[a-zA-Z0-9-]"
                  "*/?|/[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,4})?$")
 
-    ankoa_regex = (hb_regex, crf_regex, delay_regex,
-                   fp_regex, aq_regex, url_regex)
-    return ankoa_regex
+    return (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex)

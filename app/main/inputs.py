@@ -43,12 +43,13 @@
     knowledge of the CeCILL-C license and that you accept its terms.
 """
 
-from style import color
+from __future__ import absolute_import
+from app.skin.style import (color, help)
 
-(BLUE, RED, YELLOW, GREEN, END) = color()
+(BLUE, RED, YELLOW, GREEN, BOLD, END) = color()
 
 
-# ANKOA SYSTEM INPUTS
+# SOURCE INPUTS
 def ask_source():
     prefix = raw_input("{0}RELEASE SOURCE > \n{1}".format(GREEN, END))
     return prefix
@@ -71,6 +72,7 @@ def ask_tag():
     return special
 
 
+# SCAN INPUTS
 def ask_scan_type():
     type = raw_input("{0}SCAN INFOS SOURCE > \n{1}HANDBRAKE {0}[1]{1} - "
                      "FFMPEG {0}[2]{1} - MEDIAINFO {0}[3] : {2}"
@@ -84,15 +86,23 @@ def ask_scan_again():
     return scan_again
 
 
-def ask_video_codec():
-    codec_type = raw_input("{0}VIDEO CODEC > \n{1}x264 {0}[1]{1} - x265 {0}"
-                           "[2] : {2}".format(GREEN, YELLOW, END))
-    return codec_type
+def ask_ffmpeg_scan():
+    scan2 = raw_input("{0}FFMPEG SCAN TRACKS {1}(y/n){0} : {2}"
+                      .format(GREEN, YELLOW, END))
+    return scan2
 
 
+def ask_scan_autocrop():
+    scan_crop = raw_input("{0}SCAN AUTOCROP SOURCE {1}(y/n){0} : {2}"
+                          .format(GREEN, YELLOW, END))
+    return scan_crop
+
+
+# VIDEO INPUTS
 def ask_2pass_crf():
-    encode_type = raw_input("{0}ENCODING MODE > \n{1}DUALPASS {0}[1]{1} - CRF"
-                            " {0}[2] : {2}".format(GREEN, YELLOW, END))
+    encode_type = raw_input("{0}ENCODING MODE > \n{1}MUX {0}[1]{1} - DUALPASS"
+                            " {0}[2]{1} - CRF {0}[3] : {2}"
+                            .format(GREEN, YELLOW, END))
     return encode_type
 
 
@@ -123,7 +133,7 @@ def ask_video_bitrate():
 def ask_rls_format():
     format = raw_input("{0}RELEASE FORMAT > \n{1}HDTV {0}[1]{1} - PDTV {0}[2]"
                        "{1} - BDRip {0}[3]\n{1}DVDRip {0}[4]{1} - BRRip {0}[5"
-                       "]{1} - 720p {0}[6] : {2}".format(GREEN, YELLOW, END))
+                       "]{1} - BluRay {0}[6] : {2}".format(GREEN, YELLOW, END))
     return format
 
 
@@ -133,16 +143,28 @@ def ask_HR_PDTV():
     return hr
 
 
+def ask_HD_size():
+    hd_hdtv = raw_input("{0}RESOLUTION FORMAT : {1}720p {0}[1]{1} - {1}1080p"
+                        " {0}[2]{0} : {2}".format(GREEN, YELLOW, END))
+    return hd_hdtv
+
+
+def ask_HD_HDTV():
+    hd_size = raw_input("{0}HDTV HIGHT RESOLUTION {1}(y/n){0} : {2}"
+                        .format(GREEN, YELLOW, END))
+    return hd_size
+
+
+def ask_video_codec():
+    codec_type = raw_input("{0}VIDEO CODEC : {1}x264 {0}[1]{1} - x265 {0}"
+                           "[2] : {2}".format(GREEN, YELLOW, END))
+    return codec_type
+
+
 def ask_rls_container():
     rlstype = raw_input("{0}RELEASE CONTAINER > \n{1}MPEG4 {0}[1]{1} - "
                         "MATROSKA {0}[2] : {2}".format(GREEN, YELLOW, END))
     return rlstype
-
-
-def ask_ffmpeg_scan():
-    scan2 = raw_input("{0}FFMPEG SCAN TRACKS {1}(y/n){0} : {2}"
-                      .format(GREEN, YELLOW, END))
-    return scan2
 
 
 def ask_ffmped_ID():
@@ -169,10 +191,11 @@ def ask_deinterlace():
     return deinterlace
 
 
+# AUDIO INPUTS
 def ask_audio_type():
     audiotype = raw_input("{0}RELEASE AUDIO TYPE > \n{1}FRENCH {0}[1]{1} - EN"
                           "GLiSH {0}[2]\n{1}OTHER {0}[3]{1} - MULTi {0}[4]"
-                          "{1} - NONE {0}[5] : {2}"
+                          "{1} - N/A {0}[5] : {2}"
                           .format(GREEN, YELLOW, END))
     return audiotype
 
@@ -183,10 +206,34 @@ def ask_audio_track00():
     return audionum
 
 
+def ask_audio_track01():
+    audionum = raw_input("{0}AUDIO TRACK 01 FFMPEG ID {1}(ex: 1){0} :"
+                         " {2}".format(GREEN, YELLOW, END))
+    return audionum
+
+
+def ask_audio_track02():
+    audionum2 = raw_input("{0}AUDIO TRACK 02 FFMPEG ID {1}(ex: 0){0} :"
+                          " {2}".format(GREEN, YELLOW, END))
+    return audionum2
+
+
 def ask_audiolang00():
     audiolang = raw_input("{0}AUDIO TRACK TITLE {1}(ex: Espagnol){0} "
                           ": {2}".format(GREEN, YELLOW, END))
     return audiolang
+
+
+def ask_audiolang01():
+    audiolang = raw_input("{0}AUDIO TRACK 01 TITLE {1}(ex: English){0} :"
+                          " {2}".format(GREEN, YELLOW, END))
+    return audiolang
+
+
+def ask_audiolang02():
+    audiolang2 = raw_input("{0}AUDIO TRACK 02 TITLE {1}(ex: English){0} :"
+                           " {2}".format(GREEN, YELLOW, END))
+    return audiolang2
 
 
 def ask_audio_codec00():
@@ -196,59 +243,11 @@ def ask_audio_codec00():
     return audiocodec
 
 
-def ask_audio_bitrate00():
-    abitrate = raw_input("{0}AUDIO TRACK BITRATE Kbps {1}(ex: 448){0}"
-                         " : {2}".format(GREEN, YELLOW, END))
-    return abitrate
-
-
-def ask_audio_channels00():
-    surround = raw_input("{0}AUDIO TRACK CHANNELS {1}(ex: 2){0} : {2}"
-                         .format(GREEN, YELLOW, END))
-    return surround
-
-
-def ask_audio_track01():
-    audionum = raw_input("{0}AUDIO TRACK 01 FFMPEG ID {1}(ex: 1){0} :"
-                         " {2}".format(GREEN, YELLOW, END))
-    return audionum
-
-
-def ask_audiolang01():
-    audiolang = raw_input("{0}AUDIO TRACK 01 TITLE {1}(ex: English){0} :"
-                          " {2}".format(GREEN, YELLOW, END))
-    return audiolang
-
-
 def ask_audio_codec01():
     audiocodec = raw_input("{0}AUDIO TRACK 01 CODEC > \n{1}MP3 {0}[1]{1}"
                            " - AC3 {0}[2]{1} - DTS/COPY {0}[3] : {2}"
                            .format(GREEN, YELLOW, END))
     return audiocodec
-
-
-def ask_audio_bitrate01():
-    abitrate = raw_input("{0}AUDIO TRACK 01 BITRATE Kbps {1}(ex: 448)"
-                         "{0} : {2}".format(GREEN, YELLOW, END))
-    return abitrate
-
-
-def ask_audio_channels01():
-    surround = raw_input("{0}AUDIO TRACK 01 CHANNELS {1}(ex: 2){0} :"
-                         " {2}".format(GREEN, YELLOW, END))
-    return surround
-
-
-def ask_audio_track02():
-    audionum2 = raw_input("{0}AUDIO TRACK 02 FFMPEG ID {1}(ex: 0){0} :"
-                          " {2}".format(GREEN, YELLOW, END))
-    return audionum2
-
-
-def ask_audiolang02():
-    audiolang2 = raw_input("{0}AUDIO TRACK 02 TITLE {1}(ex: English){0} :"
-                           " {2}".format(GREEN, YELLOW, END))
-    return audiolang2
 
 
 def ask_audio_codec02():
@@ -258,10 +257,34 @@ def ask_audio_codec02():
     return audiocodec2
 
 
+def ask_audio_bitrate00():
+    abitrate = raw_input("{0}AUDIO TRACK BITRATE Kbps {1}(ex: 448){0}"
+                         " : {2}".format(GREEN, YELLOW, END))
+    return abitrate
+
+
+def ask_audio_bitrate01():
+    abitrate = raw_input("{0}AUDIO TRACK 01 BITRATE Kbps {1}(ex: 448)"
+                         "{0} : {2}".format(GREEN, YELLOW, END))
+    return abitrate
+
+
 def ask_audio_bitrate02():
     abitrate2 = raw_input("{0}AUDIO TRACK 02 BITRATE Kbps {1}(ex: 448"
                           "){0} : {2}".format(GREEN, YELLOW, END))
     return abitrate2
+
+
+def ask_audio_channels00():
+    surround = raw_input("{0}AUDIO TRACK CHANNELS {1}(ex: 2){0} : {2}"
+                         .format(GREEN, YELLOW, END))
+    return surround
+
+
+def ask_audio_channels01():
+    surround = raw_input("{0}AUDIO TRACK 01 CHANNELS {1}(ex: 2){0} :"
+                         " {2}".format(GREEN, YELLOW, END))
+    return surround
 
 
 def ask_audio_channels02():
@@ -294,6 +317,7 @@ def ask_audio_sampling_rate02():
     return ar2
 
 
+# SUBTITLES INPUTS
 def ask_title_subs01():
     titlesub = raw_input("{0}SUBTITLES TRACK 01 TITLE {1}(ex: Full.Fr"
                          "ench){0} : {2}".format(GREEN, YELLOW, END))
@@ -302,8 +326,7 @@ def ask_title_subs01():
 
 def ask_title_subs02():
     titlesub2 = raw_input("{0}SUBTITLES TRACK 02 TITLE {1}(ex: French"
-                          ".Forced){0} : {2}"
-                          .format(GREEN, YELLOW, END))
+                          ".Forced){0} : {2}".format(GREEN, YELLOW, END))
     return titlesub2
 
 
@@ -340,7 +363,7 @@ def ask_subs_FFMPEG_ID01():
 def ask_subs_FFMPEG_ID02():
     idsub2 = raw_input("{0}SUBTITLES TRACK 02 FFMPEG ID {1}(ex: 2"
                        "){0} : {2}".format(GREEN, YELLOW, END))
-    return idsub
+    return idsub2
 
 
 def ask_subs_source00():
@@ -379,7 +402,7 @@ def ask_subcharset02():
     return idcharset2
 
 
-def ask_apply_subdelay():
+def ask_use_subdelay():
     subsync = raw_input("{0}SUBTITLES DELAY {1}(y/n){0} : {2}"
                         .format(GREEN, YELLOW, END))
     return subsync
@@ -425,7 +448,7 @@ def ask_subs_format02():
 
 
 def ask_subs_from():
-    subsource = raw_input("{0}SUBTITLES FROM > \n{1}SOURCE {0}[1]{1} - NONE "
+    subsource = raw_input("{0}SUBTITLES FROM > \n{1}SOURCE {0}[1]{1} - N/A "
                           "{0}[2]{1} - FILE {0}[3]\n{1}ISO/IMG {0}[4]{1} - M"
                           "KV {0}[5]{1} - M2TS {0}[6] : {2}"
                           .format(GREEN, YELLOW, END))
@@ -445,6 +468,7 @@ def ask_subforced():
     return stforced
 
 
+# ASPECT RATIO INPUTS
 def ask_reso_width():
     W = raw_input("{0}RESOLUTION WIDTH : {1}".format(GREEN, END))
     return W
@@ -480,12 +504,6 @@ def ask_aspect_ratio():
                       "[5]{1} - 2.40 {0}[6] : {2}"
                       .format(GREEN, YELLOW, END))
     return ratio
-
-
-def ask_scan_autocrop():
-    scan_crop = raw_input("{0}SCAN AUTOCROP SOURCE {1}(y/n){0} : {2}"
-                          .format(GREEN, YELLOW, END))
-    return scan_crop
 
 
 def ask_screenshots():
@@ -524,6 +542,7 @@ def ask_TB_crop():
     return y_crop
 
 
+# x264 INPUTS
 def ask_format_profile():
     level = raw_input("{0}VIDEO FORMAT PROFILE {1}(ex: 3.1){0} : {2}"
                       .format(GREEN, YELLOW, END))
@@ -547,6 +566,7 @@ def ask_x264_tune():
     return tuned
 
 
+# ADVANCED MODE INPUTS
 def ask_advanced_mode():
     x264 = raw_input("{0}X264/X265 ADVANCED MODE {1}(y/n){0} : {2}"
                      .format(GREEN, YELLOW, END))
@@ -762,12 +782,6 @@ def ask_rls_imdb():
     return nfoimdb
 
 
-def ask_print_ffmpeg():
-    pprint = raw_input("{0}PRINT FFMPEG FINAL COMMAND {1}(y/n){0} : {2}"
-                       .format(GREEN, YELLOW, END))
-    return pprint
-
-
 # BIRATE CALCULATOR INPUTS
 def ask_HH():
     HH = raw_input("{0}CALCULATOR HOURS : {1}".format(GREEN, END))
@@ -792,7 +806,7 @@ def ask_desired_audio_bitrate():
 
 def ask_desired_size():
     rls_size = raw_input("{0}CALCULATOR SIZE > \n{1}350Mo {0}[1]{1} - 550Mo "
-                         "{0}[2]{1} - 700Mo {0}[3]{1} - 1.37Go {0}[4]{1} -\n"
+                         "{0}[2]{1} - 700Mo {0}[3]{1} - 1.37Go {0}[4]{1}\n"
                          "2.05Go {0}[5]{1} - 2.74Go {0}[6]{1} - 4.37Go {0}[7]"
                          "{1} - 6.56Go{0} {0}[8] : {2}"
                          .format(GREEN, YELLOW, END))
@@ -831,8 +845,41 @@ def ask_tmdb_key():
     return api
 
 
-# ANKOA QUEUE MESSAGE
+# MODE REMUX INPUTS
+def ask_mux_audio_type():
+    audiotype = raw_input("{0}AUDIO TYPE : {1}FRENCH {0}[1]{1} - EN"
+                          "GLiSH {0}[2] - {1}OTHER {0}[3] : {2}"
+                          .format(GREEN, YELLOW, END))
+    return audiotype
+
+
+# CHECK COMMANDS LINES
+def check_cmds():
+    ask_cmds = raw_input("{0}CHECK COMMANDS LINES {1}(y/n){0} : {2}"
+                         .format(GREEN, YELLOW, END))
+    return ask_cmds
+
+
+def ask_print_ffmpeg():
+    print_ffmpeg = raw_input("{0}PRINT FFMPEG FINAL COMMAND {1}(y/n){0} : {2}"
+                             .format(GREEN, YELLOW, END))
+    return print_ffmpeg
+
+
+def ask_print_mkvmerge():
+    print_mkvmerge = raw_input("{0}PRINT MKVMERGE FINAL COMMAND {1}(y/n){0}"
+                               " : {2}".format(GREEN, YELLOW, END))
+    return print_mkvmerge
+
+
+def ask_print_tools():
+    print_tools = raw_input("{0}PRINT TOOLS FINAL COMMAND {1}(y/n){0} : {2}"
+                            .format(GREEN, YELLOW, END))
+    return print_tools
+
+
+# ANKOA QUEUE INPUT
 def ask_next_encode():
-    again = raw_input("{0}ADD QUEUE {1}(y/n) {0}|{3} [{2} ENTER to RUN {3}]"
-                      "{0} : {4}".format(GREEN, YELLOW, BLUE, RED, END))
+    again = raw_input("{0}ADD TO QUEUE {1}(y/n) {4}||{3} [{2} ENTER to RUN "
+                      "{3}]{0} : {4}".format(GREEN, YELLOW, BLUE, RED, END))
     return again

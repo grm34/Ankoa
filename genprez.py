@@ -49,12 +49,11 @@ import socket
 import urllib2
 import optparse
 from json import loads
-from pprint import pprint
 from django.utils.encoding import (smart_str, smart_unicode)
 from urllib2 import (Request, urlopen, URLError, HTTPError, unquote)
-sys.path.append("app/")
-from events import (genprez_help, genprez_success, genprez_error)
-from settings import option
+from app.main.events import (genprez_help, genprez_success,
+                             genprez_error, genprez_process)
+from user.settings import option
 
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
@@ -135,6 +134,7 @@ def main():
     size = sys.argv[5]
     imdb = sys.argv[6]
 
+    genprez_process()
     (data_IMDB, data_TMDB, data_OMDB, data_API) = api_connexion(imdb)
 
     # Cover

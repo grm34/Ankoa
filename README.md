@@ -1,7 +1,7 @@
-AnkoA v3.2.2
+AnkoA v3.2.5
 =====
 
-**FFMPEG Command Line Easy Encoding Tools ...** [**Video Demo**](https://www.youtube.com/watch?v=R_4gfRlgkak&feature=youtu.be)
+[**FFMPEG**](https://www.ffmpeg.org/documentation.html) Command Line Easy Encoding Tools ...** [**Video Demo**](https://www.youtube.com/watch?v=R_4gfRlgkak&feature=youtu.be)
 
 ![AnkoA](http://i.imgur.com/SZCgbI9.png)
 
@@ -126,24 +126,35 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
 ***
 ### Project stats :
 
-    Filename:         Source:    Comment:    Both:    Blank:    Total:
+    Filename:      Source:   Comment:   Both:   Blank:   Total:
 
-    nfo.php                33          39       21        22       115
-    ankoa.py               87          51        2        19       159
-    genprez.py            285          63        7        40       395
-    imgur.py               49          48        0        10       107
-    make.py               100          57        0        24       181
-    setup.py              133          66        0        32       231
-    thumbnails.py         175          47       18        36       276
-    advanced.py           224          78        0        41       343
-    bitrate.py             49          51        0        15       115
-    events.py             178          53        0       115       346
-    inputs.py             536          47        0       255       838
-    settings.py            28          64        1        19       112
-    style.py               46          66        5        11       128
-    system.py             978         208       42       204      1432
-    nfogen.sh              15          41        1         4        61
+    nfo.php             33         42      21       21      117
+    ankoa.py           109         53       0       21      183
+    genprez.py         285         63       7       40      395
+    imgur.py            50         48       0       10      108
+    make.py            103         59       0       26      188
+    setup.py           143         69       0       35      247
+    thumbnails.py      167         47      18       36      268
+    system.py          137         92       0       53      282
+    events.py          218         52       1      143      414
+    inputs.py          562         56       0      267      885
+    main.py            270        111      22       90      493
+    param.py            15         63       1       15       94
+    audio.py           221         58       0       65      344
+    bitrate.py          51         49       0       12      112
+    extract.py          44         46       0       17      107
+    ffmpeg.py           26         45       0        5       76
+    mkvmerge.py        116         60       0       32      208
+    ratio.py           113         58       0       30      201
+    scan.py            104         58       3       26      191
+    source.py           92         55       0       25      172
+    subs.py            223         69      12       59      363
+    video.py           130         64       0       39      233
+    x264.py            253         83       0       50      386
+    style.py            58         43      31       14      146
+    settings.py          9         56       0        5       70
+    nfogen.sh           42         46       1       11      100
 
-    [Total] :            2916         979       97       847      4839
+    [ Totals ] :      3553       1545     137     1148     6383
 
 ***

@@ -48,15 +48,23 @@ import os
 import sys
 import commands
 import optparse
-import subprocess
 from django.utils.encoding import (smart_str, smart_unicode)
-sys.path.append("app/")
-from events import (make_help, global_error, bad_source, make_success)
-from settings import option
+from app.main.events import (make_help, global_error, bad_source)
+from user.settings import option
 
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
+# ANKOA TOOLS
+def ankoa_tools(thumb, title, year, stag, mark, audiolang, prezquality,
+                titlesub, subforced, nfosource, nfoimdb, name):
+    return (
+        "./make.py {0}{1}.{2}{3}{4} {1} {2} {5} {6} {7} {8} {9} {10} {11}"
+        .format(thumb, title, year, stag, mark, audiolang, prezquality,
+                titlesub, subforced, nfosource, nfoimdb, name))
+
+
+# MANUAL TOOLS
 def main():
 
     # HELP
@@ -162,7 +170,6 @@ def main():
         # Run manual tools
         if (os.path.isfile(sys.argv[1]) is True and len(args) == 5):
                 os.system(manual_tools())
-                make_success()
 
         # Run auto tools
         elif (os.path.isfile(sys.argv[1]) is True and len(args) == 11):

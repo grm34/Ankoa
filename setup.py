@@ -49,14 +49,14 @@ import sys
 import optparse
 import readline
 from django.utils.encoding import (smart_str, smart_unicode)
-sys.path.append("app/")
-from style import banner
-from events import (setup_help, setup_success, setup_error, update_success,
-                    update_error, setup_bad_source, setup_bad_dest,
-                    setup_bad_team, setup_bad_tk, setup_bad_api, global_error)
-from inputs import (ask_source_path, ask_dest_path, ask_user_team,
-                    ask_tk_announce, ask_tmdb_key)
-from settings import (bad_chars, regex)
+from app.skin.style import banner
+from app.main.events import (setup_help, setup_success, setup_error,
+                             update_success, update_error, setup_bad_source,
+                             setup_bad_dest, setup_bad_team, setup_bad_tk,
+                             setup_bad_api, global_error, already_up2date)
+from app.main.inputs import (ask_source_path, ask_dest_path, ask_user_team,
+                             ask_tk_announce, ask_tmdb_key)
+from app.main.param import (bad_chars, regex)
 
 deleted = bad_chars()
 (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex) = regex()
@@ -69,14 +69,15 @@ def main():
     parser = optparse.OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if ((len(args) != 1) and
-            (sys.argv[1] != "install" or sys.argv[1] != "update")):
+            (sys.argv[1].lower() != "install"
+                or sys.argv[1].lower() != "update")):
         parser.print_help()
         parser.exit(1)
 
     # VERIFICATION
     if os.path.exists("app/") is False\
-            and os.path.isfile("app/base.nfo") is False\
-            and os.path.isfile("app/settings.py") is False\
+            and os.path.isfile("app/nfo/base.nfo") is False\
+            and os.path.isfile("user/settings.py") is False\
             and os.path.isfile("nfogen.sh") is False:
 
         # Files not found
@@ -146,41 +147,48 @@ def main():
         try:
 
             # Authorize & copy NFO
-            os.system("chmod +x * && chmod +x app/*")
-            os.system("cp app/base.nfo app/nfo_base.nfo")
+            os.system("chmod +x * app/* user/* app/modules/* app/skin/*")
+            os.system("cp app/nfo/base.nfo user/nfo_base.nfo")
 
             # SAVE personal settings
             temp = sys.stdout
-            sys.stdout = open('app/save.txt', 'w')
+            sys.stdout = open('user/settings.txt', 'w')
             print ("{0}\n{1}\n{2}\n{3}\n{4}".format(source, result,
                                                     team, tk, api))
             sys.stdout.close()
             sys.stdout = temp
 
             # WRITE personal settings
-            f = file('app/settings.py', 'r')
+            f = file('user/settings.py', 'r')
             chaine = f.read()
             f.close()
-            data = chaine.replace("XXX001", source.strip())\
-                         .replace("XXX002", result.strip())\
-                         .replace("XXX003", team.strip().replace(' ', '.'))\
-                         .replace("XXX004", tk.strip())\
-                         .replace("XXX005", api.strip())
-            f = file('app/settings.py', 'w')
-            f.write(data)
-            f.close
+            if "XXX001" in chaine and "XXX002" in chaine:
+                data = chaine.replace("XXX001", source.strip())\
+                             .replace("XXX002", result.strip())\
+                             .replace("XXX003", team.strip()
+                                                    .replace(' ', '.'))\
+                             .replace("XXX004", tk.strip())\
+                             .replace("XXX005", api.strip())
+                f = file('user/settings.py', 'w')
+                f.write(data)
+                f.close
 
-            # WRITE nfogen settings
-            ff = file('nfogen.sh', 'r')
-            chaine = ff.read()
-            ff.close()
-            data = chaine.replace("XXX002", result.strip())
-            ff = file('nfogen.sh', 'w')
-            ff.write(data)
-            ff.close
+                # WRITE nfogen settings
+                ff = file('nfogen.sh', 'r')
+                chaine = ff.read()
+                ff.close()
+                data = chaine.replace("XXX002", result.strip())
+                ff = file('nfogen.sh', 'w')
+                ff.write(data)
+                ff.close
 
-            # Install successful
-            setup_success()
+                # Install successful
+                setup_success()
+
+            # Already installed or corrupted
+            else:
+                setup_error()
+                sys.exit()
 
         # Install Error
         except OSError as e:
@@ -191,36 +199,44 @@ def main():
     if (sys.argv[1] == "update"):
 
         try:
-            os.system("chmod +x * && chmod +x app/*")
+
+            # AUTHORIZE
+            os.system("chmod +x * app/* user/* app/modules/* app/skin/*")
 
             # READ personal settings
-            with open('app/save.txt') as save:
+            with open('user/settings.txt') as save:
                 opts = save.read().split("\n")
 
             # WRITE personal settings
-            f = file('app/settings.py', 'r')
+            f = file('user/settings.py', 'r')
             chaine = f.read()
             f.close()
-            data = chaine.replace("XXX001", opts[0].strip())\
-                         .replace("XXX002", opts[1].strip())\
-                         .replace("XXX003", opts[2].strip())\
-                         .replace("XXX004", opts[3].strip())\
-                         .replace("XXX005", opts[4].strip())
-            f = file('app/settings.py', 'w')
-            f.write(data)
-            f.close
+            if "XXX001" in chaine and "XXX002" in chaine:
+                data = chaine.replace("XXX001", opts[0].strip())\
+                             .replace("XXX002", opts[1].strip())\
+                             .replace("XXX003", opts[2].strip())\
+                             .replace("XXX004", opts[3].strip())\
+                             .replace("XXX005", opts[4].strip())
+                f = file('user/settings.py', 'w')
+                f.write(data)
+                f.close
 
-            # WRITE nfogen settings
-            ff = file('nfogen.sh', 'r')
-            chaine = ff.read()
-            ff.close()
-            data = chaine.replace("XXX002", opts[1].strip())
-            ff = file('nfogen.sh', 'w')
-            ff.write(data)
-            ff.close
+                # WRITE nfogen settings
+                ff = file('nfogen.sh', 'r')
+                chaine = ff.read()
+                ff.close()
+                data = chaine.replace("XXX002", opts[1].strip())
+                ff = file('nfogen.sh', 'w')
+                ff.write(data)
+                ff.close
 
-            # Update successful
-            update_success()
+                # Update successful
+                update_success()
+
+            # Already up to date
+            else:
+                already_up2date()
+                sys.exit()
 
         # Setup Error
         except (IOError, IndexError):
