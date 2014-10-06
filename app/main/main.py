@@ -61,7 +61,7 @@ from make import ankoa_tools
 (folder, thumb, tag, team, announce, tmdb_api_key, tag_thumb) = option()
 
 
-def MUXING_MODE(encode_type, source, title, year, stag):
+def MUXING_MODE(encode_type, source, title, year, stag, folder):
 
     # Set some values
     extend = ".mkv"
@@ -74,8 +74,8 @@ def MUXING_MODE(encode_type, source, title, year, stag):
 
     # Audio infos
     audiotype = ask_audio_type()
-    (audio_config, audiocodec, lang,
-     audiolang) = AUDIO_CONFIGURATION(audiotype, encode_type)
+    (audio_config, audiocodec, lang, audiolang, audionum,
+     audionum2) = AUDIO_CONFIGURATION(audiotype, encode_type)
     xcod_val = ["x264", "x265"]
     xcod2_val = ["AC3", "DTS", "AAC"]
     for item in xcod_val:
@@ -112,16 +112,30 @@ def MUXING_MODE(encode_type, source, title, year, stag):
     nfoimdb = ask_rls_imdb()
     (name, nfoimdb) = find_release_title(nfoimdb)
 
+    # Mkvextract Tracks
+    idvid = "{0}:{0}".format(idvideo)
+    [audio_1, audio_2] = ["", ] * 2
+    if audionum:
+        audio_1 = " {0}:{0}".format(audionum)
+    if audionum2:
+        audio_2 = " {0}:{0}".format(audionum2)
+    mkvextract = "cd {0} && mkdir tmp_mkv && cd tmp_mkv && mkvextract tracks"\
+                 " {1} {2}{3}{4} && mkvmerge -o {5}.{6}{7}{8} {10} {11} {12}"\
+                 " && mv {5}.{6}{7}{8} {9} && cd .. && rm -r tmp_mkv"\
+                 .format(thumb, source, idvid, audio_1, audio_2, title, year,
+                         stag, mark, folder, idvideo, audionum, audionum2)
+    source_mkv = "{0}{1}.{2}{3}{4}".format(folder, title, year, stag, mark)
+
     # Final remux cmds
     mkvmerge = MKVMERGE(subtype, audiotype, thumb, title, year, stag, mark,
                         extend, sync, titlesub, charset, idsub, forced, sync2,
                         titlesub2, charset2, idsub2, subsource)
     temp = "{0}{1}{2}".format(thumb, title, extend)
-    mkvmerge = mkvmerge.split('&&', 2)[1].strip().replace(temp, source)
+    mkvmerge = mkvmerge.split('&&', 2)[1].strip().replace(temp, source_mkv)
     tools = ankoa_tools(thumb, title, year, stag, mark, audiolang, prezquality,
                         titlesub, subforced, nfosource, nfoimdb, name)
 
-    return (mkvmerge, tools)
+    return (mkvmerge, mkvextract, tools)
 
 
 def AUDIO_CONFIGURATION(audiotype, encode_type):
@@ -218,7 +232,7 @@ def AUDIO_CONFIGURATION(audiotype, encode_type):
         elif (audiotype == "1" or audiotype == "2" or audiotype == "3"):
             audio_config = audio_solo_config(audionum, audiolang, config)
 
-    return (audio_config, audiocodec, lang, audiolang)
+    return (audio_config, audiocodec, lang, audiolang, audionum, audionum2)
 
 
 def RELEASE_FINAL_TITLE(audiocodec, lang, form, xcod, tag, extend):

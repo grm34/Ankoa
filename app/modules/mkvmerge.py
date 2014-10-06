@@ -186,7 +186,7 @@ def EXT_NA_sS(thumb, title, year, stag, mark, extend, forced,
         .format(thumb, title, year, stag, mark, extend,
                 forced, sync, titlesub, charset, idsub))
 
-# --------- NO SUBTITLES ( INT )----------
+# --------- NO SUBTITLES ( INT ) ----------
 
 
 # INT > Multi Audio / NOSUBS

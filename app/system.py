@@ -109,9 +109,11 @@ def ANKOA_SYSTEM():
 
     # MUXING MODE
     if (encode_type == "1"):
-        (mkvmerge, tools) = MUXING_MODE(encode_type, source, title, year, stag)
+        (mkvmerge, mkvextract,
+         tools) = MUXING_MODE(encode_type, source, title, year, stag, folder)
         try:
             muxing_process()
+            subprocess.check_output(mkvextract, shell=True)
             subprocess.check_output(mkvmerge, shell=True)
             muxing_success()
             os.system(tools)
@@ -160,8 +162,8 @@ def ANKOA_SYSTEM():
     audiotype = ask_audio_type()
 
     # Audio Configuration
-    (audio_config, audiocodec, lang,
-     audiolang) = AUDIO_CONFIGURATION(audiotype, encode_type)
+    (audio_config, audiocodec, lang, audiolang, audionum,
+     audionum2) = AUDIO_CONFIGURATION(audiotype, encode_type)
 
     # Release Title
     (mark, prezquality) = RELEASE_FINAL_TITLE(audiocodec, lang, form,
