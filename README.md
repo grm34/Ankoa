@@ -1,13 +1,13 @@
 AnkoA v3.2.5
 =====
 
-[**FFMPEG**](https://www.ffmpeg.org/documentation.html) Command Line Easy Encoding Tools ...** [**Video Demo**](https://www.youtube.com/watch?v=R_4gfRlgkak&feature=youtu.be)
+[**FFMPEG**](https://www.ffmpeg.org/documentation.html) Command Line Easy Encoding Tools ... [**Video Demo**](https://www.youtube.com/watch?v=R_4gfRlgkak&feature=youtu.be)
 
-![AnkoA](http://i.imgur.com/SZCgbI9.png)
+![AnkoA](http://i.imgur.com/kIZrIVs.png)
 
 ## Description :
 
-    Encode your favorites videos simply & quickly
+    Encode or remux your favorites videos simply & quickly
     Bitrate calculator, autocrop, deinterlace, muxing,
     extract subtitles, thumbnails generator, nfo generator,
     prez generator, auto upload thumbnails, auto make .torrent,
@@ -17,7 +17,7 @@ AnkoA v3.2.5
 
 Take a tour on the [**wiki**](https://github.com/grm34/AnkoA/wiki)
 
-Chan IRC : **irc.bakaserv.net/6667 #AnkoA**
+Chan IRC : **irc.chibi.in/6667 #AnkoA**
 
 ## Usage :
 
