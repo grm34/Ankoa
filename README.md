@@ -135,10 +135,10 @@ Take a tour on the [**changelog**](https://github.com/grm34/AnkoA/wiki/changelog
     make.py            103         59       0       26      188
     setup.py           143         69       0       35      247
     thumbnails.py      167         47      18       36      268
-    system.py          137         92       0       53      282
+    system.py          139         92       0       53      284
     events.py          218         52       1      143      414
     inputs.py          562         56       0      267      885
-    main.py            270        111      22       90      493
+    main.py            282        112      22       91      507
     param.py            15         63       1       15       94
     audio.py           221         58       0       65      344
     bitrate.py          51         49       0       12      112
