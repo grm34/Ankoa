@@ -140,7 +140,7 @@ def MUXING_MODE(encode_type, source, title, year, stag, folder):
 
 def AUDIO_CONFIGURATION(audiotype, encode_type):
 
-    # Set all values
+    # Set some values
     [audionum, audionum2, audiolang, audiolang2, abitrate,
      abitrate2, surround, surround2, audiocodec, audiocodec2,
      audio_config] = ["", ] * 11
@@ -257,7 +257,7 @@ def SUBTITLES_LOCATIONS(subtype):
                     readline.get_line_buffer())
                 ) if entry.startswith(text)][state])
 
-    # Set all values
+    # Set some values
     [idsub, idsub2, charset, charset2, sync,
      sync2, idcharset, idcharset2] = ["", ] * 8
 

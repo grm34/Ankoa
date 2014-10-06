@@ -78,27 +78,26 @@ def snapshot(path, nb_lgn, nb_col):
         empty = commands.getoutput(mplayer2)
 
         shutil.move('00000004.png', os.path.expanduser(thumb) +
-                    'rtemp/'+str(i).zfill(5)+'.png')
+                    'rtemp/' + str(i).zfill(5) + '.png')
         image = Image.open(os.path.expanduser(thumb) +
-                           'rtemp/'+str(i).zfill(5)+'.png')
+                           'rtemp/' + str(i).zfill(5) + '.png')
         draw = ImageDraw.Draw(image)
 
         if (width <= 720):
-            font = ImageFont.truetype(os.path.expanduser("app/skin/") +
-                                      'police.ttf', 20)
+            xfont = 20
         elif (width > 720 and width <= 1280):
-            font = ImageFont.truetype(os.path.expanduser("app/skin/") +
-                                      'police.ttf', 35)
+            xfont = 35
         else:
-            font = ImageFont.truetype(os.path.expanduser("app/skin/") +
-                                      'police.ttf', 50)
+            xfont = 50
 
-        draw.text((10, 10),
-                  time.strftime('%H:%M:%S', time.gmtime(i)),
-                  font=font)
+        font = ImageFont.truetype(
+            os.path.expanduser("app/skin/") + 'police.ttf', xfont)
 
-        image.save(os.path.expanduser(thumb) +
-                   'rtemp/'+str(i).zfill(5)+'.png')
+        draw.text(
+            (10, 10), time.strftime('%H:%M:%S', time.gmtime(i)), font=font)
+
+        image.save(
+            os.path.expanduser(thumb) + 'rtemp/' + str(i).zfill(5) + '.png')
 
     for i in range(1, 4):
         os.remove('0000000{0}.png'.format(str(i)))
@@ -107,10 +106,9 @@ def snapshot(path, nb_lgn, nb_col):
 
 
 def trait_path(path):
-    path = path.replace(' ', '\\ ').replace('[', '\\[')\
-               .replace(']', '\\]').replace('(', '\\(')\
-               .replace(')', '\\)')
-    return (path)
+    path = path.replace(' ', '\\ ').replace('[', '\\[').replace(']', '\\]')\
+               .replace('(', '\\(').replace(')', '\\)')
+    return path
 
 
 def index_th(infos, nb_col, nb_lgn):
@@ -119,49 +117,25 @@ def index_th(infos, nb_col, nb_lgn):
     nb_col, nb_lgn = int(nb_col), int(nb_lgn)
 
     if (width <= 720):
-        x = 0
-        y = 120
-        img_idx = Image.new("RGB", (25+width*nb_col, 45+height*nb_lgn+115),
-                            "#FFFFFF")
+        [x, y, a, b, c, d] = [0, 120, 25, 45, 115, 5]
     elif (width > 720 and width <= 1280):
-        x = 0
-        y = 225
-        img_idx = Image.new("RGB", (25+width*nb_col, 45+height*nb_lgn+235),
-                            "#FFFFFF")
+        [x, y, a, b, c, d] = [0, 225, 25, 45, 235, 8]
     else:
-        x = 0
-        y = 330
-        img_idx = Image.new("RGB", (30+width*nb_col, 60+height*nb_lgn+330),
-                            "#FFFFFF")
+        [x, y, a, b, c, d] = [0, 330, 30, 60, 330, 10]
 
+    img_idx = Image.new("RGB", (a+width*nb_col, b+height*nb_lgn+c), "#FFFFFF")
     pre = glob.glob(os.path.expanduser(thumb)+'rtemp/'+'*.png')
     pre.sort()
 
     for i in pre:
         im = Image.open(i)
         im_t = im.resize((width, height), Image.ANTIALIAS)
-
-        if (width <= 720):
-            img_idx.paste(im_t, (10+(width+5)*x, 10+y))
-            if (x == nb_col-1):
-                y += 5+height
-                x = 0
-            else:
-                x += 1
-        elif (width > 720 and width <= 1280):
-            img_idx.paste(im_t, (10+(width+8)*x, 10+y))
-            if (x == nb_col-1):
-                y += 8+height
-                x = 0
-            else:
-                x += 1
+        img_idx.paste(im_t, (10+(width+d)*x, 10+y))
+        if (x == nb_col-1):
+            y += d+height
+            x = 0
         else:
-            img_idx.paste(im_t, (10+(width+10)*x, 10+y))
-            if (x == nb_col-1):
-                y += 10+height
-                x = 0
-            else:
-                x += 1
+            x += 1
 
     img_idx.save(os.path.expanduser(thumb)+'index.png', "PNG")
 
@@ -177,52 +151,30 @@ def img_infos(infos, duree, path):
     title = nom[-1]
 
     if (int(width) <= 720):
-        font = ImageFont.truetype(os.path.expanduser("app/skin/") +
-                                  'police.ttf', 20)
-        draw.text((10, 10), ""+tag_thumb+"", font=font, fill="#000000")
-        draw.text((20, 35), "TiTLE : " + title[:-4],
-                  font=font, fill="#000000")
-        draw.text((20, 55), "SiZE..............: " +
-                  str(int(float(taille)/1048576)) + " Mo",
-                  font=font, fill="#000000")
-        draw.text((20, 75), "DURATiON..........: " +
-                  str(int(float(duree)/60+5)) + " Min",
-                  font=font, fill="#000000")
-        draw.text((20, 95), "RESOLUTiON........: " +
-                  width + "x" + height, font=font, fill="#000000")
+        [e, f, g, h, i, j, k] = [10, 20, 35, 55, 75, 95, 20]
 
     elif (int(width) > 720 and int(width) <= 1280):
-        font = ImageFont.truetype(os.path.expanduser("app/skin/") +
-                                  'police.ttf', 35)
-        draw.text((15, 15), ""+tag_thumb+"", font=font, fill="#000000")
-        draw.text((30, 60), "TiTLE : " + title[:-4],
-                  font=font, fill="#000000")
-        draw.text((30, 100), "SiZE..............: " +
-                  str(int(float(taille)/1048576)) + " Mo",
-                  font=font, fill="#000000")
-        draw.text((30, 140), "DURATiON..........: " +
-                  str(int(float(duree)/60+5)) + " Min",
-                  font=font, fill="#000000")
-        draw.text((30, 180), "RESOLUTiON........: " +
-                  width + "x" + height, font=font, fill="#000000")
-    else:
-        font = ImageFont.truetype(os.path.expanduser("app/skin/") +
-                                  'police.ttf', 50)
-        draw.text((20, 20), ""+tag_thumb+"", font=font, fill="#000000")
-        draw.text((40, 85), "TiTLE : " + title[:-4],
-                  font=font, fill="#000000")
-        draw.text((40, 145), "SiZE..............: " +
-                  str(int(float(taille)/1048576)) + " Mo",
-                  font=font, fill="#000000")
-        draw.text((40, 205), "DURATiON..........: " +
-                  str(int(float(duree)/60+5)) + " Min",
-                  font=font, fill="#000000")
-        draw.text((40, 265), "RESOLUTiON........: " +
-                  width + "x" + height, font=font, fill="#000000")
+        [e, f, g, h, i, j, k] = [15, 30, 60, 100, 140, 180, 35]
 
-    image.save(os.path.expanduser(thumb)+'index.png', "PNG")
-    shutil.move(os.path.expanduser(thumb)+'index.png',
-                os.path.expanduser(thumb)+title[:-3]+'png')
+    else:
+        [e, f, g, h, i, j, k] = [20, 40, 85, 145, 205, 265, 50]
+
+    font = ImageFont.truetype(
+        os.path.expanduser("app/skin/") + 'police.ttf', k)
+    draw.text((e, e), "" + tag_thumb + "", font=font, fill="#000000")
+    draw.text((f, g), "TiTLE : " + title[:-4], font=font, fill="#000000")
+    draw.text((f, h), "SiZE..............: " +
+              str(int(float(taille)/1048576)) + " Mo",
+              font=font, fill="#000000")
+    draw.text((f, i), "DURATiON..........: " +
+              str(int(float(duree)/60+5)) + " Min",
+              font=font, fill="#000000")
+    draw.text((f, j), "RESOLUTiON........: " +
+              width + "x" + height, font=font, fill="#000000")
+
+    image.save(os.path.expanduser(thumb) + 'index.png', "PNG")
+    shutil.move(os.path.expanduser(thumb) + 'index.png',
+                os.path.expanduser(thumb) + title[:-3] + 'png')
 
     if (width > 800):
         resize = ("convert -quality 0 -resize 3470000@ {0}{1}png {0}{1}png"
@@ -242,8 +194,8 @@ def main(argv):
 
     # RUN
     if os.path.isfile(sys.argv[1]) is True:
-        if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
-            shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
+        if (os.path.isdir(os.path.expanduser(thumb) + 'rtemp')):
+            shutil.rmtree(os.path.expanduser(thumb) + 'rtemp')
         try:
             thumbnails_process()
             path = trait_path(argv[0])
@@ -257,8 +209,8 @@ def main(argv):
             bad_thumbs(e)
             sys.exit()
 
-        if (os.path.isdir(os.path.expanduser(thumb)+'rtemp')):
-            shutil.rmtree(os.path.expanduser(thumb)+'rtemp')
+        if (os.path.isdir(os.path.expanduser(thumb) + 'rtemp')):
+            shutil.rmtree(os.path.expanduser(thumb) + 'rtemp')
 
     # Source not found
     else:

@@ -112,8 +112,7 @@ def api_connexion(imdb):
         data_API = ""
         pass
 
-    api_data = (data_IMDB, data_TMDB, data_OMDB, data_API)
-    return api_data
+    return (data_IMDB, data_TMDB, data_OMDB, data_API)
 
 
 def main():
@@ -137,10 +136,13 @@ def main():
     genprez_process()
     (data_IMDB, data_TMDB, data_OMDB, data_API) = api_connexion(imdb)
 
+    # Set some values
+    [countryList, genresList, directorsList,
+     runtimeList, actorsList] = ["", ] * 5
+
     # Cover
-    cover_TMDB = "poster_path"
-    cover_OMDB = "Poster"
-    cover_API = "urlPoster"
+    [cover_TMDB, cover_OMDB,
+     cover_API] = ["poster_path", "Poster", "urlPoster"]
 
     if (cover_TMDB in data_TMDB):
         poster = "[img]https://d3gtl9l2a4fn1j.cloudfront.net/t/p/"\
@@ -154,9 +156,7 @@ def main():
         poster = "[img]N/A[/img]"
 
     # Overview
-    overview_TMDB = "overview"
-    overview_OMDB = "Plot"
-    overview_API = "plot"
+    [overview_TMDB, overview_OMDB, overview_API] = ["overview", "Plot", "plot"]
 
     if (overview_TMDB in data_TMDB and "None" not in data_TMDB['overview']):
         overview = "[i]{0}[/i]".format(smart_str(data_TMDB['overview']))
@@ -168,10 +168,8 @@ def main():
         overview = "[i]N/A[/i]"
 
     # Title
-    title_IMDB = "title"
-    title_TMDB = "original_title"
-    title_OMDB = "Title"
-    title_API = "title"
+    [title_IMDB, title_TMDB, title_OMDB,
+     title_API] = ["title", "original_title", "Title", "title"]
 
     if (title_IMDB in data_IMDB):
         dir = "{0}".format(smart_str(data_IMDB['title']))
@@ -190,10 +188,8 @@ def main():
         title = "[b][u]Title[/u] : [/b] [i]N/A[/i]"
 
     # Year
-    year_IMDB = "year"
-    year_TMDB = "release_date"
-    year_OMDB = "Year"
-    year_API = "year"
+    [year_IMDB, year_API] = ["year", ] * 2
+    [year_TMDB, year_OMDB] = ["release_date", "Year"]
 
     if (year_IMDB in data_IMDB):
         year = "[b][u]Production Year[/u] : [/b] [i{0}[/i]"\
@@ -211,22 +207,19 @@ def main():
         year = "[b][u]Production Year[/u] : [/b] [i]N/A[/i]"
 
     # Nationality
-    country_IMDB = "country"
-    country_TMDB = "production_countries"
-    country_API = "countries"
-    country_OMDB = "Country"
+    [country_IMDB, country_TMDB, country_API,
+     country_OMDB] = ["country", "production_countries",
+                      "countries", "Country"]
 
     if (country_IMDB in data_IMDB):
         country = "[b][u]Nationality[/u] : [/b] [i]{0}[/i]"\
                   .format(smart_str(data_IMDB['country']))
     elif (country_API in data_API):
-        countryList = ""
         for item in data_API['countries']:
             countryList += "{0}, ".format(smart_str(item))
         country = "[b][u]Nationality[/u] : [/b] [i]{0}[/i]"\
                   .format(countryList)
     elif (country_TMDB in data_TMDB):
-        countryList = ""
         for item in data_TMDB['production_countries']:
             countryList += "{0}, ".format(smart_str(item['name']))
         country = "[b][u]Nationality[/u] : [/b] [i]{0}[/i]"\
@@ -238,16 +231,13 @@ def main():
         country = "[b][u]Nationality[/u] : [/b] [i]N/A[/i]"
 
     # Genres
-    genre_IMDB = "genres"
-    genre_TMDB = "genres"
+    [genre_IMDB, genre_TMDB, genre_API] = ["genres", ] * 3
     genre_OMDB = "Genre"
-    genre_API = "genres"
 
     if (genre_IMDB in data_IMDB):
         genres = "[b][u]Genre(s) :[/u][/b] [i]{0}[/i]"\
                  .format(smart_str(data_IMDB['genres']))
     elif (genre_TMDB in data_TMDB):
-        genresList = ""
         for item in data_TMDB['genres']:
             genresList += "{0}, ".format(smart_str(item['name']))
         genres = "[b][u]Genre(s) :[/u][/b] [i]{0}[/i]".format(genresList)
@@ -255,7 +245,6 @@ def main():
         genres = "[b][u]Genre(s) :[/u][/b] [i]{0}[/i]"\
                  .format(smart_str(data_OMDB['Genre']))
     elif (genre_API in data_API):
-        genresList = ""
         for item in data_API['genres']:
             genresList += "{0}, ".format(smart_str(item))
         genres = "[b][u]Genre(s) :[/u][/b] [i]{0}[/i]".format(genresList)
@@ -263,21 +252,18 @@ def main():
         genres = "[b][u]Genre(s) :[/u][/b] [i]N/A[/i]"
 
     # Directors
-    director_TMDB = "production_companies"
-    director_OMDB = "Director"
-    director_API = "directors"
+    [director_TMDB, director_OMDB,
+     director_API] = ["production_companies", "Director", "directors"]
 
     if (director_OMDB in data_OMDB):
         directors = "[b][u]Director(s)[/u] : [/b] [i]{0}[/i]"\
                     .format(smart_str(data_OMDB['Director']))
     elif (director_API in data_API):
-        directorsList = ""
         for item in data_API['directors']:
             directorsList += "{0}, ".format(smart_str(item['name']))
         directors = "[b][u]Director(s)[/u] : [/b] [i]{0}[/i]"\
                     .format(directorsList)
     elif (director_TMDB in data_TMDB):
-        directorsList = ""
         for item in data_TMDB['production_companies']:
             directorsList += "{0}, ".format(smart_str(item['name']))
         directors = "[b][u]Director(s)[/u] : [/b] [i]{0}[/i]"\
@@ -286,16 +272,13 @@ def main():
         directors = "[b][u]Director(s)[/u] : [/b] [i]N/A[/i]"
 
     # Runtime
-    runtime_IMDB = "runtime"
-    runtime_TMDB = "runtime"
+    [runtime_IMDB, runtime_TMDB, runtime_API] = ["runtime", ] * 3
     runtime_OMDB = "Runtime"
-    runtime_API = "runtime"
 
     if (runtime_OMDB in data_OMDB and "N/A" != data_OMDB['Runtime']):
         runtime = "[b][u]Duration[/u] : [color=#980000][i]{0}"\
                   "[/i][/color][/b]".format(smart_str(data_OMDB['Runtime']))
     elif (runtime_API in data_API):
-        runtimeList = ""
         for item in data_API['runtime']:
             runtimeList += "{0}, ".format(smart_str(item))
         runtime = "[b][u]Duration[/u] : [color=#980000]"\
@@ -313,11 +296,9 @@ def main():
                   "[i]N/A[/i][/color][/b]"
 
     # Actors
-    actors_OMDB = "Actors"
-    actors_API = "actors"
+    [actors_OMDB, actors_API] = ["Actors", "actors"]
 
     if (actors_API in data_API):
-        actorsList = ""
         for item in data_API['actors']:
             actorsList += "{0}, ".format(smart_str(item['actorName']))
         actors = "[spoil=Casting][i]{0}[/i][/spoil]".format(actorsList)
@@ -328,10 +309,8 @@ def main():
         actors = "[spoil=Casting][i]N/A[/i][/spoil]"
 
     # Rating
-    rating_IMDB = "rating"
-    rating_TMDB = "vote_average"
-    rating_OMDB = "imdbRating"
-    rating_API = "rating"
+    [rating_IMDB, rating_TMDB, rating_OMDB,
+     rating_API] = ["rating", "vote_average", "imdbRating", "rating"]
 
     if (rating_IMDB in data_IMDB):
         rating = "[b][u]IMDB Rating[/u] : [/b] [i]{0}[/i]"\

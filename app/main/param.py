@@ -87,8 +87,7 @@ def regex():
     aq_regex = (r"^[0-2]{1}[.][0-9]{1}$")
 
     # Regex URL ( match valid tracker url )
-    url_regex = (r"^^http(s)?://([a-zA-Z0-9-]+.)?([a-zA-Z0-9-]+.)?"
-                 "[a-zA-Z0-9-]+..[a-zA-Z]{2,4}(:[0-9]+)?(/[a-zA-Z0-9-]"
-                 "*/?|/[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,4})?$")
+    url_regex = (r"http[s]?:(?:[a-zA-Z]|[0-9]|[$-_@.&+]|"
+                 "[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
 
     return (hb_regex, crf_regex, delay_regex, fp_regex, aq_regex, url_regex)

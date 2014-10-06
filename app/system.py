@@ -74,7 +74,7 @@ def ANKOA_SYSTEM():
                     readline.get_line_buffer())
                 ) if entry.startswith(text)][state])
 
-    # Set all values
+    # Set some values
     [source, title, year, stag, string, codec, encode_type, crf,
      bit, level, idvideo, fps, interlace, interlace2, audiolang,
      audio_config, sub_config, reso, param, pass1, mark, nfoimdb,
