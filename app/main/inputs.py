@@ -853,6 +853,12 @@ def ask_mux_audio_type():
     return audiotype
 
 
+def ask_remux_start():
+    ready = raw_input("{0}READY ? {1}(y/n) {4}||{3} [{2} ENTER to RUN "
+                      "{3}]{0} : {4}".format(GREEN, YELLOW, BLUE, RED, END))
+    return ready
+
+
 # CHECK COMMANDS LINES
 def check_cmds():
     ask_cmds = raw_input("{0}CHECK COMMANDS LINES {1}(y/n){0} : {2}"

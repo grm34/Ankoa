@@ -135,6 +135,11 @@ def MUXING_MODE(encode_type, source, title, year, stag, folder):
     tools = ankoa_tools(thumb, title, year, stag, mark, audiolang, prezquality,
                         titlesub, subforced, nfosource, nfoimdb, name)
 
+    # Check Mkvmerge cmd
+    print_mkvmerge = ask_print_mkvmerge()
+    if (print_mkvmerge == "y"):
+        print mkvmerge
+
     return (mkvmerge, mkvextract, tools)
 
 

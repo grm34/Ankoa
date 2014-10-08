@@ -111,6 +111,10 @@ def ANKOA_SYSTEM():
     if (encode_type == "1"):
         (mkvmerge, mkvextract,
          tools) = MUXING_MODE(encode_type, source, title, year, stag, folder)
+        ready = ask_remux_start()
+        while (ready == "n"):
+            os.system("./ankoa.py")
+            sys.exit()
         try:
             muxing_process()
             subprocess.check_output(mkvextract, shell=True)
@@ -155,7 +159,7 @@ def ANKOA_SYSTEM():
     # Change Video FPS
     fps = video_fps()
 
-    # Deinterlace Video
+    # Deinterlace Video ( yadif filter )
     (interlace, interlace2) = deinterlace(encode_type)
 
     # Select Audio Type ( FRENCH | ENGLiSH | OTHER | MULTi | NONE )
