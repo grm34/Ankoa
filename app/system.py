@@ -109,7 +109,7 @@ def ANKOA_SYSTEM():
 
     # MUXING MODE
     if (encode_type == "1"):
-        (mkvmerge, mkvextract,
+        (mkvmerge, mkvextract, source_mkv,
          tools) = MUXING_MODE(encode_type, source, title, year, stag, folder)
         ready = ask_remux_start()
         while (ready == "n"):
@@ -122,6 +122,8 @@ def ANKOA_SYSTEM():
             muxing_success()
             os.system(tools)
             ankoa_success()
+            del_source_mkv = "rm {0}".format(source_mkv)
+            os.system(del_source_mkv)
             sys.exit()
 
         # REMUX ERROR
