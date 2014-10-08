@@ -128,11 +128,11 @@ def ANKOA_SYSTEM():
             global_error(e)
             sys.exit()
 
-    # FFMPEG CRF value ( 0 to 51 )
+    # FFMPEG CRF value
     elif (encode_type == "3"):
         crf = ffmpeg_crf()
 
-    # FFMPEG 2PASS bitrate ( 700Kps to 100Mbps )
+    # FFMPEG 2PASS bitrate
     else:
         calculator = ask_bitrate_calculator()
         bit = ffmpeg_2pass(calculator)
@@ -155,7 +155,7 @@ def ANKOA_SYSTEM():
     # Change Video FPS
     fps = video_fps()
 
-    # Deinterlace Video ( yadif filter )
+    # Deinterlace Video
     (interlace, interlace2) = deinterlace(encode_type)
 
     # Select Audio Type ( FRENCH | ENGLiSH | OTHER | MULTi | NONE )
