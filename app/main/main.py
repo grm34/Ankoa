@@ -140,7 +140,7 @@ def MUXING_MODE(encode_type, source, title, year, stag, folder):
     if (print_mkvmerge == "y"):
         print mkvmerge
 
-    return (mkvmerge, mkvextract, tools)
+    return (mkvmerge, mkvextract, source_mkv, tools)
 
 
 def AUDIO_CONFIGURATION(audiotype, encode_type):
