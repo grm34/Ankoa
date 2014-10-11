@@ -94,7 +94,6 @@ def ANKOA_SYSTEM():
 
     # Release Title
     title = release_title(deleted)
-    print title
 
     # Release Year
     year = release_year()
